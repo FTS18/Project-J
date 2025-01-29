@@ -1,6 +1,4 @@
 * {
-    width: 100%;
-    height: 100%;
     margin: 0;
     padding: 0;
 }
@@ -9,6 +7,7 @@ body {
     background: #222;
     color: #999;
     font-family: "JetBrains Mono", serif;
+    overflow-x:hidden;
 }
 
 .nav {
@@ -16,13 +15,15 @@ body {
     top: 0;
     left: 0;
     height: 60px;
-    display: flex;
-    justify-content: center;
-    background: #111;
     width: 100%;
+    display: flex;
+    align-items: center;
+    background: #111;
+    height: 60px;
 }
 
 .navcontent {
+    width:100%;
     max-width: 675px;
     height: 100%;
     padding: 10px;
@@ -42,6 +43,7 @@ section {
     position: relative;
     margin-top: 60px;
     height: 40vh;
+    width:100%;
     background: #383838;
 }
 
@@ -55,11 +57,13 @@ section {
     z-index: 100;
     text-align: center;
     color: #fff;
-    font-size: 1.5rem;
+    font-size: 2rem;
     font-weight: bold;
     position: absolute;
     top: 45%;
     left: 0;
+    width: 100%;
+    height: auto;
 }
 
 .overlay {
@@ -95,4 +99,5 @@ section {
     left: 50%;
     transform: translate(-50%, 0%);
     border-radius: 20px;
+    padding: 30px;
 }

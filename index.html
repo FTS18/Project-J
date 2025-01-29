@@ -17,13 +17,47 @@
         <section class="main">
             <section class="slider">
                 <div class="overlay"></div>
-                <img src="assets/res/nith.png" alt="" srcset="">
+                <img src="assets/res/nith.webp" alt="" srcset="">
                 <div class="main-title">JEE Mains 2025 Rank Predictor</div>
             </section>
             <section class="area1">
-                <div class="form">
-                    
-                </div>
+                <form class="form">
+                        <label for="marks">Marks:</label>
+                        <input type="number" id="marks" name="marks" required>
+                        
+                        <label for="rank">Rank:</label>
+                        <input type="number" id="rank" name="rank" required>
+
+                        <label for="percentile">Percentile:</label>
+                        <input type="text" id="percentile" name="percentile" required>
+
+                        <label for="category">Category:</label>
+                        <select id="category" name="category" required>
+                            <option value="general">General</option>
+                            <option value="obc">OBC</option>
+                            <option value="sc">SC</option>
+                            <option value="st">ST</option>
+                        </select>
+
+                        <label for="gender">Gender:</label>
+                        <select id="gender" name="gender" required>
+                            <option value="male">Male</option>
+                            <option value="female">Female</option>
+                            <option value="other">Other</option>
+                        </select>
+
+                        <label for="quota">Quota:</label>
+                        <select id="quota" name="quota" required>
+                            <option value="ai">AI</option>
+                            <option value="hs">HS</option>
+                            <option value="os">OS</option>
+                        </select>
+
+                        <label for="branch">Branch:</label>
+                        <input type="text" id="branch" name="branch" required>
+
+                        <button type="submit">Submit</button>
+                </form>
             </section>
         </section>
         <section class="footer"></section>
