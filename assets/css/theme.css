@@ -1,13 +1,23 @@
 * {
     margin: 0;
     padding: 0;
+    box-sizing: border-box;
+    -webkit-tap-highlight-color: transparent;
 }
 
+@font-face {
+    font-family: 'Horizon';
+    src: url('/assets/fonts/horizon.otf') format('opentype');
+    font-weight: normal;
+    font-style: normal;
+}
+
+
 body {
-    background: #222;
+    background: #111;
     color: #999;
-    font-family: "JetBrains Mono", serif;
-    overflow-x:hidden;
+    font-family: "Mona sans", sans-serif;
+    overflow-x: hidden;
 }
 
 .nav {
@@ -18,18 +28,19 @@ body {
     width: 100%;
     display: flex;
     align-items: center;
-    background: #111;
+    justify-content: center;
+    background: #000;
     height: 60px;
+    z-index: 1000000;
 }
 
 .navcontent {
-    width:100%;
+    width: 100%;
     max-width: 675px;
     height: 100%;
     padding: 10px;
     align-items: center;
     display: flex;
-    z-index: 1000000;
     font-weight: 900;
     text-transform: uppercase;
 }
@@ -43,7 +54,7 @@ section {
     position: relative;
     margin-top: 60px;
     height: 40vh;
-    width:100%;
+    width: 100%;
     background: #383838;
 }
 
@@ -57,47 +68,327 @@ section {
     z-index: 100;
     text-align: center;
     color: #fff;
-    font-size: 2rem;
+    font-size: 30px;
     font-weight: bold;
     position: absolute;
-    top: 45%;
-    left: 0;
+    font-family: "Horizon", sans-serif;
+    top: 30%;
+    left: 50%;
+    transform: translate(-50%, 0);
     width: 100%;
     height: auto;
-}
-
-.overlay {
-    background: rgba(0, 0, 0, 0.7);
-    position: absolute;
-    top: 0;
-    left: 0;
-    height: 40vh;
-    width: 100%;
+    max-width: 300px;
 }
 
 .area1 {
-    background: #333;
-    height: 100vh;
+    height: AUTO;
     width: 100%;
     position: relative;
+    margin-bottom: 20vh;
+    top: 0;
+    left: 0;
+    background: #111;
+    --gap: 5em;
+    --line: 1px;
+    --color: rgba(255, 255, 255, 0.2);
+
+    background-image: linear-gradient(-90deg,
+            transparent calc(var(--gap) - var(--line)),
+            var(--color) calc(var(--gap) - var(--line) + 1px),
+            var(--color) var(--gap)),
+        linear-gradient(0deg,
+            transparent calc(var(--gap) - var(--line)),
+            var(--color) calc(var(--gap) - var(--line) + 1px),
+            var(--color) var(--gap));
+    background-size: var(--gap) var(--gap);
 
 }
 
 .footer {
     position: relative;
+    top: 0;
+    left: 0;
     background: #fff;
-    height: 10vh;
+    height: 0vh;
 }
 
 .form {
-    height: 100vh;
+    height: auto;
     background: #111;
+    position: relative;
+    top: 10vh;
+    left: 50%;
+    width: 80%;
+    max-width: 370px;
+    display: flex;
+    padding: 40px;
+    align-items: center;
+    transform: translate(-50%, 0%);
+    gap: 10px;
+    border-radius: 12px;
+    border: 2px solid #333;
+    --input-focus: #00ed7e;
+    --font-color: #fefefe;
+    --font-color-sub: #7e7e7e;
+    --bg-color: #222;
+    --main-color: #333;
+    padding: 20px;
+    background: var(--bg-color);
+    border-radius: 5px;
+    border: 1px solid var(--main-color);
+    box-shadow: 4px 4px var(--main-color);
+    flex-wrap: wrap;
+    align-content: center;
+    flex-direction: column;
+    justify-content: center;
+}
+
+.input {
+    width: 250px;
+    height: 40px;
+    border-radius: 5px;
+    border: 2px solid var(--main-color);
+    background-color: var(--bg-color);
+    box-shadow: 4px 4px var(--main-color);
+    font-size: 15px;
+    font-weight: 600;
+    color: var(--font-color);
+    padding: 5px 10px;
+    outline: none;
+    margin-top: 10px;
+}
+
+.input::placeholder {
+    color: var(--font-color-sub);
+    opacity: 0.8;
+}
+
+.input:focus {
+    border: 2px solid var(--input-focus);
+    outline: none;
+}
+
+:focus {
+    outline: 0;
+    border-color: #fff;
+    box-shadow: 0 0 0 4px #ffffff;
+}
+
+.mydict div {
     width: 100%;
-    max-width: 675px;
+    display: flex;
+    flex-wrap: wrap;
+    margin-top: 15px;
+    justify-content: space-between;
+}
+
+.mydict input[type="radio"] {
+    clip: rect(0 0 0 0);
+    clip-path: inset(100%);
+    height: 1px;
+    overflow: hidden;
+    position: absolute;
+    white-space: nowrap;
+    width: 1px;
+}
+
+.mydict input[type="radio"]:checked+span {
+    box-shadow: 0 0 0 0.0625em #00ed7e;
+    background-color: #00ed7e;
+    z-index: 1;
+    color: #fff;
+}
+label{
+    flex: 1; /* Ensures labels take up equal width */
+    display: flex;
+    justify-content: center;
+}
+label span {
+    display: block;
+    cursor: pointer;
+    background-color: #444;
+    padding: 8px;
+    color: #aabdb4;
+    text-align: center;
+    font-weight: bold;
+    font-style: italic;
+    font-size: 15px;
+    transition: background-color .5s ease;
+    width: 100%;
+    box-sizing: border-box;
+    border: .5px solid #666; /* Includes padding in width */
+}
+label:first-child span {
+    border-radius: .375em 0 0 .375em;
+}
+
+label:last-child span {
+    border-radius: 0 .375em .375em 0;
+}
+
+.button-container {
+    position: relative;
+    display: inline-block;
+    top: 40px;
+}
+
+.custom-button {
+    position: relative;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: 12px 24px;
+    font-size: 16px;
+    font-family: 'horizon',sans-serif;
+    color: #222;
+    background: #ffffff;
+    border: none;
+    border-radius: 1px;
+    cursor: pointer;
+    transition: transform 0.3s ease-in-out;
+    overflow: hidden;
+    z-index: 1;
+    border: 2px solid var(--main-color);
+    box-shadow: 4px 4px var(--main-color);
+}
+
+.custom-button:hover {
+    transform: scale(1.05);
+    color: white;
+}
+
+.custom-button:active {
+    transform: scale(0.95);
+    color: white;
+}
+
+.custom-button::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: linear-gradient(to right, #107267, #3bf6ab, #5513ed);
+    z-index: 0;
+    opacity: 0;
+    transition: opacity 0.5s ease;
+}
+
+.custom-button:hover::before {
+    opacity: 1;
+}
+
+.button-content {
+    position: relative;
+    z-index: 1;
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.button-content span {
+    transition: transform 0.5s ease;
+}
+
+.custom-button:hover .button-content span {
+    transform: translateX(4px);
+}
+
+.button-icon {
+    width: 20px;
+    height: 20px;
+    fill: currentColor;
+    transition: transform 0.5s ease;
+}
+
+.custom-button:hover .button-icon {
+    transform: translateX(4px);
+}.result-section {
+    padding: 15px;
+    width: 100%;
+    max-width: 400px;
+    top: 0;
+    left: 50%;position:relative;
+    transform: translateX(-50%);
+}
+
+.college-card {
+    border: 1px solid #444;
+    padding: 10px;
+    margin-bottom: 15px;
+    background-color: #333;
+    border-radius: 8px;
+    color: rgba(212, 212, 212, 0.894);
+    box-sizing: border-box;
+    transform-style: preserve-3d;
+    perspective: 1000px;
+    transition: all 0.5s cubic-bezier(0.23, 1, 0.320, 1);
+    cursor: pointer;
+    -webkit-tap-highlight-color: transparent;
+    background: radial-gradient(circle 300px at 0% 0%, #151515, #282828);
+}
+
+.college-card:before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(transparent, rgba(22, 22, 22, 0.4));
+  transition: transform 0.5s cubic-bezier(0.23, 1, 0.320, 1);
+  z-index: 1;
+}
+
+.college-card:after {
+  content: "";
+  position: absolute;
+  top: 0;
+  right: 0;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(transparent, rgba(0, 0, 0, 0.1));
+  transition: transform 0.5s cubic-bezier(0.23, 1, 0.320, 1);
+  z-index: 1;
+}
+
+.college-name{
+    font-family: "horizon",sans-serif;
+    font-size: 18px;
+    color: rgba(0, 255, 128, 0.96);
+    margin-left: 10px;
+
+}
+.details{
+    margin-top: 10px;
+    border-radius: 10px;
+    padding: 10px;
+    font-size: 11px;
+}.pagination{
+    width: 100%;
     position: relative;
     top: 0;
-    left: 50%;
-    transform: translate(-50%, 0%);
-    border-radius: 20px;
-    padding: 30px;
+    left: 0;
+    display: flex;
+    background: #222;
+    justify-content: center;
+    align-items: center;
+    padding: 20px;
+}.prev,.next{
+    color: #fff;
+    background: transparent;
+    border: 0;
+    outline: 0;
+    font-family: 'horizon',sans-serif;
+    font-size: 80px;
+    padding: 10px;
+    border-radius: 50px;
+}.page-input{
+    width: 60px;
+    background: #111;
+    color: white;
+    border: 0;
+    outline: 0;
+    padding: 15px;
 }

@@ -8,56 +8,145 @@
         <link rel="preconnect" href="https://fonts.googleapis.com">
         <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
         <link
-            href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:ital,wght@0,100..800;1,100..800&display=swap"
+            href="https://fonts.googleapis.com/css2?family=Mona+Sans:ital,wght@0,200..900;1,200..900&display=swap"
             rel="stylesheet">
         <title>Project J</title>
+        <script src="assets/scripts/app.js"></script>
     </head>
     <body>
         <section class="nav"><div class="navcontent">Project J</div></section>
         <section class="main">
             <section class="slider">
-                <div class="overlay"></div>
-                <img src="assets/res/nith.webp" alt="" srcset="">
+                <div class="container"></div>
                 <div class="main-title">JEE Mains 2025 Rank Predictor</div>
             </section>
             <section class="area1">
-                <form class="form">
-                        <label for="marks">Marks:</label>
-                        <input type="number" id="marks" name="marks" required>
+                <div class="form">
+                    <input type="number" id="marks" name="rank" required
+                        class="input" placeholder="Rank / Category Rank">
+                    <!--<input type="text" id="percentile" name="percentile"
+                        required class="input" placeholder="Percentile">-->
+
+                    <div class="container1">
+                        <label for="state">Home State</label>
+                        <select id="state" name="state" class="state-select"
+                            required>
+                            <option value="andhra-pradesh">Andhra
+                                Pradesh</option>
+                            <option value="arunachal-pradesh">Arunachal
+                                Pradesh</option>
+                            <option value="assam">Assam</option>
+                            <option value="bihar">Bihar</option>
+                            <option value="chhattisgarh">Chhattisgarh</option>
+                            <option value="goa">Goa</option>
+                            <option value="gujarat">Gujarat</option>
+                            <option value="haryana">Haryana</option>
+                            <option value="himachal-pradesh">Himachal
+                                Pradesh</option>
+                            <option value="jharkhand">Jharkhand</option>
+                            <option value="karnataka">Karnataka</option>
+                            <option value="kerala">Kerala</option>
+                            <option value="madhya-pradesh">Madhya
+                                Pradesh</option>
+                            <option value="maharashtra">Maharashtra</option>
+                            <option value="manipur">Manipur</option>
+                            <option value="meghalaya">Meghalaya</option>
+                            <option value="mizoram">Mizoram</option>
+                            <option value="nagaland">Nagaland</option>
+                            <option value="odisha">Odisha</option>
+                            <option value="punjab">Punjab</option>
+                            <option value="rajasthan">Rajasthan</option>
+                            <option value="sikkim">Sikkim</option>
+                            <option value="tamil-nadu">Tamil Nadu</option>
+                            <option value="telangana">Telangana</option>
+                            <option value="tripura">Tripura</option>
+                            <option value="uttar-pradesh">Uttar Pradesh</option>
+                            <option value="uttarakhand">Uttarakhand</option>
+                            <option value="west-bengal">West Bengal</option>
+                            <option value="andaman-nicobar">Andaman and Nicobar
+                                Islands</option>
+                            <option value="chandigarh">Chandigarh</option>
+                            <option value="dadra-nagar-haveli">Dadra and Nagar
+                                Haveli and Daman and Diu</option>
+                            <option value="delhi">Delhi</option>
+                            <option value="jammu-kashmir">Jammu and
+                                Kashmir</option>
+                            <option value="ladakh">Ladakh</option>
+                            <option value="lakshadweep">Lakshadweep</option>
+                            <option value="puducherry">Puducherry</option>
+                        </select>
+                        <div class="mydict"><div>
+                                <label>
+                                    <input type="radio" name="gender"
+                                        value="Gender-Neutral" required>
+                                    <span>Male</span>
+                                </label>
+                                <label>
+                                    <input type="radio" name="gender"
+                                        value="Female-only (including Supernumerary)">
+                                    <span>Female</span>
+                                </label>
+                                <label>
+                                    <input type="radio" name="gender"
+                                        value="Female-only (including Supernumerary)">
+                                    <span>Others</span>
+                                </label>
+                            </div></div>
+                        <div class="mydict">
+                            <div>
+                                <label>
+                                    <input type="radio" name="category"
+                                        value="OPEN" checked>
+                                    <span>OPEN</span>
+                                </label>
+                                <label>
+                                    <input type="radio" name="category"
+                                        value="OBC-NCL">
+                                    <span>OBC</span>
+                                </label>
+                                <label>
+                                    <input type="radio" name="category"
+                                        value="SC">
+                                    <span>SC</span>
+                                </label>
+                                <label>
+                                    <input type="radio" name="category"
+                                        value="ST">
+                                    <span>ST</span>
+                                </label>
+                                <label>
+                                    <input type="radio" name="category"
+                                        value="EWS">
+                                    <span>EWS</span>
+                                </label>
+                            </div>
+                        </div><select id="branch" name="branch" class="state-select">
+                            <option value="Select Branch">Coming Soon</option><!--
+                            <option value="Computer Science">Computer Science</option>
+                            <option value="Mechanical Engineering">Mechanical Engineering</option>
+                            <option value="Electrical Engineering">Electrical Engineering</option>
+                            <option value="Civil Engineering">Civil Engineering</option>
+                        -->  </select>
                         
-                        <label for="rank">Rank:</label>
-                        <input type="number" id="rank" name="rank" required>
-
-                        <label for="percentile">Percentile:</label>
-                        <input type="text" id="percentile" name="percentile" required>
-
-                        <label for="category">Category:</label>
-                        <select id="category" name="category" required>
-                            <option value="general">General</option>
-                            <option value="obc">OBC</option>
-                            <option value="sc">SC</option>
-                            <option value="st">ST</option>
-                        </select>
-
-                        <label for="gender">Gender:</label>
-                        <select id="gender" name="gender" required>
-                            <option value="male">Male</option>
-                            <option value="female">Female</option>
-                            <option value="other">Other</option>
-                        </select>
-
-                        <label for="quota">Quota:</label>
-                        <select id="quota" name="quota" required>
-                            <option value="ai">AI</option>
-                            <option value="hs">HS</option>
-                            <option value="os">OS</option>
-                        </select>
-
-                        <label for="branch">Branch:</label>
-                        <input type="text" id="branch" name="branch" required>
-
-                        <button type="submit">Submit</button>
-                </form>
+                    </div>
+                    <div class="button-container">
+                        <button class="custom-button">
+                            <div class="button-content">
+                                <span>Continue</span>
+                                <svg
+                                    class="button-icon"
+                                    xmlns="http://www.w3.org/2000/svg"
+                                    viewBox="0 0 20 20"
+                                    fill="currentColor">
+                                    <path
+                                        fill-rule="evenodd"
+                                        d="M8.22 5.22a.75.75 0 011.06 0l4.25 4.25a.75.75 0 010 1.06l-4.25 4.25a.75.75 0 01-1.06-1.06L11.94 10 8.22 6.28a.75.75 0 010-1.06z"
+                                        clip-rule="evenodd" />
+                                </svg>
+                            </div>
+                        </button>
+                    </div>
+                </div>
             </section>
         </section>
         <section class="footer"></section>
