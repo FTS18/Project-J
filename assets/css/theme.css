@@ -157,6 +157,9 @@ section {
     outline: none;
     margin-top: 10px;
 }
+.inp1{
+    width: 100%;
+}
 
 .input::placeholder {
     color: var(--font-color-sub);
@@ -182,7 +185,8 @@ section {
     justify-content: space-between;
 }
 
-.mydict input[type="radio"] {
+.mydict input[type="radio"],
+input[type="checkbox"]  {
     clip: rect(0 0 0 0);
     clip-path: inset(100%);
     height: 1px;
@@ -192,7 +196,8 @@ section {
     width: 1px;
 }
 
-.mydict input[type="radio"]:checked+span {
+.mydict input[type="radio"]:checked+span,
+input[type="checkbox"]:checked+span {
     box-shadow: 0 0 0 0.0625em #00ed7e;
     background-color: #00ed7e;
     z-index: 1;
