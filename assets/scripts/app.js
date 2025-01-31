@@ -1,8 +1,8 @@
 document.addEventListener("DOMContentLoaded", function () {
     const button = document.querySelector(".custom-button");
     const searchInput = document.getElementById('search');
-    let allColleges = []; // Store all colleges globally
-    let filteredColleges = []; // Store filtered colleges based on search
+    let allColleges = [];
+    let filteredColleges = [];
     let currentPage = 1;
     const itemsPerPage = 20;
 
@@ -11,10 +11,8 @@ document.addEventListener("DOMContentLoaded", function () {
         return;
     }
 
-    // Handle button click event for filtering colleges
     button.addEventListener("click", function (event) {
-        event.preventDefault(); // Prevent form submission causing page reload
-
+        event.preventDefault();
         const rankInput = document.querySelector("#marks");
         const categoryInput = document.querySelector('input[name="category"]:checked');
         const genderInput = document.querySelector('input[name="gender"]:checked');
@@ -34,14 +32,16 @@ document.addEventListener("DOMContentLoaded", function () {
             return;
         }
 
-        const rank = parseInt(rankInput.value);
+        const rank = rankInput && !isNaN(rankInput.value) && rankInput.value.trim() !== ""
+            ? parseInt(rankInput.value)
+            : 1;
+
         const selectedCategory = categoryInput.value;
         const selectedGender = genderInput.value;
 
         fetch("data.json")
             .then(response => response.json())
             .then(data => {
-                // Filter colleges based on the user inputs
                 const matchingColleges = data.filter(college => {
                     const openingRank = parseInt(college.openingRank);
                     const closingRank = parseInt(college.closingRank);
@@ -82,7 +82,6 @@ document.addEventListener("DOMContentLoaded", function () {
                         !isIIT;
                 });
 
-                // Store all matching colleges
                 allColleges = matchingColleges.sort((a, b) => {
                     const closingRankA = parseInt(a.closingRank);
                     const closingRankB = parseInt(b.closingRank);
@@ -93,7 +92,6 @@ document.addEventListener("DOMContentLoaded", function () {
                     return diffA - diffB;
                 });
 
-                // Apply search filter after fetching the data
                 applySearchFilter();
             })
             .catch(error => console.error("Error fetching data:", error));
@@ -102,16 +100,12 @@ document.addEventListener("DOMContentLoaded", function () {
     function applySearchFilter() {
         const query = searchInput.value.toLowerCase().trim();
 
-        // Filter colleges based on search query
         filteredColleges = allColleges.filter(college => {
             return college.institute.toLowerCase().includes(query) ||
                 college.branch.toLowerCase().includes(query);
         });
 
-        // Reset pagination to the first page after search
         currentPage = 1;
-
-        // Update the display
         paginateColleges();
     }
 
@@ -149,52 +143,59 @@ document.addEventListener("DOMContentLoaded", function () {
             }).join("")
             : "<p>No matching colleges found for the given rank, category, and gender.</p>";
 
-        document.body.appendChild(resultSection);
-    }
+        const footer = document.querySelector(".footer");
+        const pagination = document.querySelector(".pagination");
 
+        if (footer && pagination) {
+            pagination.parentNode.insertBefore(resultSection, footer); // Place result section before the footer
+        } else {
+            document.body.appendChild(resultSection); // If no footer, append to body
+        }
+    }
     function displayPagination(totalPages) {
         const paginationContainer = document.querySelector(".pagination") || document.createElement("div");
         paginationContainer.classList.add("pagination");
-
+    
         paginationContainer.innerHTML = `
             <button class="prev" ${currentPage === 1 ? 'disabled' : ''}>-</button>
             <span> <input type="number" class="page-input" min="1" max="${totalPages}" value="${currentPage}"> / ${totalPages}</span>
             <button class="next" ${currentPage === totalPages ? 'disabled' : ''}>+</button>
         `;
-
+    
         paginationContainer.querySelector(".prev").addEventListener("click", function () {
             if (currentPage > 1) {
                 currentPage--;
                 paginateColleges();
             }
         });
-
+    
         paginationContainer.querySelector(".next").addEventListener("click", function () {
             if (currentPage < totalPages) {
                 currentPage++;
                 paginateColleges();
             }
         });
-
+    
         paginationContainer.querySelector(".page-input").addEventListener("input", function (event) {
             const pageInput = event.target.value;
             const pageNum = parseInt(pageInput);
-
+    
             if (!isNaN(pageNum) && pageNum >= 1 && pageNum <= totalPages) {
                 currentPage = pageNum;
                 paginateColleges();
             }
         });
-
-        document.body.appendChild(paginationContainer);
+    
+        const footer = document.querySelector(".footer");
+    
+        if (footer) {
+            footer.parentNode.insertBefore(paginationContainer, footer); // Insert pagination before the footer
+        }
     }
+    
 
-    // Apply the search filter only after clicking "Continue"
-    searchInput.addEventListener('input', function () {
-        // Do not apply the filter automatically, wait for button click
-    });
+    searchInput.addEventListener('input', function () {});
 
-    // Trigger search and pagination after clicking Continue
     button.addEventListener('click', function () {
         applySearchFilter();
     });

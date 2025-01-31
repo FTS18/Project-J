@@ -18,6 +18,8 @@ body {
     color: #999;
     font-family: "Mona sans", sans-serif;
     overflow-x: hidden;
+    display: flex;
+    flex-direction: column;
 }
 
 .nav {
@@ -79,7 +81,9 @@ section {
     height: auto;
     max-width: 300px;
 }
-
+.main{
+    flex-grow: 1;
+}
 .area1 {
     height: AUTO;
     width: 100%;
@@ -106,12 +110,29 @@ section {
 
 .footer {
     position: relative;
-    top: 0;
-    left: 0;
-    background: #fff;
-    height: 0vh;
+    background: #000;
+    height: 15vh;
+    display: flex;
+    justify-content: center;
+    font-style: italic;
+    align-items: center;
+    font-size: 17px;margin-top: auto
 }
-
+a{
+    text-decoration: dashed;
+    color: #fff;
+    margin: 0 8px;
+    outline: none;
+    border-bottom: 1px dashed white;
+    font-weight: 800;
+    font-style: normal;
+    transition: 0.1s ease-in;
+}
+a:hover{
+    transform: scale(110%);
+    text-transform: uppercase;
+    font-style: italic;
+}
 .form {
     height: auto;
     background: #111;
@@ -376,7 +397,7 @@ label:last-child span {
     top: 0;
     left: 0;
     display: flex;
-    background: #222;
+    background: #000;
     justify-content: center;
     align-items: center;
     padding: 20px;
