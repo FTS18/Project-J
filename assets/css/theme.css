@@ -12,6 +12,9 @@
     font-style: normal;
 }
 
+::selection{
+    background: rgba(193, 163, 98, 0.56);
+}
 
 body {
     background: #111;
@@ -20,31 +23,39 @@ body {
     overflow-x: hidden;
     display: flex;
     flex-direction: column;
+}html {
+    scroll-behavior: smooth;
 }
 
 .nav {
     position: fixed;
     top: 0;
     left: 0;
-    height: 60px;
     width: 100%;
     display: flex;
     align-items: center;
     justify-content: center;
-    background: #000;
-    height: 60px;
+    background: #25252592;
+    backdrop-filter: blur(30px);
+    height: 80px;
     z-index: 1000000;
 }
 
 .navcontent {
     width: 100%;
-    max-width: 675px;
+    max-width: 375px;
     height: 100%;
-    padding: 10px;
-    align-items: center;
+    padding: 15px;
+    color: #fff;
     display: flex;
+    justify-content: space-between;
+    font-family: "Mona Sans", sans-serif;
+    font-style: italic;
+    align-items: center;
     font-weight: 900;
     text-transform: uppercase;
+    border-left: 2px dashed #0c3623b7;
+    border-right: 2px dashed #0c3623b7;
 }
 
 section {
@@ -54,7 +65,7 @@ section {
 
 .slider {
     position: relative;
-    margin-top: 60px;
+    margin-top: 70px;
     height: 40vh;
     width: 100%;
     background: #383838;
@@ -180,6 +191,8 @@ a:hover{
 }
 .inp1{
     width: 100%;
+    border-radius: 20px;
+    padding-left: 10px;
 }
 
 .input::placeholder {
@@ -344,14 +357,13 @@ label:last-child span {
     padding: 10px;
     margin-bottom: 15px;
     background-color: #333;
-    border-radius: 8px;
+    border-radius: 12px;
     color: rgba(212, 212, 212, 0.894);
     box-sizing: border-box;
     transform-style: preserve-3d;
     perspective: 1000px;
     transition: all 0.5s cubic-bezier(0.23, 1, 0.320, 1);
     cursor: pointer;
-    -webkit-tap-highlight-color: transparent;
     background: radial-gradient(circle 300px at 0% 0%, #151515, #282828);
 }
 
@@ -380,18 +392,21 @@ label:last-child span {
 }
 
 .college-name{
+    margin-top: 8px;
     font-family: "horizon",sans-serif;
-    font-size: 18px;
-    color: rgba(0, 255, 128, 0.96);
+    font-size: 16px;
+    color: rgba(254, 241, 192, 0.941);
     margin-left: 10px;
 
 }
 .details{
-    margin-top: 10px;
+    margin-top: 3px;
     border-radius: 10px;
     padding: 10px;
-    font-size: 11px;
-}.pagination{
+    font-size: 11.5px;
+    color:#b3b3b3dd;
+}
+.pagination{
     width: 100%;
     position: relative;
     top: 0;
@@ -417,4 +432,115 @@ label:last-child span {
     border: 0;
     outline: 0;
     padding: 15px;
-}
+}.button {
+    width: 100px;
+    height: 35px;
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+    gap: 10px;
+    color: rgb(28, 28, 28);
+    border: 2px solid rgb(190, 190, 190);
+    background: rgb(193, 163, 98);
+    border-radius: 30px;
+    font-weight: 600;
+    position: relative;
+    cursor: pointer;
+    transition-duration: .2s;
+    box-shadow: 5px 5px 10px rgba(0, 0, 0, 0.116);
+    padding-left: 8px;
+    transition-duration: .5s;
+    font-size: 11px;
+  }
+  .button:active {
+    scale: 1;
+  }
+  
+  .svgIcon {
+    height: 25px;
+    transition-duration: 1.5s;
+  }
+  
+  .bell path {
+    fill: rgb(19, 19, 19);
+  }
+  
+  .button:hover {
+    background-color: rgb(236, 236, 236);
+    transition-duration: .5s;
+    text-transform: none;
+    font-size: 10px;
+  }
+  
+  .button:active {
+    transform: scale(0.97);
+    transition-duration: .2s;
+  }
+  
+  .button:hover .svgIcon {
+    transform: rotate(250deg);
+    transition-duration: 1.5s;
+  }
+  
+  .button1 {
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    background-color: rgb(20, 20, 20);
+    border: none;
+    font-weight: 600;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0px 0px 0px 4px rgba(201, 201, 201, 0.253);
+    cursor: pointer;
+    transition-duration: 0.3s;
+    overflow: hidden;
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    z-index: 10000;
+    display: none;
+  }
+  
+  .svgIcon1 {
+    width: 12px;
+    transition-duration: 0.3s;
+  }
+  
+  .svgIcon1 path {
+    fill: white;
+  }
+  
+  .button1:hover {
+    width: 140px;
+    border-radius: 50px;
+    transition-duration: 0.3s;
+    background-color: rgba(6, 175, 62, 0.241);;
+    backdrop-filter: blur(20px);
+    align-items: center;
+  }
+  
+  .button1:hover .svgIcon1 {
+    /* width: 20px; */
+    transition-duration: 0.3s;
+    transform: translateY(-200%);
+  }
+  
+  .button1::before {
+    position: absolute;
+    bottom: -20px;
+    content: "Back to Top";
+    color: white;
+    /* transition-duration: .3s; */
+    font-size: 0px;
+  }
+  
+  .button1:hover::before {
+    font-size: 13px;
+    opacity: 1;
+    bottom: unset;
+    /* transform: translateY(-30px); */
+    transition-duration: 0.3s;
+  }
+  

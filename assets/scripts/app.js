@@ -128,18 +128,19 @@ document.addEventListener("DOMContentLoaded", function () {
                 collegeName = collegeName.replace(/Indian Institute of Technology/g, "IIT")
                     .replace(/National Institute of Technology/g, "NIT")
                     .replace(/Indian Institute of Information Technology/g, "IIIT");
+                    const googleSearchUrl = `https://www.google.com/search?q=${encodeURIComponent(collegeName + ' college pravesh')}`;
 
-                return `
-                    <div class="college-card">
-                        <h2 class="college-name">${collegeName}</h2>
-                        <div class="details">
-                            <p>${college.branch}</p>
-                            <p>Category: ${college.category}</p>
-                            <p>Gender: ${college.gender}</p>
-                            <p><span class="or">OR: ${college.openingRank}</span>, <span class="cr">CR: ${college.closingRank}</span></p>
+                    return `
+                        <div class="college-card" onclick="window.open('${googleSearchUrl}', '_blank')">
+                            <h2 class="college-name">${collegeName}</h2>
+                            <div class="details">
+                                <p>${college.branch}</p>
+                                ${college.category} | 
+                                ${college.gender}</p>
+                                <p><span class="or">OR: ${college.openingRank}</span> | <span class="cr">CR: ${college.closingRank}</span></p>
+                            </div>
                         </div>
-                    </div>
-                `;
+                    `;
             }).join("")
             : "<p>No matching colleges found for the given rank, category, and gender.</p>";
 
@@ -199,4 +200,5 @@ document.addEventListener("DOMContentLoaded", function () {
     button.addEventListener('click', function () {
         applySearchFilter();
     });
+    
 });

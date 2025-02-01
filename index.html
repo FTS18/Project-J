@@ -12,13 +12,27 @@
             rel="stylesheet">
         <title>Project J</title>
         <script src="assets/scripts/app.js"></script>
+        
     </head>
-    <body>
-        <section class="nav"><div class="navcontent">Project J</div></section>
-        <section class="main">
+    <body><a class="button1" href="#main">
+        <svg class="svgIcon1" viewBox="0 0 384 512">
+          <path
+            d="M214.6 41.4c-12.5-12.5-32.8-12.5-45.3 0l-160 160c-12.5 12.5-12.5 32.8 0 45.3s32.8 12.5 45.3 0L160 141.2V448c0 17.7 14.3 32 32 32s32-14.3 32-32V141.2L329.4 246.6c12.5 12.5 32.8 12.5 45.3 0s12.5-32.8 0-45.3l-160-160z"
+          ></path>
+        </svg>
+      </a>
+      
+        <section class="nav">
+            <div class="navcontent">Project-J
+            <a class="button" href="https://ananay.netlify.app">
+                <svg class="svgIcon" viewBox="0 0 512 512" height="1em" xmlns="http://www.w3.org/2000/svg"><path d="M256 512A256 256 0 1 0 256 0a256 256 0 1 0 0 512zm50.7-186.9L162.4 380.6c-19.4 7.5-38.5-11.6-31-31l55.5-144.3c3.3-8.5 9.9-15.1 18.4-18.4l144.3-55.5c19.4-7.5 38.5 11.6 31 31L325.1 306.7c-3.2 8.5-9.9 15.1-18.4 18.4zM288 256a32 32 0 1 0 -64 0 32 32 0 1 0 64 0z"></path></svg>
+               More
+             </a></div>
+        </section>
+        <section class="main" id="main">
             <section class="slider">
                 <div class="container"></div>
-                <div class="main-title">JEE Mains 2025 Rank Predictor</div>
+                <div class="main-title">JEE Mains 2025 Rank Predictor</div>                 
             </section>
             <section class="area1">
                 <div class="form">
@@ -60,7 +74,7 @@
                             <option value="tamil-nadu">Tamil Nadu</option>
                             <option value="telangana">Telangana</option>
                             <option value="tripura">Tripura</option>
-                            <option value="uttar-pradesh">Uttar Pradesh</option>
+                            <option value="uttar-pradesh" selected>Uttar Pradesh</option>
                             <option value="uttarakhand">Uttarakhand</option>
                             <option value="west-bengal">West Bengal</option>
                             <option value="andaman-nicobar">Andaman and Nicobar
@@ -96,8 +110,8 @@
                             <div>
                                 <label>
                                     <input type="radio" name="category"
-                                        value="OPEN" checked>
-                                    <span>OPEN</span>
+                                        value="EWS" checked>
+                                    <span>EWS</span>
                                 </label>
                                 <label>
                                     <input type="radio" name="category"
@@ -116,8 +130,8 @@
                                 </label>
                                 <label>
                                     <input type="radio" name="category"
-                                        value="EWS">
-                                    <span>EWS</span>
+                                        value="OPEN" checked>
+                                    <span>OPEN</span>
                                 </label>
                             </div> <div class="mydict">
                                 <label>
@@ -174,7 +188,15 @@
             </section>
         </section>
         <section class="footer">
-            Made with 💖 by <a href="https://ananay.netlify.app">Ananay</a> | 2025
-        </section>
+            Made with ❤ by <a href="https://ananay.netlify.app">Ananay</a> | 2025
+        </section><script> const button = document.querySelector('.button1');
+
+            window.addEventListener('scroll', function() {
+                if (window.scrollY >= window.innerHeight * 1.25) {
+                    button.style.display = 'flex';  // Show the button
+                } else {
+                    button.style.display = 'none';   // Hide the button
+                }
+            });</script>
     </body>
 </html>
