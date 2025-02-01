@@ -38,7 +38,7 @@ body {
     background: #25252592;
     backdrop-filter: blur(30px);
     height: 80px;
-    z-index: 1000000;
+    z-index: 1000000;box-shadow: rgba(0, 0, 0, 0.3) 0px 19px 350px, rgba(0, 0, 0, 0.516) 0px 15px 20px;
 }
 
 .navcontent {
@@ -46,7 +46,7 @@ body {
     max-width: 375px;
     height: 100%;
     padding: 15px;
-    color: #fff;
+    color: rgb(224, 219, 194);
     display: flex;
     justify-content: space-between;
     font-family: "Mona Sans", sans-serif;
@@ -80,7 +80,7 @@ section {
 .main-title {
     z-index: 100;
     text-align: center;
-    color: #fff;
+    color: rgb(255, 255, 255);
     font-size: 30px;
     font-weight: bold;
     position: absolute;
@@ -172,7 +172,7 @@ a:hover{
     flex-wrap: wrap;
     align-content: center;
     flex-direction: column;
-    justify-content: center;
+    justify-content: center;box-shadow: rgba(0, 0, 0, 0.3) 0px 19px 50px, rgba(0, 0, 0, 0.516) 0px 15px 20px;
 }
 
 .input {
@@ -364,7 +364,13 @@ label:last-child span {
     perspective: 1000px;
     transition: all 0.5s cubic-bezier(0.23, 1, 0.320, 1);
     cursor: pointer;
-    background: radial-gradient(circle 300px at 0% 0%, #151515, #282828);
+    background: radial-gradient(circle 300px at 0% 0%, #151515, #282828);box-shadow: rgba(0, 0, 0, 0.3) 0px 19px 50px, rgba(0, 0, 0, 0.516) 0px 15px 20px;
+}
+.college-card:hover{
+    border: 1px solid #555;
+    outline-offset: 3px;
+    outline: 0.5px solid #555;
+    background: #333333b3;
 }
 
 .college-card:before {
@@ -395,7 +401,7 @@ label:last-child span {
     margin-top: 8px;
     font-family: "horizon",sans-serif;
     font-size: 16px;
-    color: rgba(254, 241, 192, 0.941);
+    color: rgb(224, 219, 194);
     margin-left: 10px;
 
 }
@@ -404,7 +410,7 @@ label:last-child span {
     border-radius: 10px;
     padding: 10px;
     font-size: 11.5px;
-    color:#b3b3b3dd;
+    color:#c5c5c5dd;
 }
 .pagination{
     width: 100%;
