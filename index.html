@@ -11,6 +11,8 @@
             href="https://fonts.googleapis.com/css2?family=Mona+Sans:ital,wght@0,200..900;1,200..900&display=swap"
             rel="stylesheet">
         <title>Project J</title>
+        <script src="https://www.gstatic.com/firebasejs/10.11.0/firebase-app-compat.js"></script>
+        <script src="https://www.gstatic.com/firebasejs/10.11.0/firebase-database-compat.js"></script>
         <script src="assets/scripts/app.js"></script>
         
     </head>
@@ -188,8 +190,13 @@
             </section>
         </section>
         <section class="footer">
-            Made with ❤ by <a href="https://ananay.netlify.app">Ananay</a> | 2025
-        </section><script> const button = document.querySelector('.button1');
+           <center> Made with ❤ by <a href="https://github.com/fts18">Ananay</a> | &nbsp;<span id="year"></span> &nbsp;<br><span class="arr">All Rights Reserved.</span>
+           </center> <div id="vcc">
+                    <p id="vct"></p>
+                </div>
+            </div>
+        </section>
+        <script> const button = document.querySelector('.button1');
 
             window.addEventListener('scroll', function() {
                 if (window.scrollY >= window.innerHeight * 1.25) {
@@ -198,5 +205,6 @@
                     button.style.display = 'none';   // Hide the button
                 }
             });</script>
+            <script src="https://api.ipify.org?format=jsonp&callback=get_viewers_ip"></script>
     </body>
 </html>

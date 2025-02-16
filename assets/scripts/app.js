@@ -202,3 +202,68 @@ document.addEventListener("DOMContentLoaded", function () {
     });
     
 });
+// Function to update the year
+function updateYear() {
+    var currentYear = new Date().getFullYear();
+    document.getElementById("year").textContent =currentYear;
+}
+window.onload = function() {
+    updateYear();
+};
+window.addEventListener("scroll", function () {
+    const nav = document.querySelector(".nav");
+    if (window.scrollY > 400) {
+        nav.style.background = "#25252592";
+    } else {
+        nav.style.background = "#006e3b21"; // Original color
+    }
+});
+
+// Function to update the year
+function updateYear() {
+    var currentYear = new Date().getFullYear();
+    var yearElement = document.getElementById("year");
+
+    if (yearElement) {
+        yearElement.textContent = currentYear;
+    }
+}
+  // Your web app's Firebase configuration
+  const firebaseConfig = {
+    apiKey: "AIzaSyDc1TevGso9fI3sBSEaqE5_WqsBGA-_zXk",
+    authDomain: "views-4576f.firebaseapp.com",
+    databaseURL: "https://views-4576f-default-rtdb.firebaseio.com",
+    projectId: "views-4576f",
+    storageBucket: "views-4576f.firebasestorage.app",
+    messagingSenderId: "666092567983",
+    appId: "1:666092567983:web:c868e1973002f7bcb6435a"
+  };
+
+const app = firebase.initializeApp(firebaseConfig);
+
+function get_viewers_ip(json) {
+    const viewers_ip = json.ip;
+    count_view(viewers_ip);
+}
+function count_view(viewers_ip) {
+    const ip_to_string = viewers_ip.toString().replace(/\./g, '-');
+    const dbRef = app.database().ref("viewers/" + ip_to_string);
+
+    dbRef.once("value", function (snapshot) {
+        if (!snapshot.exists()) { // If IP is new
+            dbRef.set(true); // Mark IP as visited
+
+            // Increase ProjectJ count by 1
+            const projectRef = app.database().ref("project_clicks/ProjectJ");
+            projectRef.transaction(function (currentViews) {
+                return (currentViews || 0) + 1;
+            });
+        }
+    });
+
+    // Display updated ProjectJ views
+    app.database().ref("project_clicks/ProjectJ").on("value", function (snapshot) {
+        const projectJViews = snapshot.val() || 0;
+        document.getElementById("vct").innerHTML = "Views: " + projectJViews;
+    });
+}
