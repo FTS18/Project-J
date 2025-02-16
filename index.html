@@ -34,12 +34,14 @@
         <section class="main" id="main">
             <section class="slider">
                 <div class="container"></div>
-                <div class="main-title">JEE Mains 2025 Rank Predictor</div>                 
+                <div class="main-title">JEE Mains <br><span class="gg"><span class="yy">2025</span> College</span> <br> Predictor</div>                 
             </section>
             <section class="area1">
                 <div class="form">
                     <input type="number" id="marks" name="rank"
-                        class="input" placeholder="Rank / Category Rank">
+                        class="input" placeholder="Rank/Category Rank">
+                    <input type="number" id="perc" name="%ile"
+                            class="input" placeholder="or Percentile">
                     <!--<input type="text" id="percentile" name="percentile"
                         required class="input" placeholder="Percentile">-->
 
@@ -94,7 +96,7 @@
                         <div class="mydict"><div>
                                 <label>
                                     <input type="radio" name="gender"
-                                        value="Gender-Neutral" required>
+                                        value="Gender-Neutral" checked>
                                     <span>Male</span>
                                 </label>
                                 <label>
@@ -155,8 +157,12 @@
                             <div class="mydict">
                                 <label>
                                     <input type="text" id="search" name="search"
-                                        class="input inp1" placeholder="Search">
+                                        class="input inp1" placeholder="Specific City/Branch">  
                                 </label>
+                                <div class="info">
+                                    Note: For now I have only compiled JoSSA's data here. Haven't added CSAB/JACDelhi/AkTU/MhTCET/ COMEDK/other counsellings ka data yet. So keep this mind while using this predictor!
+                                    <br><span class="ff">Asuvidha ke liye khed haiii!</span>
+                                </div>
                             </div>
                         </div><!--<select id="branch" name="branch"
                             class="state-select">

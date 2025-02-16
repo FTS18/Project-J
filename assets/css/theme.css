@@ -81,7 +81,7 @@ section {
     z-index: 100;
     text-align: center;
     color: rgb(255, 255, 255);
-    font-size: 30px;
+    font-size: 25px;
     font-weight: bold;
     position: absolute;
     font-family: "Horizon", sans-serif;
@@ -91,6 +91,12 @@ section {
     width: 100%;
     height: auto;
     max-width: 300px;
+}.yy{
+    color: #b49300;
+}
+.gg{
+    font-size: 20px;
+    font-style: italic;
 }
 .main{
     flex-grow: 1;
@@ -130,6 +136,18 @@ section {
 }.arr{
     font-size: 12px;
     color: #eee;
+}.info{
+    font-size: 12px;
+    font-style: italic;
+    font-weight: 400;
+    background: #222;
+    padding: 10px;
+    border-radius: 10px;
+}.ff{
+    font-family: 'horizon';
+    font-style: normal;
+    margin-top: 13px;
+    font-size: 8.7px;
 }
 #vcc{
     position: absolute;

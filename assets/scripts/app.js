@@ -1,4 +1,50 @@
 document.addEventListener("DOMContentLoaded", function () {
+    const rankInput = document.getElementById("marks");
+    const percentileInput = document.getElementById("perc");
+    const totalCandidates = 1600000; 
+    const categoryInputs = document.querySelectorAll('input[name="category"]');
+    const genderInputs = document.querySelectorAll('input[name="gender"]');
+    
+    function toggleInputs() {
+        if (rankInput.value.trim() !== "") {
+            percentileInput.disabled = true;
+        } else {
+            percentileInput.disabled = false;
+        }
+
+        if (percentileInput.value.trim() !== "") {
+            rankInput.disabled = true;
+        } else {
+            rankInput.disabled = false;
+        }
+    }
+
+    function restrictOptions() {
+        if (percentileInput.value.trim() !== "") {
+            categoryInputs.forEach(input => {
+                input.disabled = input.value !== "general";
+            });
+            genderInputs.forEach(input => {
+                input.disabled = input.value !== "male";
+            });
+        } else {
+            categoryInputs.forEach(input => input.disabled = false);
+            genderInputs.forEach(input => input.disabled = false);
+        }
+    }
+
+    rankInput.addEventListener("input", toggleInputs);
+    percentileInput.addEventListener("input", () => {
+        toggleInputs();
+        restrictOptions();
+    });
+
+
+    function calculateRankFromPercentile(percentile) {
+        return Math.round((1 - (percentile / 100)) * totalCandidates);
+    }
+    rankInput.addEventListener("input", toggleInputs);
+    percentileInput.addEventListener("input", toggleInputs);
     const button = document.querySelector(".custom-button");
     const searchInput = document.getElementById('search');
     let allColleges = [];
@@ -13,12 +59,19 @@ document.addEventListener("DOMContentLoaded", function () {
 
     button.addEventListener("click", function (event) {
         event.preventDefault();
-        const rankInput = document.querySelector("#marks");
         const categoryInput = document.querySelector('input[name="category"]:checked');
         const genderInput = document.querySelector('input[name="gender"]:checked');
-
-        if (!rankInput || isNaN(rankInput.value)) {
-            alert("Please enter a valid rank.");
+        
+        
+        let rank = rankInput.value.trim();
+        let percentile = percentileInput.value.trim();
+        
+        if (percentile !== "") {
+            alert("If you enter your percentile, we can only show you predicted colleges as per your CRL (not based on any of category/gender based reservations). If you have an idea of your category ranks then enter them in the rank field.");
+            rank = calculateRankFromPercentile(parseFloat(percentile));
+            rankInput.value = rank; // Update rank field only when percentile is entered
+        } else if (rank === "" || isNaN(rank)) {
+            alert("Please enter a valid rank or percentile.");
             return;
         }
 
@@ -32,13 +85,8 @@ document.addEventListener("DOMContentLoaded", function () {
             return;
         }
 
-        const rank = rankInput && !isNaN(rankInput.value) && rankInput.value.trim() !== ""
-            ? parseInt(rankInput.value)
-            : 1;
-
         const selectedCategory = categoryInput.value;
         const selectedGender = genderInput.value;
-
         fetch("data.json")
             .then(response => response.json())
             .then(data => {
