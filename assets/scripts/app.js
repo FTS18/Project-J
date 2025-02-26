@@ -1,7 +1,7 @@
 document.addEventListener("DOMContentLoaded", function () {
     const rankInput = document.getElementById("marks");
     const percentileInput = document.getElementById("perc");
-    const totalCandidates = 1475000; 
+    const totalCandidates = 1520000; 
     const categoryInputs = document.querySelectorAll('input[name="category"]');
     const genderInputs = document.querySelectorAll('input[name="gender"]');
     
