@@ -12,7 +12,7 @@
     font-style: normal;
 }
 
-::selection{
+::selection {
     background: rgba(193, 163, 98, 0.56);
 }
 
@@ -22,8 +22,28 @@ body {
     font-family: "Mona sans", sans-serif;
     overflow-x: hidden;
     display: flex;
+    filter: none;
     flex-direction: column;
-}html {
+    filter: contrast(105%);
+    transition: filter 0.3s ease;
+    /* Smooth transition */
+}
+
+body.dark-mode {
+    filter: invert(80%);
+    background: #fff;
+}
+
+#invertButton {
+    position: relative;
+    padding: 10px 15px;
+    background-color: #000000;
+    color: white;
+    border: none;
+    cursor: pointer;
+}
+
+html {
     scroll-behavior: smooth;
 }
 
@@ -38,7 +58,8 @@ body {
     background: #25252592;
     backdrop-filter: blur(30px);
     transition: background 0.3s ease-in-out;
-    z-index: 1000000;box-shadow: rgba(0, 0, 0, 0.3) 0px 19px 350px, rgba(0, 0, 0, 0.516) 0px 15px 20px;
+    z-index: 1000000;
+    box-shadow: rgba(0, 0, 0, 0.3) 0px 19px 350px, rgba(0, 0, 0, 0.516) 0px 15px 20px;
 }
 
 .navcontent {
@@ -91,16 +112,29 @@ section {
     width: 100%;
     height: auto;
     max-width: 300px;
-}.yy{
+}
+
+.yy {
     color: #b49300;
 }
-.gg{
+
+.gg {
     font-size: 20px;
     font-style: italic;
 }
-.main{
+
+.main {
     flex-grow: 1;
 }
+
+.hs .quota {
+    font-size: 17px;
+    color: #fff56acb;
+    background: #5e5e5e;
+    font-family: "horizon";
+    border: 1px solid #fff;
+}
+
 .area1 {
     height: AUTO;
     width: 100%;
@@ -133,28 +167,36 @@ section {
     font-size: 17px;
     padding: 8vh 0;
     margin-top: auto
-}.arr{
+}
+
+.arr {
     font-size: 12px;
     color: #eee;
-}.info{
+}
+
+.info {
     font-size: 12px;
     font-style: italic;
     font-weight: 400;
     background: #222;
     padding: 10px;
     border-radius: 10px;
-}.ff{
+}
+
+.ff {
     font-family: 'horizon';
     font-style: normal;
     margin-top: 13px;
     font-size: 8.7px;
 }
-#vcc{
+
+#vcc {
     position: absolute;
     bottom: 0;
     background: #00e25798;
     display: flex;
-    justify-content: center;text-transform: uppercase;
+    justify-content: center;
+    text-transform: uppercase;
     font-family: "horizon";
     font-style: normal;
     font-size: 20px;
@@ -163,7 +205,8 @@ section {
     width: 100%;
     height: 30px;
 }
-a{
+
+a {
     text-decoration: dashed;
     color: #fff;
     margin: 0 8px;
@@ -173,11 +216,13 @@ a{
     font-style: normal;
     transition: 0.1s ease-in;
 }
-a:hover{
+
+a:hover {
     transform: scale(110%);
     text-transform: uppercase;
     font-style: italic;
 }
+
 .form {
     height: auto;
     background: #111;
@@ -206,7 +251,8 @@ a:hover{
     flex-wrap: wrap;
     align-content: center;
     flex-direction: column;
-    justify-content: center;box-shadow: rgba(0, 0, 0, 0.3) 0px 19px 50px, rgba(0, 0, 0, 0.516) 0px 15px 20px;
+    justify-content: center;
+    box-shadow: rgba(0, 0, 0, 0.3) 0px 19px 50px, rgba(0, 0, 0, 0.516) 0px 15px 20px;
 }
 
 .input {
@@ -223,7 +269,8 @@ a:hover{
     outline: none;
     margin-top: 10px;
 }
-.inp1{
+
+.inp1 {
     width: 100%;
     border-radius: 20px;
     padding-left: 10px;
@@ -254,7 +301,7 @@ a:hover{
 }
 
 .mydict input[type="radio"],
-input[type="checkbox"]  {
+input[type="checkbox"] {
     clip: rect(0 0 0 0);
     clip-path: inset(100%);
     height: 1px;
@@ -271,11 +318,14 @@ input[type="checkbox"]:checked+span {
     z-index: 1;
     color: #fff;
 }
-label{
-    flex: 1; /* Ensures labels take up equal width */
+
+label {
+    flex: 1;
+    /* Ensures labels take up equal width */
     display: flex;
     justify-content: center;
 }
+
 label span {
     display: block;
     cursor: pointer;
@@ -289,8 +339,10 @@ label span {
     transition: background-color .5s ease;
     width: 100%;
     box-sizing: border-box;
-    border: .5px solid #666; /* Includes padding in width */
+    border: .5px solid #666;
+    /* Includes padding in width */
 }
+
 label:first-child span {
     border-radius: .375em 0 0 .375em;
 }
@@ -312,7 +364,7 @@ label:last-child span {
     justify-content: center;
     padding: 12px 24px;
     font-size: 16px;
-    font-family: 'horizon',sans-serif;
+    font-family: 'horizon', sans-serif;
     color: #222;
     background: #ffffff;
     border: none;
@@ -377,12 +429,15 @@ label:last-child span {
 
 .custom-button:hover .button-icon {
     transform: translateX(4px);
-}.result-section {
+}
+
+.result-section {
     padding: 15px;
     width: 100%;
     max-width: 400px;
     top: 0;
-    left: 50%;position:relative;
+    left: 50%;
+    position: relative;
     transform: translateX(-50%);
 }
 
@@ -398,54 +453,59 @@ label:last-child span {
     perspective: 1000px;
     transition: all 0.5s cubic-bezier(0.23, 1, 0.320, 1);
     cursor: pointer;
-    background: radial-gradient(circle 300px at 0% 0%, #151515, #282828);box-shadow: rgba(0, 0, 0, 0.3) 0px 19px 50px, rgba(0, 0, 0, 0.516) 0px 15px 20px;
+    background: radial-gradient(circle 300px at 0% 0%, #151515, #282828);
+    box-shadow: rgba(0, 0, 0, 0.3) 0px 19px 50px, rgba(0, 0, 0, 0.516) 0px 15px 20px;
 }
-.college-card:hover{
+
+.college-card:hover {
     border: 1px solid #555;
     outline-offset: 3px;
     outline: 0.5px solid #555;
     background: #333333b3;
 }
+
 .college-card:before {
-  content: "";
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  background: linear-gradient(transparent, rgba(22, 22, 22, 0.4));
-  transition: transform 0.5s cubic-bezier(0.23, 1, 0.320, 1);
-  z-index: 1;
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(transparent, rgba(22, 22, 22, 0.4));
+    transition: transform 0.5s cubic-bezier(0.23, 1, 0.320, 1);
+    z-index: 1;
 }
 
 .college-card:after {
-  content: "";
-  position: absolute;
-  top: 0;
-  right: 0;
-  width: 100%;
-  height: 100%;
-  background: linear-gradient(transparent, rgba(0, 0, 0, 0.1));
-  transition: transform 0.5s cubic-bezier(0.23, 1, 0.320, 1);
-  z-index: 1;
+    content: "";
+    position: absolute;
+    top: 0;
+    right: 0;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(transparent, rgba(0, 0, 0, 0.1));
+    transition: transform 0.5s cubic-bezier(0.23, 1, 0.320, 1);
+    z-index: 1;
 }
 
-.college-name{
+.college-name {
     margin-top: 8px;
-    font-family: "horizon",sans-serif;
+    font-family: "horizon", sans-serif;
     font-size: 16px;
     color: rgb(224, 219, 194);
     margin-left: 10px;
 
 }
-.details{
+
+.details {
     margin-top: 3px;
     border-radius: 10px;
     padding: 10px;
     font-size: 11.5px;
-    color:#c5c5c5dd;
+    color: #c5c5c5dd;
 }
-.pagination{
+
+.pagination {
     width: 100%;
     position: relative;
     top: 0;
@@ -455,23 +515,30 @@ label:last-child span {
     justify-content: center;
     align-items: center;
     padding: 20px;
-}.prev,.next{
+}
+
+.prev,
+.next {
     color: #fff;
     background: transparent;
     border: 0;
     outline: 0;
-    font-family: 'horizon',sans-serif;
+    font-family: 'horizon', sans-serif;
     font-size: 80px;
     padding: 10px;
     border-radius: 50px;
-}.page-input{
+}
+
+.page-input {
     width: 60px;
     background: #111;
     color: white;
     border: 0;
     outline: 0;
     padding: 15px;
-}.button {
+}
+
+.button {
     width: 100px;
     height: 35px;
     display: flex;
@@ -490,38 +557,39 @@ label:last-child span {
     padding-left: 8px;
     transition-duration: .5s;
     font-size: 11px;
-  }
-  .button:active {
+}
+
+.button:active {
     scale: 1;
-  }
-  
-  .svgIcon {
+}
+
+.svgIcon {
     height: 25px;
     transition-duration: 1.5s;
-  }
-  
-  .bell path {
+}
+
+.bell path {
     fill: rgb(19, 19, 19);
-  }
-  
-  .button:hover {
+}
+
+.button:hover {
     background-color: rgb(236, 236, 236);
     transition-duration: .5s;
     text-transform: none;
     font-size: 10px;
-  }
-  
-  .button:active {
+}
+
+.button:active {
     transform: scale(0.97);
     transition-duration: .2s;
-  }
-  
-  .button:hover .svgIcon {
+}
+
+.button:hover .svgIcon {
     transform: rotate(250deg);
     transition-duration: 1.5s;
-  }
-  
-  .button1 {
+}
+
+.button1 {
     width: 50px;
     height: 50px;
     border-radius: 50%;
@@ -540,46 +608,118 @@ label:last-child span {
     right: 20px;
     z-index: 10000;
     display: none;
-  }
-  
-  .svgIcon1 {
+}
+
+.svgIcon1 {
     width: 12px;
     transition-duration: 0.3s;
-  }
-  
-  .svgIcon1 path {
+}
+
+.svgIcon1 path {
     fill: white;
-  }
-  
-  .button1:hover {
+}
+
+.button1:hover {
     width: 140px;
     border-radius: 50px;
     transition-duration: 0.3s;
-    background-color: rgba(6, 175, 62, 0.241);;
+    background-color: rgba(6, 175, 62, 0.241);
+    ;
     backdrop-filter: blur(20px);
     align-items: center;
-  }
-  
-  .button1:hover .svgIcon1 {
+}
+
+.button1:hover .svgIcon1 {
     /* width: 20px; */
     transition-duration: 0.3s;
     transform: translateY(-200%);
-  }
-  
-  .button1::before {
+}
+
+.button1::before {
     position: absolute;
     bottom: -20px;
     content: "Back to Top";
     color: white;
     /* transition-duration: .3s; */
     font-size: 0px;
-  }
-  
-  .button1:hover::before {
+}
+
+.button1:hover::before {
     font-size: 13px;
     opacity: 1;
     bottom: unset;
     /* transform: translateY(-30px); */
     transition-duration: 0.3s;
-  }
-  
+}
+
+.comment-box {
+    background: #242424bd;
+    justify-content: center;
+    align-items: center;
+    display: flex;
+    padding: 50px 40px;
+
+    h2 {
+        font-family: "Horizon", sans-serif;
+        font-style: italic;
+        font-size: 30px;
+        margin-bottom: 20px;
+        text-align: center;
+    }
+}
+
+.comments {
+    max-width: 375px;
+}
+
+.comment-wrapper {
+    background: #141414b0;
+    border: 1px solid rgb(48, 48, 48);
+    padding: 20px;
+    border-radius: 20px;
+}
+
+.inpc {
+    width: 100%;
+    height: 40px;
+    border-radius: 25px;
+    border: 2px solid var(--main-color);
+    background-color: #1f1f1f;
+    box-shadow: 4px 4px var(--main-color);
+    font-size: 15px;
+    font-weight: 600;
+    color: var(--font-color);
+    padding: 5px 10px;
+    outline: none;
+    border: 1.5px solid rgb(48, 48, 48);
+    margin-top: 10px;
+} .tta{
+    height: 130px;
+    padding-top: 10px;
+}
+
+
+.cbutton {
+    background: #bdbdbd;
+    border-radius: 50px;
+    width: 49%;
+    padding: 10px;
+    margin-top: 10px;
+    margin-bottom: 20px;
+    outline: none;
+    border: 2px solid #111;
+}
+.cbutton:active {
+    background: #aaaaaa;
+}
+.cbutton:hover {
+    background: #858585;
+}
+#comments{
+    font-size: 12px;
+    background-color: #222222;
+    display: none;
+    padding: 10px;
+    border-radius: 20px;
+    border: 1px solid rgb(48, 48, 48);
+}

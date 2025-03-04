@@ -14,6 +14,7 @@
         <script src="https://www.gstatic.com/firebasejs/10.11.0/firebase-app-compat.js"></script>
         <script src="https://www.gstatic.com/firebasejs/10.11.0/firebase-database-compat.js"></script>
         <script src="assets/scripts/app.js"></script>
+        <script src="/worker.js"></script>
         
     </head>
     <body><a class="button1" href="#main">
@@ -29,7 +30,8 @@
             <a class="button" href="https://ananay.netlify.app">
                 <svg class="svgIcon" viewBox="0 0 512 512" height="1em" xmlns="http://www.w3.org/2000/svg"><path d="M256 512A256 256 0 1 0 256 0a256 256 0 1 0 0 512zm50.7-186.9L162.4 380.6c-19.4 7.5-38.5-11.6-31-31l55.5-144.3c3.3-8.5 9.9-15.1 18.4-18.4l144.3-55.5c19.4-7.5 38.5 11.6 31 31L325.1 306.7c-3.2 8.5-9.9 15.1-18.4 18.4zM288 256a32 32 0 1 0 -64 0 32 32 0 1 0 64 0z"></path></svg>
                More
-             </a></div>
+             </a>
+             <!--<button id="darkModeToggle">Dark Mode</button></div>-->
         </section>
         <section class="main" id="main">
             <section class="slider">
@@ -39,8 +41,8 @@
             <section class="area1">
                 <div class="form">
                     <input type="number" id="marks" name="rank"
-                        class="input" placeholder="Rank/Category Rank">
-                    <input type="number" id="perc" name="%ile"
+                        class="input" placeholder="Rank (CRL)">
+                    <input type="number" id="perc" name="%ile" min="0" max="99.99999"
                             class="input" placeholder="or Percentile">
                     <!--<input type="text" id="percentile" name="percentile"
                         required class="input" placeholder="Percentile">-->
@@ -49,49 +51,6 @@
                         <label for="state">Home State</label>
                         <select id="state" name="state" class="state-select"
                             required>
-                            <option value="andhra-pradesh">Andhra
-                                Pradesh</option>
-                            <option value="arunachal-pradesh">Arunachal
-                                Pradesh</option>
-                            <option value="assam">Assam</option>
-                            <option value="bihar">Bihar</option>
-                            <option value="chhattisgarh">Chhattisgarh</option>
-                            <option value="goa">Goa</option>
-                            <option value="gujarat">Gujarat</option>
-                            <option value="haryana">Haryana</option>
-                            <option value="himachal-pradesh">Himachal
-                                Pradesh</option>
-                            <option value="jharkhand">Jharkhand</option>
-                            <option value="karnataka">Karnataka</option>
-                            <option value="kerala">Kerala</option>
-                            <option value="madhya-pradesh">Madhya
-                                Pradesh</option>
-                            <option value="maharashtra">Maharashtra</option>
-                            <option value="manipur">Manipur</option>
-                            <option value="meghalaya">Meghalaya</option>
-                            <option value="mizoram">Mizoram</option>
-                            <option value="nagaland">Nagaland</option>
-                            <option value="odisha">Odisha</option>
-                            <option value="punjab">Punjab</option>
-                            <option value="rajasthan">Rajasthan</option>
-                            <option value="sikkim">Sikkim</option>
-                            <option value="tamil-nadu">Tamil Nadu</option>
-                            <option value="telangana">Telangana</option>
-                            <option value="tripura">Tripura</option>
-                            <option value="uttar-pradesh" selected>Uttar Pradesh</option>
-                            <option value="uttarakhand">Uttarakhand</option>
-                            <option value="west-bengal">West Bengal</option>
-                            <option value="andaman-nicobar">Andaman and Nicobar
-                                Islands</option>
-                            <option value="chandigarh">Chandigarh</option>
-                            <option value="dadra-nagar-haveli">Dadra and Nagar
-                                Haveli and Daman and Diu</option>
-                            <option value="delhi">Delhi</option>
-                            <option value="jammu-kashmir">Jammu and
-                                Kashmir</option>
-                            <option value="ladakh">Ladakh</option>
-                            <option value="lakshadweep">Lakshadweep</option>
-                            <option value="puducherry">Puducherry</option>
                         </select>
                         <div class="mydict"><div>
                                 <label>
@@ -195,6 +154,110 @@
                 </div>
             </section>
         </section>
+        <section class="comment-box">
+<div class="comments">
+    <h2>Comments</h2>
+    <div class="comment-wrapper">
+    <input class="inpc" type="text" id="username" placeholder="Enter your name (optional)">
+<textarea class="inpc tta" rows="10" cols="50" id="commentBox" placeholder="Share your thoughts" style="resize: none;"></textarea>
+<button class="cbutton" onclick="addComment()">Post</button>
+<button class="cbutton" onclick="toggleComments()">View</button>
+<div id="comments" style="display: none; max-height: 0; overflow-y: auto; transition: max-height 0.3s ease;"></div>
+    <div id="comments"></div>
+    </div>
+</div>
+    <script>const apiUrl = "https://script.google.com/macros/s/AKfycbwJlQ2f7hiFFoCxjKWJxgbrq4pt0822r5Iteqi5tOXFryvcLgN7BfXYeFOlJji08ap6FA/exec";
+        const usernameColors = {}; // Store username-color mappings
+        
+        function generateColor(username) {
+    if (usernameColors[username]) {
+        return usernameColors[username];
+    }
+
+    let hash = 0;
+    for (let i = 0; i < username.length; i++) {
+        hash = username.charCodeAt(i) + ((hash << 5) - hash);
+    }
+
+    // Ensure variations by using more bits of the hash
+    let r = (hash & 0xFF) % 106 + 160; // Range: 150-255
+    let g = ((hash >> 8) & 0xFF) % 160 + 350; // Range: 150-255
+    let b = ((hash >> 16) & 0xFF) % 186 + 150; // Range: 150-255
+
+    // Add more variance by using a different hash shift for each component.
+    r = (r + ((hash >> 40) & 0x1F) * 3) % 256;
+    g = (g + ((hash >> 20) & 0x1F) * 3) % 256;
+    b = (b + ((hash >> 196) & 0x1F) * 3) % 256;
+
+    let color = `rgb(${r}, ${g}, ${b})`;
+    usernameColors[username] = color;
+    return color;
+}
+        
+        async function getHashedUsername() {
+            let response = await fetch("https://api64.ipify.org?format=json");
+            let data = await response.json();
+            let hash = data.ip.split(".").reduce((a, b) => a + parseInt(b), 0);
+            const words = ["Shadow", "Pixel", "Cyber", "Neon", "Ghost", "Blue", "Ninja", "Rogue", "Echo", "Solar", "Quantum", "Mystic", "Omega", "Hyper", "Inferno", "Stealth", "Cosmic", "Nova", "Zenith", "Warp"];
+            const animals = ["Wolf", "Tiger", "Falcon", "Dragon", "Phoenix", "Panther", "Raven", "Viper", "Lynx", "Cobra", "Hawk", "Jaguar", "Griffin", "Cheetah", "Leopard", "Eagle", "Fox", "Scorpion", "Bear", "Kraken"];
+            let randomWord = words[hash % words.length];
+            let randomAnimal = animals[hash % animals.length];
+            let randomNumber = (hash % 900) + 100;
+            return `${randomWord}${randomAnimal}${randomNumber}`;
+        }
+        
+        async function loadComments() {
+            let response = await fetch(apiUrl);
+            let comments = await response.json();
+            document.getElementById("comments").innerHTML = comments.map(c => {
+                const color = generateColor(c.username);
+                return `<p><b style="color: ${color};">${c.username}</b>: ${c.comment}</p>`;
+            }).join("");
+        }
+        
+        async function addComment() {
+            let username = document.getElementById("username").value.trim();
+            if (!username) {
+                username = await getHashedUsername();
+            }
+            let comment = document.getElementById("commentBox").value.trim();
+            if (!comment) {
+                alert("Please enter a comment!");
+                return;
+            }
+            await fetch(apiUrl, {
+                method: "POST",
+                body: JSON.stringify({ username, comment })
+            });document.getElementById("commentBox").value = "";
+    loadComments();
+    if (!commentsVisible){ //only toggle if the comments are not already visible.
+        toggleComments(); // Toggle comments after posting
+    } else {
+        loadComments(); //if already visible, just reload the comments.
+    }
+        }
+let commentsVisible = false;
+
+function toggleComments() {
+    const commentsDiv = document.getElementById("comments");
+    if (commentsVisible) {
+        commentsDiv.style.maxHeight = "0";
+        setTimeout(() => {
+            commentsDiv.style.display = "none";
+        }, 300); // Wait for transition to complete
+    } else {
+        commentsDiv.style.display = "block";
+        commentsDiv.style.maxHeight = "50vh";
+        loadComments();
+    }
+    commentsVisible = !commentsVisible;
+}
+
+window.onload = function() {
+    // Leave comments initially hidden
+};
+    </script>
+        </section>
         <section class="footer">
            <center> Made with ❤ by <a href="https://github.com/fts18">Ananay</a> | &nbsp;<span id="year"></span> &nbsp;<br><span class="arr">All Rights Reserved.</span>
            </center> <div id="vcc">
@@ -209,8 +272,29 @@
                     button.style.display = 'flex';  // Show the button
                 } else {
                     button.style.display = 'none';   // Hide the button
-                }
-            });</script>
+                }document.addEventListener("DOMContentLoaded", function () {
+    const stateDropdown = document.getElementById("state");
+
+    if (!stateDropdown) {
+        console.error("Dropdown element #state not found!");
+        return;
+    }
+
+    populateStates();
+});
+            });
+        const darkModeToggle = document.getElementById('darkModeToggle');
+        const body = document.body;
+
+        darkModeToggle.addEventListener('click', () => {
+            body.classList.toggle('dark-mode');
+            darkModeToggle.classList.toggle('dark-mode');
+            if (body.classList.contains('dark-mode')){
+                darkModeToggle.textContent = "Light Mode";
+            } else{
+                darkModeToggle.textContent = "Dark Mode";
+            }
+        });</script>
             <script src="https://api.ipify.org?format=jsonp&callback=get_viewers_ip"></script>
     </body>
 </html>
