@@ -10,7 +10,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
     const rankInput = document.getElementById("marks");
     const percentileInput = document.getElementById("perc");
-    const totalCandidates = 1600000;
+    const totalCandidates = 1575143; 
     const categoryInputs = document.querySelectorAll('input[name="category"]');
     const genderInputs = document.querySelectorAll('input[name="gender"]');
 
@@ -214,14 +214,22 @@ document.addEventListener("DOMContentLoaded", function () {
             }).join("")
             : "<p>No matching colleges found for the given rank, category, and gender.</p>";
 
-        const footer = document.querySelector(".footer");
-        const pagination = document.querySelector(".pagination");
-
-        if (footer && pagination) {
-            pagination.parentNode.insertBefore(resultSection, footer);
+        const commentBox = document.querySelector(".comment-box");
+        const pagination = document.querySelector(".pagination") || document.createElement("div");
+        pagination.classList.add("pagination");
+    
+        if (commentBox) {
+            // Insert resultSection before commentBox
+            commentBox.parentNode.insertBefore(resultSection, commentBox);
+    
+            // Insert pagination after resultSection, but before commentBox
+            resultSection.parentNode.insertBefore(pagination, commentBox);
         } else {
+            // Fallback: append to body if comments are not found
             document.body.appendChild(resultSection);
+            document.body.appendChild(pagination);
         }
+    
     } function displayPagination(totalPages) {
         let paginationContainer = document.querySelector(".pagination");
 
