@@ -16,7 +16,6 @@ More comprehensive version at shenanigans.shoghisimon.ca/collection/css-rain-bg/
     );
     background-size: 8px 8px;
   }
-  
   .container {
     position: relative;
     width: 100%;
@@ -194,6 +193,9 @@ More comprehensive version at shenanigans.shoghisimon.ca/collection/css-rain-bg/
   }
 
 
+  .container3 svg{
+    width: 100%;
+  }
   .state-select {
     position: relative;
     background: transparent;
