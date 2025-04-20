@@ -1,5 +1,4 @@
 import React, { useEffect, useState } from 'react';
-import Header from './components/Header';
 import Navigation from './components/Navigation';
 import MainSection from './components/MainSection';
 import Footer from './components/Footer';
