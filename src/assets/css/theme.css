@@ -1,0 +1,1022 @@
+:root {
+    --background-dark: #111;
+    --background-light: #fff;
+    --text-color-dark: #999;
+    --text-color-light: #333; /* Assuming a darker text for light mode */
+    --selection-background: rgba(193, 163, 98, 0.56);
+    --nav-background: #25252592;
+    --nav-text: rgb(224, 219, 194);
+    --nav-border: #10be598c;
+    --slider-background: #383838;
+    --main-title-background: #00ff2f4e;
+    --main-title-text: rgb(255, 255, 255);
+    --highlight-yellow: #b49300;
+    --quota-background: #5e5e5e;
+    --quota-text: #fff56acb;
+    --area-background: #161616;
+    --grid-line: rgba(255, 255, 255, 0.2);
+    --footer-background: #008b4a15;
+    --arrow-color: #eee;
+    --info-background: #222;
+    --vcc-background: #00e25798;
+    --link-color: #fff;
+    --link-hover-transform: scale(1.1);
+    --form-background: #202020;
+    --input-border: #363636e3;
+    --input-focus: #00ed7e;
+    --input-text: #dfdfdfd5;
+    --input-placeholder: #7e7e7e;
+    --radio-checkbox-background: #3a3a3aa4;
+    --radio-checkbox-text: #aabdb4;
+    --radio-checkbox-checked-shadow: #00ed7e;
+    --radio-checkbox-checked-background: #00ed7e;
+    --button-primary-text: #222;
+    --button-primary-background: #ffffff;
+    --button-primary-border: #333;
+    --button-primary-hover-background-start: #107267;
+    --button-primary-hover-background-middle: #3bf6ab;
+    --button-primary-hover-background-end: #5513ed;
+    --card-background: #333;
+    --card-border: #444;
+    --card-hover-border: #555;
+    --low-tag-background: #e2001f3f;
+    --low-tag-text: #ff6a8f;
+    --high-tag-background: #005804bb;
+    --high-tag-text: #3bff55ce;
+    --medium-tag-background: #f7bf286e;
+    --medium-tag-text: #ffe283;
+    --pagination-background: #1f1f1f94;
+    --pagination-button-text: #fff;
+    --pagination-input-background: #111;
+    --pagination-input-text: #fff;
+    --scroll-to-top-background: rgb(20, 20, 20);
+    --scroll-to-top-hover-background: rgba(6, 175, 62, 0.241);
+    --comment-box-background: #242424bd;
+    --comment-wrapper-background: #1a1a1a94;
+    --comment-wrapper-border: rgb(34, 34, 34);
+    --comment-input-background: #292929cc;
+    --comment-button-background: #bdbdbd;
+    --comment-button-hover-background: #858585d0;
+    --comments-background: #222222;
+    --comments-border: rgb(48, 48, 48);
+    --faq-container-background: #252525ad; /* Assuming a light background for FAQ */
+    --faq-container-box-shadow: rgba(27, 27, 27, 0.726);
+    --faq-question-background: #2b2b2bbb;
+    --faq-question-border: #363636;
+    --faq-question-text: #b4b4b4ba;
+    --faq-answer-text: #c5c5c5dd; /* Using a similar grey for now, adjust if needed */
+    --loader-border-light: #f3f3f3;
+    --loader-border-accent: #3498db;
+  }
+  
+  * {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    -webkit-tap-highlight-color: transparent;
+  }
+  
+  @font-face {
+    font-family: 'Horizon';
+    src: url('../fonts/horizon.otf') format('opentype');
+    font-weight: normal;
+    font-style: normal;
+  }
+  
+  ::selection {
+    background: var(--selection-background);
+  }
+  
+  body {
+    background: var(--background-dark);
+    color: var(--text-color-dark);
+    font-family: "Mona sans", sans-serif;
+    overflow-x: hidden;
+    display: flex;
+    filter: none;
+    flex-direction: column;
+    filter: contrast(105%);
+    transition: filter 0.3s ease, background-color 0.3s ease, color 0.3s ease; /* Smooth transition for dark mode */
+  }
+  
+  body.dark-mode {
+    filter: invert(80%);
+    background: var(--background-light);
+    color: var(--text-color-light);
+  }
+  
+  #invertButton {
+    position: relative;
+    padding: 10px 15px;
+    background-color: #000000; /* Keep this explicit for the button itself */
+    color: white; /* Keep this explicit for the button text */
+    border: none;
+    cursor: pointer;
+  }
+  
+  html {
+    scroll-behavior: smooth;
+  }
+  
+  .nav {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 60px;
+    display: flex;
+    justify-content: center;
+    background: var(--nav-background);
+    backdrop-filter: blur(30px);
+    transition: background 0.3s ease-in-out;
+    z-index: 1000000;
+    box-shadow: rgba(0, 0, 0, 0.3) 0px 19px 350px, rgba(0, 0, 0, 0.516) 0px 15px 20px;
+  }
+  
+  .navcontent {
+    top: 0;
+    left: 0;
+    width: 100%;
+    transition: background 0.3s ease-in-out;
+    max-width: 375px;
+    height: 100%;
+    padding: 15px;
+    color: var(--nav-text);
+    display: flex;
+    justify-content: space-between;
+    font-family: "Mona Sans", sans-serif;
+    font-style: italic;
+    align-items: center;
+    font-weight: 900;
+    text-transform: uppercase;
+    border-left: 2px dashed var(--nav-border);
+    border-right: 2px dashed var(--nav-border);
+  }
+  
+  section {
+    width: 100%;
+    height: auto;
+  }
+  
+  .slider {
+    position: relative;
+    margin-top: 60px;
+    height: 40vh;
+    width: 100%;
+    background: var(--slider-background);
+  }
+  
+  .slider img {
+    object-fit: cover;
+    width: 100%;
+    height: 100%;
+  }
+  
+  .main-title {
+    z-index: 100;
+    text-align: center;
+    color: var(--main-title-text);
+    font-size: 25px;
+    font-weight: bold;
+    background: var(--main-title-background);
+    position: absolute;
+    font-family: "Horizon", sans-serif;
+    top: 30%;
+    left: 50%;
+    transform: translate(-50%, 0);
+    width: 100%;
+    height: auto;
+    max-width: 300px;
+  }
+  
+  .yy {
+    color: var(--highlight-yellow);
+  }
+  
+  .gg {
+    font-size: 20px;
+    font-style: italic;
+  }
+  
+  .main {
+    flex-grow: 1;
+  }
+  
+  .hs .quota {
+    font-size: 17px;
+    color: var(--quota-text);
+    background: var(--quota-background);
+    font-family: "horizon";
+    border: 1px solid var(--link-color); /* Assuming link color is a neutral white */
+  }
+  
+  .area1 {
+    height: AUTO;
+    width: 100%;
+    position: relative;
+    top: 0;
+    left: 0;
+    background: var(--area-background);
+    --gap: 5em;
+    --line: 1px;
+    --color: var(--grid-line);
+    padding-bottom: 125px;
+    background-image: linear-gradient(-90deg,
+        transparent calc(var(--gap) - var(--line)),
+        var(--color) calc(var(--gap) - var(--line) + 1px),
+        var(--color) var(--gap)),
+      linear-gradient(0deg,
+        transparent calc(var(--gap) - var(--line)),
+        var(--color) calc(var(--gap) - var(--line) + 1px),
+        var(--color) var(--gap));
+    background-size: var(--gap) var(--gap);
+  }
+  
+  .footer {
+    position: relative;
+    background: var(--footer-background);
+    justify-content: center;
+    font-style: italic;
+    font-size: 17px;
+    padding: 8vh 0;
+    margin-top: auto
+  }
+  
+  .arr {
+    font-size: 12px;
+    color: var(--arrow-color);
+  }
+  
+  .info {
+    font-size: 12px;
+    font-style: italic;
+    font-weight: 400;
+    background: var(--info-background);
+    padding: 10px;
+    border-radius: 10px;
+  }
+  
+  .ff {
+    font-family: 'horizon';
+    font-style: normal;
+    margin-top: 13px;
+    font-size: 8.7px;
+  }
+  
+  #vcc {
+    position: absolute;
+    bottom: 0;
+    background: var(--vcc-background);
+    display: flex;
+    justify-content: center;
+    text-transform: uppercase;
+    font-family: "horizon";
+    font-style: normal;
+    font-size: 20px;
+    align-items: center;
+    color: var(--link-color); /* Assuming link color is white */
+    width: 100%;
+    height: 30px;
+  }
+  
+  a {
+    text-decoration: dashed;
+    color: var(--link-color);
+    margin: 0 8px;
+    outline: none;
+    border-bottom: 1px dashed var(--link-color);
+    font-weight: 800;
+    font-style: normal;
+    transition: 0.1s ease-in;
+  }
+  
+  a:hover {
+    transform: var(--link-hover-transform);
+    text-transform: uppercase;
+    font-style: italic;
+  }
+  
+  .form {
+    height: auto;
+    background: var(--form-background);
+    position: relative;
+    top: 10vh;
+    left: 50%;
+    width: 80%;
+    max-width: 370px;
+    display: flex;
+    height: auto;
+    padding: 40px;
+    align-items: center;
+    transform: translate(-50%, 0%);
+    gap: 10px;
+    border-radius: 12px;
+    border: 2px solid var(--input-border);
+    --input-focus: var(--input-focus);
+    --font-color: var(--input-text);
+    --font-color-sub: var(--input-placeholder);
+    --bg-color: var(--form-background);
+    --main-color: var(--input-border);
+    padding: 20px;
+    background: var(--bg-color);
+    border-radius: 5px;
+    border: 1px solid var(--main-color);
+    flex-wrap: wrap;
+    align-content: center;
+    flex-direction: column;
+    justify-content: center;
+    box-shadow: rgba(0, 0, 0, 0.3) 0px 19px 50px, rgba(0, 0, 0, 0.516) 0px 15px 20px;
+  }
+  
+  .input {
+    width: 250px;
+    height: 40px;
+    border-radius: 5px;
+    border: 2px solid var(--input-border);
+    background-color: var(--form-background);
+    box-shadow: 4px 4px var(--input-border);
+    font-size: 15px;
+    font-weight: 600;
+    color: var(--input-text);
+    padding: 5px 10px;
+    outline: none;
+    margin-top: 10px;
+  }
+  
+  .inp1 {
+    width: 100%;
+    border-radius: 20px;
+    padding-left: 10px;
+  }
+  
+  .input::placeholder {
+    color: var(--input-placeholder);
+    opacity: 0.8;
+  }
+  .input:focus  {
+    border: 2px solid #00ed7e;
+    outline: none;
+  }#state:focus{
+    border: 2px solid #868686;
+    outline: none;
+  }
+  
+  .mydict div {
+    width: 100%;
+    display: flex;
+    flex-wrap: wrap;
+    margin-top: 15px;
+    justify-content: space-between;
+  }
+  
+  .mydict input[type="radio"],
+  input[type="checkbox"] {
+    clip: rect(0 0 0 0);
+    clip-path: inset(100%);
+    height: 1px;
+    overflow: hidden;
+    position: absolute;
+    white-space: nowrap;
+    width: 1px;
+  }
+  
+  .mydict input[type="radio"]:checked+span,
+  input[type="checkbox"]:checked+span {
+    box-shadow: 0 0 0 0.0625em var(--radio-checkbox-checked-shadow);
+    background-color: var(--radio-checkbox-checked-background);
+    z-index: 1;
+    color: var(--link-color); /* Assuming checked text is white */
+  }
+  
+  label {
+    flex: 1;
+    /* Ensures labels take up equal width */
+    display: flex;
+    justify-content: center;
+  }
+  
+  label span {
+    display: block;
+    cursor: pointer;
+    background-color: var(--radio-checkbox-background);
+    padding: 8px;
+    color: var(--radio-checkbox-text);
+    text-align: center;
+    font-weight: bold;
+    font-style: italic;
+    font-size: 15px;
+    transition: background-color .5s ease;
+    width: 100%;
+    box-sizing: border-box;
+    border: .5px solid #666;
+    /* Includes padding in width */
+  }
+  
+  label:first-child span {
+    border-radius: .375em 0 0 .375em;
+  }
+  
+  label:last-child span {
+    border-radius: 0 .375em .375em 0;
+  }
+  
+  .button-container {
+    position: relative;
+    display: inline-block;
+    top: 40px;
+  }
+  
+  .custom-button {
+    position: relative;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: 12px 24px;
+    font-size: 16px;
+    font-family: 'horizon', sans-serif;
+    color: var(--button-primary-text);
+    background: var(--button-primary-background);
+    border: none;
+    border-radius: 1px;
+    cursor: pointer;
+    transition: transform 0.3s ease-in-out;
+    overflow: hidden;
+    z-index: 1;
+    border: 2px solid var(--button-primary-border);
+    box-shadow: 4px 4px var(--button-primary-border);
+  }
+  
+  .custom-button:hover {
+    transform: scale(1.05);
+    color: var(--link-color); /* Assuming hover text is white */
+  }
+  
+  .custom-button:active {
+    transform: scale(0.95);
+    color: var(--link-color); /* Assuming active text is white */
+  }
+  
+  .custom-button::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: linear-gradient(to right, var(--button-primary-hover-background-start), var(--button-primary-hover-background-middle), var(--button-primary-hover-background-end));
+    z-index: 0;
+    opacity: 0;
+    transition: opacity 0.5s ease;
+  }
+  
+  .custom-button:hover::before {
+    opacity: 1;
+  }
+  
+  .button-content {
+    position: relative;
+    z-index: 1;
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+  }
+  
+  .button-content span {
+    transition: transform 0.5s ease;
+  }
+  
+  .custom-button:hover .button-content span {
+    transform: translateX(4px);
+  }
+  
+  .button-icon {
+    width: 20px;
+    height: 20px;
+    fill: currentColor;
+    transition: transform 0.5s ease;
+  }
+  
+  .custom-button:hover .button-icon {
+    transform: translateX(4px);
+  }
+  
+  .results {
+    padding: 15px;
+    width: 100%;
+    max-width: 400px;
+    min-height: 200px;
+    top: 0vh;
+    left: 50%;
+    position: relative;
+    transform: translateX(-50%);
+  }
+  
+  .branch-filter-container {
+    /* Enable horizontal scrolling */
+    margin-top: 15px;
+    margin-bottom: 25px;
+    padding: 0;
+    /* Add some padding */
+    position: relative;
+    /* For gradient overlay */
+  }
+  
+  .branch-filter::-webkit-scrollbar {
+    display: none;
+    /* Hide scrollbar for WebKit browsers (Chrome, Safari) */
+  }
+  
+  .branch-filter-container {
+    -ms-overflow-style: none;
+    /* Hide scrollbar for IE and Edge */
+    scrollbar-width: none;
+    /* Hide scrollbar for Firefox */
+  }
+  
+  .branch-filter {
+    background: #28382f7c; /* Keep this explicit as it's a specific visual */
+    border-radius: 10px;
+    overflow-x: auto;
+    padding: 20px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    justify-content: flex-start;
+    width: 100%;
+    max-width: 500px;
+    position: relative;
+    top: 0;
+    left: 50%;
+    transform: translateX(-50%);
+  }
+  
+  .branch-filter-button {
+    display: block;
+    cursor: pointer;
+    background: #2b2b2b6c; /* Keep this explicit */
+    color: rgb(182, 182, 182); /* Keep this explicit */
+    padding: 12px 15px;
+    border-radius: 8px;
+    text-transform: capitalize;
+    border: 1px solid #535353; /* Keep this explicit */
+    white-space: nowrap;
+    /* Prevent text wrapping */
+  }
+  
+  .branch-filter-button.active {
+    background: #09503c; /* Keep this explicit */
+    border: 1px solid #05c74f; /* Keep this explicit */
+    color: var(--link-color);
+    /* Ensure text is readable on active background */
+  }
+  
+  
+  .college-card {
+    border: 1px solid var(--card-border);
+    padding: 10px;
+    margin-bottom: 15px;
+    background-color: var(--card-background);
+    border-radius: 10px;
+    color: rgba(212, 212, 212, 0.894); /* Keep this explicit for now, might need adjustment */
+    box-sizing: border-box;
+    transform-style: preserve-3d;
+    perspective: 1000px;
+    transition: all 0.5s cubic-bezier(0.23, 1, 0.320, 1);
+    cursor: pointer;
+    background: radial-gradient(circle 300px at 0% 0%, #151515, #282828); /* Keep this explicit for the gradient effect */
+    box-shadow: rgba(0, 0, 0, 0.3) 0px 19px 50px, rgba(0, 0, 0, 0.516) 0px 15px 20px;
+  }
+  .lw,.hh,.med{
+    margin-top: 10px;
+    background: var(--low-tag-background);
+    color: var(--low-tag-text);
+    width: 80px;
+    text-align: center;
+    padding:5px 5px;
+    border-radius: 5px;
+    font-family: "horizon", sans-serif;
+    font-size: 10px;
+    font-weight: 600;
+    text-transform: uppercase;
+  
+  }
+  .hh{
+    background: var(--high-tag-background);
+    color: var(--high-tag-text);
+  }
+  .med{
+    background: var(--medium-tag-background);
+    color: var(--medium-tag-text);
+  }
+  
+  .college-card:hover {
+    border: 1px solid var(--card-hover-border);
+    outline-offset: 3px;
+    outline: 0.5px solid var(--card-hover-border);
+    background: #333333b3; /* Keep this explicit for the hover effect */
+  }
+  
+  .college-card:before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(transparent, rgba(22, 22, 22, 0.4)); /* Keep this explicit for the overlay effect */
+    transition: transform 0.5s cubic-bezier(0.23, 1, 0.320, 1);
+    z-index: 1;
+  }
+  
+  .college-card:after {
+    content: "";
+    position: absolute;
+    top: 0;
+    right: 0;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(transparent, rgba(0, 0, 0, 0.1)); /* Keep this explicit for the subtle overlay */
+    transition: transform 0.5s cubic-bezier(0.23, 1, 0.320, 1);
+    z-index: 1;
+  }
+  
+  .college-name {
+    margin-top: 8px;
+    font-family: "horizon", sans-serif;
+    font-size: 16px;
+    color: var(--nav-text); /* Reusing nav text color, adjust if needed */
+    margin-left: 10px;
+  
+  }
+  
+  .details {
+    margin-top: 3px;
+    border-radius: 10px;
+    padding: 10px;
+    font-size: 11.5px;
+    color: #c5c5c5dd; /* Keep this explicit for now */
+  }
+  
+  .pagination {
+    width: 100%;
+    position: relative;
+    top: 0;
+    left: 0;
+    display: flex;
+    background: var(--pagination-background);
+    justify-content: center;
+    align-items: center;
+    padding: 20px;
+  }
+  
+  .prev,
+  .next {
+    color: var(--pagination-button-text);
+    background: transparent;
+    border: 0;
+    outline: 0;
+    font-family: 'horizon', sans-serif;
+    font-size: 80px;
+    padding: 10px;
+    border-radius: 50px;
+  }
+  
+  .page-input {
+    width: 60px;
+    background: var(--pagination-input-background);
+    color: var(--pagination-input-text);
+    border: 0;
+    outline: 0;
+    padding: 15px;
+  }
+  
+  .button {
+    width: 100px;
+    height: 35px;
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+    gap: 10px;
+    color: rgb(28, 28, 28); /* Keep this explicit */
+    border: 2px solid rgb(190, 190, 190); /* Keep this explicit */
+    background: rgb(193, 163, 98); /* Keep this explicit */
+    border-radius: 30px;
+    font-weight: 600;
+    position: relative;
+    cursor: pointer;
+    transition-duration: .2s;
+    box-shadow: 5px 5px 10px rgba(0, 0, 0, 0.116); /* Keep this explicit */
+    padding-left: 8px;
+    transition-duration: .5s;
+    font-size: 11px;
+  }
+  
+  .button:active {
+    scale: 1;
+  }
+  
+  .svgIcon {
+    height: 25px;
+    transition-duration: 1.5s;
+  }
+  
+  .bell path {
+    fill: rgb(19, 19, 19); /* Keep this explicit */
+  }
+  
+  .button:hover {
+    background-color: rgb(236, 236, 236); /* Keep this explicit */
+    transition-duration: .5s;
+    text-transform: none;
+    font-size: 10px;
+  }
+  
+  .button:active {
+    transform: scale(0.97);
+    transition-duration: .2s;
+  }
+  
+  .button:hover .svgIcon {
+    transform: rotate(250deg);
+    transition-duration: 1.5s;
+  }
+  
+  .button1 {
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    background-color: var(--scroll-to-top-background);
+    border: none;
+    font-weight: 600;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0px 0px 0px 4px rgba(201, 201, 201, 0.253); /* Keep this explicit */
+    cursor: pointer;
+    transition-duration: 0.3s;
+    overflow: hidden;
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    z-index: 10000;
+    display: none;
+  }
+  
+  .svgIcon1 {
+    width: 12px;
+    transition-duration: 0.3s;
+  }
+  
+  .svgIcon1 path {
+    fill: var(--link-color);
+  }
+  
+  .button1:hover {
+    width: 140px;
+    border-radius: 50px;
+    transition-duration: 0.3s;
+    background-color: var(--scroll-to-top-hover-background);
+    ;
+    backdrop-filter: blur(20px);
+    align-items: center;
+  }
+  
+  .button1:hover .svgIcon1 {
+    /* width: 20px; */
+    transition-duration: 0.3s;
+    transform: translateY(-200%);
+  }
+  
+  .button1::before {
+    position: absolute;
+    bottom: -20px;
+    content: "Back to Top";
+    color: var(--link-color);
+    /* transition-duration: .3s; */
+    font-size: 0px;
+  }
+  
+  .button1:hover::before {
+    font-size: 13px;
+    opacity: 1;
+    bottom: unset;
+    /* transform: translateY(-30px); */
+    transition-duration: 0.3s;
+  }
+  
+  .comment-box {
+    background: var(--comment-box-background);
+    justify-content: center;
+    align-items: center;
+    display: flex;
+    width: 100%;
+    padding: 50px 40px;
+    flex-wrap: wrap;
+    flex-direction: column;
+    align-content: center;
+  
+    h2 {
+      font-family: "Horizon", sans-serif;
+      font-style: italic;
+      font-size: 30px;
+      margin-bottom: 20px;
+      text-align: center;
+    }
+  }
+  
+  .comments {
+    max-width: 375px;
+  }
+  
+  .comment-wrapper {
+    background: var(--comment-wrapper-background);
+    border: 1px solid var(--comment-wrapper-border);
+    padding: 20px;
+    border-radius: 20px;
+  }
+  
+  .inpc {
+    width: 100%;
+    height: 40px;
+    border-radius: 25px;
+    border: 2px solid var(--input-border);
+    background-color: var(--comment-input-background);
+    box-shadow: 4px 4px var(--input-border);
+    font-size: 15px;
+    font-weight: 600;
+    color: var(--input-text);
+    padding: 5px 10px;
+    outline: none;
+    border: 1.5px solid var(--comment-wrapper-border);
+    margin-top: 10px;
+  }
+  
+  .tta {
+    height: 130px;
+    padding-top: 10px;
+  }
+  
+  
+  .cbutton {
+    background: var(--comment-button-background);
+    border-radius: 50px;
+    width: 49%;
+    padding: 10px;
+    margin-top: 10px;
+    margin-bottom: 20px;
+    outline: none;
+    border: 2px solid var(--background-dark);
+  }
+  
+  .cbutton:active {
+    background: #aaaaaa; /* Keep this explicit */
+  }
+  
+  .cbutton:hover {
+    background: var(--comment-button-hover-background);
+  }
+  
+  #comments {
+    font-size: 12px;
+    background-color: var(--comments-background);
+    padding: 10px;
+    border-radius: 20px;
+    border: 1px solid var(--comments-border);
+    overflow: hidden;
+    transition: max-height 0.4s ease, opacity 0.3s ease;
+    max-height: 0;
+    opacity: 0;
+  }
+  
+  #comments.show-comments {
+    max-height: 500px;
+    opacity: 1;
+    overflow-y: auto;
+  }
+  
+  #comments.hide-comments {
+    max-height: 0;
+    opacity: 0;
+    pointer-events: none;
+  }
+  
+  #comments {
+    font-size: 12px;
+    background-color: var(--comments-background);
+    padding: 10px;
+    border-radius: 20px;
+    border: 1px solid var(--comments-border);
+    overflow-y: auto;
+    transition: max-height 0.4s ease, opacity 0.3s ease;
+    max-height: 0;
+    opacity: 0;
+    scrollbar-width: thin;
+    scrollbar-color: #888 transparent; /* Keep this explicit for scrollbar */
+  }
+  #comments::-webkit-scrollbar {
+    width: 8px;
+  }
+  
+  #comments::-webkit-scrollbar-track {
+    background: #444; /* Keep this explicit for scrollbar */
+    border-radius: 20px;
+  }
+  
+  #comments::-webkit-scrollbar-thumb {
+    background: linear-gradient(45deg, #686868, #0072ff); /* Keep this explicit for scrollbar gradient */
+    border-radius: 20px;
+    border: 2px solid var(--comments-background);
+  }
+  
+  #comments::-webkit-scrollbar-thumb:hover {
+    background: linear-gradient(45deg, #868686, #aaaaaa); /* Keep this explicit for scrollbar hover */
+  }
+  
+  /* Firefox */
+  #comments {
+    scrollbar-color: #5e5e5e var(--comments-background); /* Keep this explicit for scrollbar */
+    scrollbar-width: thin;
+  }
+  
+  
+  .faq-container {
+    max-width: 400px;
+    margin: 20px auto;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px var(--faq-container-box-shadow);
+    background-color: var(--faq-container-background); /* Assuming a default light background */
+  
+    h2 {
+      font-family: "horizon", serif;
+      font-size: 2rem;
+      text-align: center;
+      color: var(--text-color-dark); /* Using a general text color */
+    }
+  }
+  
+  .faq-item {
+    padding-bottom: 15px;
+    border: 0;
+    outline: 0;
+  }
+  
+  .faq-item:first-child {
+    margin-top: 30px;
+  }
+  
+  .faq-item:last-child {
+    border-bottom: none;
+  }
+  
+  .faq-question {
+    background-color: var(--faq-question-background);
+    border: 1px solid var(--faq-question-border);
+    border-radius: 0px;
+    padding: 10px;
+    width: 100%;
+    text-align: left;
+    cursor: pointer;
+    font-weight: bold;
+    color: var(--faq-question-text);
+  }
+  
+  .faq-answer {
+    padding: 10px;
+    display: none;
+    font-size: 0.7rem;
+    font-style: italic;
+    color: var(--faq-answer-text);
+  }
+  
+  .faq-answer ul {
+    margin-left: 20px;
+    padding-left: 0;
+    list-style-type: disc;
+  }
+  
+  .faq-answer li {
+    margin-bottom: 5px;
+  }
+  .loader-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100px; /* Adjust as needed */
+  }
+  
+  .loader {
+    border: 4px solid var(--loader-border-light); /* Light grey */
+    border-top: 4px solid var(--loader-border-accent); /* Blue */
+    border-radius: 50%;
+    width: 40px;
+    height: 40px;
+    animation: spin 2s linear infinite;
+  }
+  
+  @keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+  }
+  
+  /* Add any other styles for your form here */

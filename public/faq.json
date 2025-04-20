@@ -1,0 +1,34 @@
+[
+    {
+      "question": "What is a JEE Mains College Predictor?",
+      "answer": "A JEE Mains College Predictor is a tool that helps you estimate the chances of getting admission into various engineering colleges (like IITs, NITs, IIITs, and GFTIs) based on your JEE Mains rank or percentile, home state, category, and other factors. It uses past year's cutoff data to provide these predictions."
+    },
+    {
+      "question": "How do I use Project J?",
+      "answer": "To use Project J, simply enter your JEE Mains Common Rank List (CRL) in the 'Rank (CRL)' field OR your percentile in the 'or Percentile' field. Then, select your 'Home State' from the dropdown menu. Choose your 'Gender' and 'Category' using the radio buttons. You can also filter by institute type by checking the boxes for 'NIT', 'IIIT', and 'GFTI'. If you have a specific city or branch in mind, you can enter it in the 'Specific City/Branch' search bar. Finally, click the 'Continue' button to see your predicted colleges."
+    },
+    {
+      "question": "What if I enter both Rank and Percentile?",
+      "answer": "The predictor will likely prioritize the 'Rank (CRL)' if both fields are filled. If you only have a percentile, please enter it in the 'or Percentile' field."
+    },
+    {
+      "question": "Why do I need to select my Home State?",
+      "answer": "Selecting your 'Home State' is important because many National Institutes of Technology (NITs) offer a 'Home State' quota, where candidates from the state where the NIT is located may have different cutoff ranks. This helps provide more accurate predictions for NIT admissions."
+    },
+    {
+      "question": "What does the 'Specific City/Branch' search bar do?",
+      "answer": "You can use this search bar to filter the predicted colleges and branches based on specific keywords. For example, you can search for 'Delhi' to see colleges in Delhi or 'Computer Science' to see predictions for that particular branch."
+    },
+    {
+      "question": "What happens when I click the 'Continue' button?",
+      "answer": "When you click 'Continue', the information you've entered (your rank or percentile, home state, gender, category, selected institute types, and search term) is sent to a backend server. This server then compares your data against a database of past years' cutoff ranks for various colleges and branches. Based on this comparison, the server sends back a list of colleges and branches that you have a potential chance of getting into. These results will then be displayed on the page (this part of the front-end UI is still under development in the provided code)."
+    },
+    {
+      "question": "Is the prediction a guarantee of admission?",
+      "answer": "No, the predictions provided by Project J are based on historical cutoff data and are intended as estimates. Actual cutoff ranks for the current year can vary due to several factors. Therefore, the results should be considered as indicative and not a guarantee of admission. You should always refer to the official JoSAA/CSAB counselling websites for the most accurate and up-to-date information."
+    },
+    {
+      "question": "Who developed Project J?",
+      "answer": "This predictor, Project J, was made with ❤️ by <a href=\"https://github.com/fts18\">Ananay</a>."
+    }
+  ]
