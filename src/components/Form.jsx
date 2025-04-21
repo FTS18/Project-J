@@ -104,17 +104,17 @@ const Form = () => {
     if (!categoryPercentages[category]) return crlRank;
     return Math.round(crlRank * categoryPercentages[category]);
   }, []); // Dependencies are correct as it uses categoryPercentages
-// eslint-disable-next-line react-hooks/exhaustive-deps
-const applySearchFilter = useCallback(
-  (
-    colleges,
-    categoryRank,
-    selectedCategory,
-    selectedGender,
-    query,
-    selectedState,
-    selectedInstitutes
-  ) => {
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  const applySearchFilter = useCallback(
+    (
+      colleges,
+      categoryRank,
+      selectedCategory,
+      selectedGender,
+      query,
+      selectedState,
+      selectedInstitutes
+    ) => {
       if (!colleges) return [];
       const lowerCaseQuery = query ? query.toLowerCase() : "";
       const lowerCaseSelectedState = selectedState
@@ -177,9 +177,9 @@ const applySearchFilter = useCallback(
             (parseInt(a.closingRank, 10) || Infinity) -
             (parseInt(b.closingRank, 10) || Infinity)
         );
-      },
-      [selectedCategory, selectedGender, selectedInstitutes]
-    );
+    },
+    [selectedCategory, selectedGender, selectedInstitutes]
+  );
 
   const filterByMainBranch = useCallback(
     (colleges, selectedMainBranch) => {
@@ -698,6 +698,13 @@ const applySearchFilter = useCallback(
                     onChange={handleInputChange}
                   />
                 </label>
+                <div class="info">
+                  Note: For now I have only compiled JoSSA's data here. Haven't
+                  added CSAB/JACDelhi/AkTU/MhTCET/ COMEDK/other counsellings ka
+                  data yet. So keep this in mind while using this predictor!
+                  <br />
+                  <span class="ff">Asuvidha ke liye khed haiii!</span>
+                </div>
               </div>
             </div>
           </div>
