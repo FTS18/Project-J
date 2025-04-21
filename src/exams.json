@@ -1,0 +1,92 @@
+[
+    {
+        "name": "JEE Main",
+        "date": "2025-04-02 to 2025-04-09",
+        "logo": "nta.png",
+        "color": "#ff5722",
+        "link": "https://jeemain.nta.ac.in",
+        "fees": "₹1000",
+        "info": "Mode: Online (CBT)\nSubjects: Physics, Chemistry, Maths\nTotal Questions: 75 (25 each)\nMarking Scheme: +4 ✅, -1 ❌\nTotal Marks: 300\n\nApprox. Marks for 99%ile (Top Colleges): Around 190-210+\n\nEligibility Criteria: Passed 10+2 or equivalent with PCM as compulsory subjects.\n\nParticipating Institutes: NITs, IIITs, GFTIs and many state engineering colleges.\n\nApplication Period: October 28, 2024 to February 25, 2025 (Session 2)\n\nAdmit Card Release: March 28, 2025 & April 3, 2025 (for different exam dates)\n\nResult Declaration: By April 17, 2025"
+    },
+    {
+        "name": "IIITH UGEE",
+        "date": "2025-04-19",
+        "logo": "ugee.png",
+        "color": "#ff9800",
+        "link": "https://ugadmissions.iiit.ac.in/ugee2025/",
+        "fees": "₹2500",
+        "info": "Mode: Online\nPart 1: Logical Reasoning (60 mins)\nPart 2: Subject Proficiency (60 mins)\nMarking Scheme: Varies by section\nTotal Marks: N/A\nTotal Questions: N/A\n\nApprox. Marks for 99%ile (Top Colleges): N/A (IIITH admissions are also based on interview)\n\nEligibility Criteria: Passed 10+2 or equivalent with Maths and one of Physics/Chemistry/Biology/Computer Science.\n\nPrograms Offered: B.Tech. in Computer Science (CS), Electronics and Communication Engineering (ECE), Dual Degree programs.\n\nSelection Process: Based on UGEE score and interview (for some programs).\n\nApplication Period: February 4, 2025 to March 23, 2025\n\nAdmit Card Release: April 10, 2025"
+    },
+    {
+        "name": "MHTCET",
+        "date": "2025-04-19 to 2025-04-27 (PCM)",
+        "logo": "mhtcet.png",
+        "color": "#4caf50",
+        "link": "https://cetcell.mahacet.org/",
+        "fees": "₹800",
+        "info": "Mode: Online\nSubjects: PCM\nTotal Questions: 150 (50 per subject)\nMarking Scheme: +1 ✅, No negative\nTotal Marks: 150\n\nApprox. Marks for 99%ile (Top Colleges): Around 130-140+\n\nEligibility Criteria: Passed 10+2 or equivalent with PCM as compulsory subjects.\n\nParticipating Institutes: Engineering and Technology colleges across Maharashtra.\n\nApplication Period: December 30, 2024 to February 27, 2025 (with late fee)\n\nAdmit Card Release: April 9, 2025 (PCM)\n\nResult Declaration: Tentatively June 2025"
+    },
+    {
+        "name": "MET S1",
+        "date": "2025-04-18 to 2025-04-19",
+        "logo": "manipal.png",
+        "color": "#e91e63",
+        "link": "https://manipal.edu/mu/admission/indian-students/online-entrance-exam-overview/overview.html",
+        "fees": "₹2000",
+        "info": "Mode: Online\nSubjects: Physics, Chemistry, Maths, English, General Aptitude\nTotal Questions: 60\nMarking Scheme: +4 ✅, -1 ❌\nTotal Marks: 240\n\nApprox. Marks for 99%ile (Top Colleges): Around 160-180+\n\nEligibility Criteria: Passed 10+2 or equivalent with Physics, Chemistry and Mathematics as compulsory subjects with a minimum of 50% marks in aggregate.\n\nParticipating Institutes: Manipal Institute of Technology (MIT), Manipal and other constituent units of MAHE.\n\nApplication Period: October 14, 2024 to March 28, 2025\n\nAdmit Card Release: April 15 to 19, 2025\n\nResult Declaration: Second week of June 2025"
+    },
+    {
+        "name": "VITEEE",
+        "date": "2025-04-20 to 2025-04-27 (Tentative)",
+        "logo": "viteee.png",
+        "color": "#9c27b0",
+        "link": "https://viteee.vit.ac.in",
+        "fees": "₹1350",
+        "info": "Mode: Online\nSubjects: PCM, English, Aptitude\nTotal Questions: 125\nMarking Scheme: +1 ✅, No negative\nTotal Marks: 125\n\nApprox. Marks for 99%ile (Top Colleges): Around 95-105+\n\nEligibility Criteria: Passed 10+2 or equivalent with Physics, Chemistry and Mathematics/Biology as compulsory subjects with a minimum aggregate of 45% marks (40% for reserved categories).\n\nParticipating Institutes: Vellore Institute of Technology (VIT) campuses at Vellore, Chennai, Andhra Pradesh and Bhopal.\n\nApplication Period: November 4, 2024 to April 7, 2025\n\nAdmit Card Release: April 2025 (after slot booking)\n\nResult Declaration: Tentatively April 30, 2025"
+    },
+    {
+        "name": "COMEDK UGET",
+        "date": "2025-05-10",
+        "logo": "comedk.png",
+        "color": "#607d8b",
+        "link": "https://comedk.org",
+        "fees": "₹1800",
+        "info": "Mode: Online\nSubjects: PCM\nTotal Questions: 180 (60 per subject)\nMarking Scheme: +1 ✅, No negative\nTotal Marks: 180\n\nApprox. Marks for 99%ile (Top Colleges): Around 140-150+\n\nEligibility Criteria: Passed 10+2 or equivalent with Physics, Chemistry and Mathematics as compulsory subjects with a minimum of 45% marks in aggregate (40% for reserved categories of Karnataka).\n\nParticipating Institutes: Private unaided engineering colleges in Karnataka.\n\nApplication Period: Usually starts in February/March (Dates not yet confirmed for 2025)\n\nAdmit Card Release: Usually in April/May (Dates not yet confirmed for 2025)\n\nResult Declaration: Usually in May (Dates not yet confirmed for 2025)"
+    },
+    {
+        "name": "MET S2",
+        "date": "2025-05-12",
+        "logo": "manipal.png",
+        "color": "#e91e63",
+        "link": "https://manipal.edu/mu/admission/indian-students/online-entrance-exam-overview/overview.html",
+        "fees": "₹2000",
+        "info": "Mode: Online\nSubjects: Physics, Chemistry, Maths, English, General Aptitude\nTotal Questions: 60\nMarking Scheme: +4 ✅, -1 ❌\nTotal Marks: 240\n\nApprox. Marks for 99%ile (Top Colleges): Around 160-180+\n\nEligibility Criteria: Passed 10+2 or equivalent with Physics, Chemistry and Mathematics as compulsory subjects with a minimum of 50% marks in aggregate.\n\nParticipating Institutes: Manipal Institute of Technology (MIT), Manipal and other constituent units of MAHE.\n\nApplication Period: March 30, 2025 to April 20, 2025\n\nAdmit Card Release: May 9, 2025\n\nResult Declaration: May 2025"
+    },
+    {
+        "name": "JEE Adv",
+        "date": "2025-05-18",
+        "logo": "jeeadv2025.png",
+        "color": "#3f51b5",
+        "link": "https://jeeadv.ac.in",
+        "fees": "₹3200",
+        "info": "Mode: Online\nPapers: 2 (PCM)\nDuration: 3 hours each\nMarking Scheme: Variable (SCQ, MCQ, Numerical Answer Type, Integer Type, Matrix Match Type, Paragraph Based) (+4 +3 +2 +1 0 -1 -2 for ✅; 0 or -1 -2 for ❌)\nTotal Marks: 360 (Approx. for both papers)\nTotal Questions: Varies each year and by paper\n\nApprox. Marks for 99%ile (Top Colleges): Around 140-160+\n\nEligibility Criteria: Only top 2,50,000 rank holders (including all categories) in JEE Main (Paper-I) are eligible.\n\nParticipating Institutes: Indian Institutes of Technology (IITs).\n\nApplication Period: Usually starts after the JEE Main results are declared (Dates not yet fully confirmed for 2025)\n\nAdmit Card Release: Usually a week or two before the exam (Dates not yet fully confirmed for 2025)\n\nResult Declaration: Usually in June (Dates not yet fully confirmed for 2025)"
+    },
+    {
+        "name": "BITSAT S1",
+        "date": "2025-05-26 (Likely)",
+        "logo": "bitsat.png",
+        "color": "#009688",
+        "link": "https://bitsadmission.com",
+        "fees": "₹3400",
+        "info": "Mode: Online\nSubjects: PCM, English, Logical Reasoning\nTotal Questions: 130\nMarking Scheme: +3 ✅, -1 ❌. NOTE: There might be bonus questions with different marking.\nTotal Marks: 390\n\nApprox. Marks for 99%ile (Top Colleges): Around 280-320+\n\nEligibility Criteria: Passed 10+2 or equivalent with Physics, Chemistry and Mathematics as compulsory subjects with at least 60% aggregate marks and at least 75% marks in PCM.\n\nParticipating Institutes: Birla Institute of Technology and Science (BITS) Pilani (Pilani campus, Goa campus, Hyderabad campus).\n\nApplication Period: Usually starts in January/February (Dates for 2025 not yet fully released)\n\nAdmit Card Release: Usually a few days before the exam date (Dates for 2025 not yet fully released)\n\nResult Declaration: Score is immediately displayed after the exam; official results and admission details are released later (Dates for 2025 not yet fully released)"
+    },
+    {
+        "name": "BITSAT S2",
+        "date": "2025-06-22 (Likely)",
+        "logo": "bitsat.png",
+        "color": "#009688",
+        "link": "https://bitsadmission.com",
+        "fees": "₹3400",
+        "info": "Mode: Online\nSubjects: PCM, English, Logical Reasoning\nTotal Questions: 130\nMarking Scheme: +3 ✅, -1 ❌. NOTE: There might be bonus questions with different marking.\nTotal Marks: 390\n\nApprox. Marks for 99%ile (Top Colleges): Around 280-320+\n\nEligibility Criteria: Same as BITSAT S1.\n\nParticipating Institutes: Birla Institute of Technology and Science (BITS) Pilani (Pilani campus, Goa campus, Hyderabad campus).\n\nApplication Period: Usually starts after the completion of BITSAT S1 (Dates for 2025 not yet fully released)\n\nAdmit Card Release: Usually a few days before the exam date (Dates for 2025 not yet fully released)\n\nResult Declaration: Score is immediately displayed after the exam; official results and admission details are released later (Dates for 2025 not yet fully released)"
+    }
+]

@@ -1,40 +1,47 @@
 import React, { useEffect, useState } from 'react';
+import { BrowserRouter as Router, Routes, Route } from 'react-router-dom'; // Import routing components
 import Navigation from './components/Navigation';
 import MainSection from './components/MainSection';
 import Footer from './components/Footer';
+import Explore from './Explore'; // Import your new Explore component
 import './assets/css/style.css';
 import './assets/css/theme.css';
-import { database, ref, onValue } from './firebase'; // Import necessary Firebase functions
+import { database, ref, onValue } from './firebase';
 
 const App = () => {
     const [projectViews, setProjectViews] = useState(0);
 
-    // Get and display the view count
     useEffect(() => {
-        const projectRef = ref(database, 'project_clicks/ProjectJ'); // Get a reference to your database path
+        const projectRef = ref(database, 'project_clicks/ProjectJ');
 
-        // Listen for changes to the view count
         onValue(projectRef, (snapshot) => {
-            const views = snapshot.val() || 0; // Get the view count or default to 0 if undefined
+            const views = snapshot.val() || 0;
             setProjectViews(views);
         });
 
         return () => {
-            // Cleanup logic here if needed
+            // Cleanup logic if needed
         };
     }, []);
 
     return (
-        <div>
-            <Navigation />
-            <MainSection />
-            <Footer />
+        <Router>
+            <div>
+                <Navigation />
+                <Routes>
+                    {/* Route for the main page (/) */}
+                    <Route path="/" element={<MainSection />} />
 
-            {/* Display the view count in the specified structure */}
-            <div id="vcc">
-                <p id="vct">Views: {projectViews}</p>
+                    {/* Route for the explore page (/explore) */}
+                    <Route path="/explore" element={<Explore />} />
+                </Routes>
+                <Footer />
+
+                <div id="vcc">
+                    <p id="vct">Views: {projectViews}</p>
+                </div>
             </div>
-        </div>
+        </Router>
     );
 };
 

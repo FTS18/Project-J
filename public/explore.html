@@ -1,351 +1,387 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Explore | Project J</title>
 
-    <link rel="stylesheet" href="assets/css/theme.css">
-    <link rel="stylesheet" href="assets/css/style.css">
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link
-      href="https://fonts.googleapis.com/css2?family=Mona+Sans:wght@200..900&display=swap"
-      rel="stylesheet">
-    <link href="https://fonts.googleapis.com/icon?family=Material+Icons"
-      rel="stylesheet">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Explore | Project J</title>
 
-    <script
-      src="https://www.gstatic.com/firebasejs/10.11.0/firebase-app-compat.js"></script>
-    <script
-      src="https://www.gstatic.com/firebasejs/10.11.0/firebase-database-compat.js"></script>
-    <script src="assets/scripts/app.js"></script>
-    <script src="/worker.js"></script><style>
-      body { font-family: 'Mona Sans', sans-serif; background: #0e0e0e; color: #fff; margin: 0; padding: 0; }
-      .timer-box {
-        background: rgba(75, 75, 75, 0.226);
-        backdrop-filter: blur(10px);
-        border-radius: 20px;
-        box-shadow: 0 8px 20px rgba(0, 0, 0, 0.3);
-        padding: 20px;
-        margin: 20px auto;
+  <link rel="stylesheet" href="../src/assets/css/theme.css">
+  <link rel="stylesheet" href="../src/assets/css/style.css">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Mona+Sans:wght@200..900&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+
+  <script src="https://www.gstatic.com/firebasejs/10.11.0/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/10.11.0/firebase-database-compat.js"></script>
+  <script src="assets/scripts/app.js"></script>
+  <style>
+    body {
+      font-family: 'Mona Sans', sans-serif;
+      background: #0e0e0e;
+      color: #fff;
+      margin: 0;
+      padding: 0;
+    }
+
+    .timer-box {
+      background: rgba(75, 75, 75, 0.226);
+      backdrop-filter: blur(10px);
+      border-radius: 20px;
+      box-shadow: 0 8px 20px rgba(0, 0, 0, 0.3);
+      padding: 20px;
+      margin: 20px auto;
+      width: 100%;
+      max-width: 700px;
+      transition: all 0.3s ease;
+    }
+
+    .form {
+      background: #1b1b1b;
+      margin: 0;
+    }
+
+    .timer-box:hover {
+      transform: translateY(-4px);
+      box-shadow: 0 12px 24px rgba(25, 26, 25, 0.074);
+    }
+
+    .exam-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      width: 100%;
+      max-width: 250px;
+    }
+
+    .exam-info {
+      display: flex;
+      align-items: center;
+      gap: 15px;
+    }
+
+    .exam-info img {
+      height: 60px;
+      width: 60px;
+      object-fit: contain;
+      border-radius: 50%;
+      border: 2px solid #fff3;
+      transition: 0.3s ease;
+    }
+
+    .exam-info img:hover {
+      border-color: #00ff88;
+    }
+
+    .exam-name {
+      font-size: 1.1rem;
+      font-weight: 600;
+      font-family: "Horizon";
+    }
+
+    .timer {
+      font-size: 0.7rem;
+      margin-top: 5px;
+      color: #ddd;
+    }
+
+    .btnGang {
+      margin-top: 15px;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 5px;
+    }
+
+    .btnGang a {
+      padding: 0px 14px;
+      text-decoration: none;
+      font-size: 0.65rem;
+      font-weight: 600;
+      line-height: 3;
+      border-radius: 8px;
+      text-align: center;
+      border: 0;
+      transition: all 0.3s ease;
+    }
+
+    .btnGang a:hover,
+    .btnGang a:active {
+      text-transform: none;
+      font-style: normal;
+      outline: none;
+    }
+
+    .dummyBtn {
+      background: #444;
+      color: #fff;
+    }
+
+    .moreBtn {
+      background: transparent;
+      border: 1px solid #888;
+      color: #ccc;
+    }
+
+    .more-info {
+      font-size: 0.8rem;
+      color: #ccc;
+      max-height: 0;
+      /* Initially hidden */
+      overflow: hidden;
+      background: #363636d3;
+      margin: 0;
+      /* Initial margin set to 0 */
+      border-radius: 15px;
+      padding: 0 10px;
+      /* Initial padding */
+      transition: max-height 0.3s ease-in-out, padding 0.3s ease-in-out, margin 0.3s ease-in-out;
+      /* Include margin in transition */
+      display: block;
+      /* Set to block initially so the transition works */
+    }
+
+    .more-info.expanded {
+      border: 0.6px solid #3d3d3d;
+      max-height: 800px;
+      /* Adjust to a sufficiently large value */
+      padding: 10px;
+      /* Expanded padding */
+      margin: 20px 0;
+      /* Apply margin when expanded */
+    }
+
+    .btnGang a:focus {
+      outline: none;
+      box-shadow: none;
+    }
+
+    a.moreBtn {
+      border-radius: 50%;
+      border: 1px solid rgba(177, 177, 177, 0.67);
+      line-height: 4;
+      width: 35px;
+      height: 35px;
+      text-align: center;
+      padding: 0;
+    }
+
+    @media screen and (max-width: 768px) {
+      .form {
         width: 100%;
-        max-width: 700px;
-        transition: all 0.3s ease;
+        padding: 30px;
+        max-width: 800px;
+        top: 0;
+        padding-top: 50px;
       }
-      .form{
-        background: #1b1b1b;
-        margin: 0;
-      }
-      .timer-box:hover {
-        transform: translateY(-4px);
-        box-shadow: 0 12px 24px rgba(25, 26, 25, 0.074);
-      }
+
       .exam-header {
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-        width: 100%;
-        max-width: 250px;
+        max-width: 800px;
       }
-      .exam-info {
-        display: flex;
-        align-items: center;
-        gap: 15px;
-      }
-      .exam-info img {
-        height: 60px;
-        width: 60px;
-        object-fit: contain;
-        border-radius: 50%;
-        border: 2px solid #fff3;
-        transition: 0.3s ease;
-      }
-      .exam-info img:hover {
-        border-color: #00ff88;
-      }
-      .exam-name {
-        font-size: 1.1rem;
-        font-weight: 600;
-        font-family: "Horizon";
-      }
-      .timer {
-        font-size: 0.7rem;
-        margin-top: 5px;
-        color: #ddd;
-      }
+
       .btnGang {
-        margin-top: 15px;
-        display: flex;
-        flex-wrap: wrap;
-        gap: 5px;
+        flex-direction: row;
+        gap: 10px;
+        align-items: stretch;
       }
+
       .btnGang a {
-        padding: 0px 14px;
-        text-decoration: none;
-        font-size: 0.65rem;
-        font-weight: 600;
-        line-height: 3;
-        border-radius: 8px;
-        text-align: center;
-        border: 0;
-        transition: all 0.3s ease;
-      }.btnGang a:hover, .btnGang a:active{
-        text-transform: none;
-        font-style: normal;
-        outline: none;
+        width: 48%;
+        margin: 0;
+        font-size: 14px;
+        padding: 10px;
+        height: 40px;
+        line-height: 1;
       }
-      .dummyBtn { background: #444; color: #fff; }
-      .moreBtn { background: transparent; border: 1px solid #888; color: #ccc; }
+
+      .btnGang a:hover {
+        transform: none;
+      }
+
+      .exam-card {
+        width: 100%;
+        margin: 10px 0;
+      }
+
+      .timer {
+        font-size: 0.8rem;
+      }
+
+      .exam-name {
+        font-size: 1.4rem;
+      }
+
+      a.moreBtn {
+        height: 40px;
+        width: 100%;
+        border-radius: 10px;
+        line-height: 0;
+        border: 1px solid #444;
+      }
+
       .more-info {
-  font-size: 0.8rem;
-  color: #ccc;
-  max-height: 0; /* Initially hidden */
-  overflow: hidden;
-  background: #363636d3;
-  margin: 0; /* Initial margin set to 0 */
-  border-radius: 15px;
-  padding: 0 10px; /* Initial padding */
-  transition: max-height 0.3s ease-in-out, padding 0.3s ease-in-out, margin 0.3s ease-in-out; /* Include margin in transition */
-  display: block; /* Set to block initially so the transition works */
-}
-.more-info.expanded {
-  border: 0.6px solid #3d3d3d;
-  max-height: 800px; /* Adjust to a sufficiently large value */
-  padding: 10px; /* Expanded padding */
-  margin: 20px 0; /* Apply margin when expanded */
-}
-      .btnGang a:focus {
-        outline: none;
-        box-shadow: none;
+        font-style: italic;
       }
-      a.moreBtn{
-        border-radius: 50%;
-        border: 1px solid rgba(177, 177, 177, 0.67);
-        line-height: 4;
-        width: 35px;
-        height: 35px;
-        text-align: center;
-        padding: 0;
-      }
-      @media screen and (max-width: 768px) {
-        .form{
-          width: 100%;
-          padding: 30px;
-          max-width:800px;
-          top: 0;
-          padding-top: 50px;
-        }
-        .exam-header{
-          max-width: 800px;
-        }
-        .btnGang {
-          flex-direction: row;
-          gap: 10px;
-          align-items: stretch;
-        }
-    
-        .btnGang a {
-          width: 48%;
-          margin: 0;
-          font-size: 14px;
-          padding: 10px;
-          height: 40px;
-          line-height: 1;
-        }
-        .btnGang a:hover{
-          transform: none;
-        }
-    
-        .exam-card {
-          width: 100%;
-          margin: 10px 0;
-        }
-    
-        .timer {
-          font-size: 0.8rem;
-        }
-    
-        .exam-name {
-          font-size: 1.4rem;
-        }
-        a.moreBtn{
-          height: 40px;
-          width: 100%;
-          border-radius: 10px;
-          line-height: 0;
-          border: 1px solid #444;
-        }.more-info{
-          font-style: italic;
-        }
-      }
-    </style>
-  </head>
+    }
+  </style>
+</head>
 
-  <body>
+<body>
 
-    <a class="button1" href="#main" style="display:none">
-      <svg class="svgIcon1" viewBox="0 0 384 512">
-        <path
-          d="M214.6 41.4c-12.5-12.5-32.8-12.5-45.3 0l-160 160c-12.5 12.5-12.5 32.8 0 45.3s32.8 12.5 45.3 0L160 141.2V448c0 17.7 14.3 32 32 32s32-14.3 32-32V141.2L329.4 246.6c12.5 12.5 32.8 12.5 45.3 0s12.5-32.8 0-45.3l-160-160z"></path>
-      </svg>
-    </a>
+  <a class="button1" href="#main" style="display:none">
+    <svg class="svgIcon1" viewBox="0 0 384 512">
+      <path
+        d="M214.6 41.4c-12.5-12.5-32.8-12.5-45.3 0l-160 160c-12.5 12.5-12.5 32.8 0 45.3s32.8 12.5 45.3 0L160 141.2V448c0 17.7 14.3 32 32 32s32-14.3 32-32V141.2L329.4 246.6c12.5 12.5 32.8 12.5 45.3 0s12.5-32.8 0-45.3l-160-160z">
+      </path>
+    </svg>
+  </a>
 
-    <section class="nav">
-      <div class="navcontent">
-        <a href="../" style="font-style: italic;text-decoration: none; color: white;border: none;">Project J</a>
-        <a class="button" href="../">
-          <svg class="svgIcon" viewBox="0 0 512 512"><path
-              d="M256 512A256 256 0 1 0 256 0a256 256 0 1 0 0 512zm50.7-186.9L162.4 380.6c-19.4 7.5-38.5-11.6-31-31l55.5-144.3c3.3-8.5 9.9-15.1 18.4-18.4l144.3-55.5c19.4-7.5 38.5 11.6 31 31L325.1 306.7c-3.2 8.5-9.9 15.1-18.4 18.4zM288 256a32 32 0 1 0 -64 0 32 32 0 1 0 64 0z"></path></svg>
-          Back
-        </a>
+  <section class="nav">
+    <div class="navcontent">
+      <a href="../" style="font-style: italic;text-decoration: none; color: white;border: none;">Project J</a>
+      <a class="button" href="../">
+        <svg class="svgIcon" viewBox="0 0 512 512">
+          <path
+            d="M256 512A256 256 0 1 0 256 0a256 256 0 1 0 0 512zm50.7-186.9L162.4 380.6c-19.4 7.5-38.5-11.6-31-31l55.5-144.3c3.3-8.5 9.9-15.1 18.4-18.4l144.3-55.5c19.4-7.5 38.5 11.6 31 31L325.1 306.7c-3.2 8.5-9.9 15.1-18.4 18.4zM288 256a32 32 0 1 0 -64 0 32 32 0 1 0 64 0z">
+          </path>
+        </svg>
+        Back
+      </a>
+    </div>
+  </section>
+
+  <section class="main" id="main">
+    <section class="slider">
+      <div class="container3"><svg class="border shadow-md dark:border-slate-700" viewBox="0 0 844.8 475.2"
+          style="width:100%; height: 350px;" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="none">
+          <rect class="bg" id="bg" x="0" y="0" width="844.8" height="475.2" fill="#ffffff"></rect>
+          <defs>
+            <filter id="f1" x="-200%" y="-200%" width="500%" height="500%">
+              <fegaussianblur stdDeviation="113"></fegaussianblur>
+            </filter>
+          </defs>
+          <circle cx="844.7356664340596" cy="244.97189647910855" r="422.4" fill="#5d00ff" filter="url(#f1)"></circle>
+          <circle cx="545.897808074884" cy="641.5431289187861" r="422.4" fill="#00e8c9" filter="url(#f1)"></circle>
+          <circle cx="76.39017649232983" cy="479.87868671468175" r="422.4" fill="#2B0393" filter="url(#f1)"></circle>
+          <circle cx="85.05636055602349" cy="-16.606665779425214" r="422.4" fill="#00ff44" filter="url(#f1)"></circle>
+          <circle cx="559.9199884427028" cy="-161.7870463331515" r="422.4" fill="#2dac9f" filter="url(#f1)"></circle>
+        </svg>
       </div>
+      <div class="main-title" style="font-size:45px;">EXPLORE</div>
     </section>
 
-    <section class="main" id="main">
-      <section class="slider">
-        <div class="container3"><svg
-            class="border shadow-md dark:border-slate-700"
-            viewBox="0 0 844.8 475.2"
-            style="width:100%; height: 350px;"
-            xmlns="http://www.w3.org/2000/svg"
-            preserveAspectRatio="none"><rect class="bg" id="bg"
-              x="0" y="0" width="844.8" height="475.2"
-              fill="#ffffff"></rect><defs><filter id="f1"
-                x="-200%" y="-200%" width="500%"
-                height="500%"><fegaussianblur
-                  stdDeviation="113"></fegaussianblur></filter></defs><circle
-              cx="844.7356664340596" cy="244.97189647910855"
-              r="422.4" fill="#5d00ff"
-              filter="url(#f1)"></circle><circle
-              cx="545.897808074884" cy="641.5431289187861"
-              r="422.4" fill="#00e8c9"
-              filter="url(#f1)"></circle><circle
-              cx="76.39017649232983" cy="479.87868671468175"
-              r="422.4" fill="#2B0393"
-              filter="url(#f1)"></circle><circle
-              cx="85.05636055602349" cy="-16.606665779425214"
-              r="422.4" fill="#00ff44"
-              filter="url(#f1)"></circle><circle
-              cx="559.9199884427028" cy="-161.7870463331515"
-              r="422.4" fill="#2dac9f"
-              filter="url(#f1)"></circle></svg>
-        </div>
-        <div class="main-title" style="font-size:45px;">EXPLORE</div>
-      </section>
-
-      <section class="area1">
-        <div class="form timers"></div>
-      </section>
+    <section class="area1">
+      <div class="form timers"></div>
     </section>
+  </section>
 
-    <section class="footer">
-      <center>Made with ❤ by <a href="https://github.com/fts18">Ananay</a>
-        | <span id="year"></span><br><span class="arr">All Rights
-          Reserved.</span></center>
-    </section>
+  <section class="footer">
+    <center>Made with ❤ by <a href="https://github.com/fts18">Ananay</a>
+      | <span id="year"></span><br><span class="arr">All Rights
+        Reserved.</span></center>
+  </section>
 
-    <script>
+  <script>
     const exams = [
-  {
-    "name": "JEE Main",
-    "date": "2025-04-02 to 2025-04-09",
-    "logo": "nta.png",
-    "color": "#ff5722",
-    "link": "https://jeemain.nta.ac.in",
-    "fees": "₹1000",
-    "info": "Mode: Online (CBT)\nSubjects: Physics, Chemistry, Maths\nTotal Questions: 75 (25 each)\nMarking Scheme: +4 ✅, -1 ❌\nTotal Marks: 300\n\nApprox. Marks for 99%ile (Top Colleges): Around 190-210+\n\nEligibility Criteria: Passed 10+2 or equivalent with PCM as compulsory subjects.\n\nParticipating Institutes: NITs, IIITs, GFTIs and many state engineering colleges.\n\nApplication Period: October 28, 2024 to February 25, 2025 (Session 2)\n\nAdmit Card Release: March 28, 2025 & April 3, 2025 (for different exam dates)\n\nResult Declaration: By April 17, 2025"
-  },
-  {
-    "name": "IIITH UGEE",
-    "date": "2025-04-19",
-    "logo": "ugee.png",
-    "color": "#ff9800",
-    "link": "https://ugadmissions.iiit.ac.in/ugee2025/",
-    "fees": "₹2500",
-    "info": "Mode: Online\nPart 1: Logical Reasoning (60 mins)\nPart 2: Subject Proficiency (60 mins)\nMarking Scheme: Varies by section\nTotal Marks: N/A\nTotal Questions: N/A\n\nApprox. Marks for 99%ile (Top Colleges): N/A (IIITH admissions are also based on interview)\n\nEligibility Criteria: Passed 10+2 or equivalent with Maths and one of Physics/Chemistry/Biology/Computer Science.\n\nPrograms Offered: B.Tech. in Computer Science (CS), Electronics and Communication Engineering (ECE), Dual Degree programs.\n\nSelection Process: Based on UGEE score and interview (for some programs).\n\nApplication Period: February 4, 2025 to March 23, 2025\n\nAdmit Card Release: April 10, 2025"
-  },
-  {
-    "name": "MHTCET",
-    "date": "2025-04-19 to 2025-04-27 (PCM)",
-    "logo": "mhtcet.png",
-    "color": "#4caf50",
-    "link": "https://cetcell.mahacet.org/",
-    "fees": "₹800",
-    "info": "Mode: Online\nSubjects: PCM\nTotal Questions: 150 (50 per subject)\nMarking Scheme: +1 ✅, No negative\nTotal Marks: 150\n\nApprox. Marks for 99%ile (Top Colleges): Around 130-140+\n\nEligibility Criteria: Passed 10+2 or equivalent with PCM as compulsory subjects.\n\nParticipating Institutes: Engineering and Technology colleges across Maharashtra.\n\nApplication Period: December 30, 2024 to February 27, 2025 (with late fee)\n\nAdmit Card Release: April 9, 2025 (PCM)\n\nResult Declaration: Tentatively June 2025"
-  },
-  {
-    "name": "MET S1",
-    "date": "2025-04-18 to 2025-04-19",
-    "logo": "manipal.png",
-    "color": "#e91e63",
-    "link": "https://manipal.edu/mu/admission/indian-students/online-entrance-exam-overview/overview.html",
-    "fees": "₹2000",
-    "info": "Mode: Online\nSubjects: Physics, Chemistry, Maths, English, General Aptitude\nTotal Questions: 60\nMarking Scheme: +4 ✅, -1 ❌\nTotal Marks: 240\n\nApprox. Marks for 99%ile (Top Colleges): Around 160-180+\n\nEligibility Criteria: Passed 10+2 or equivalent with Physics, Chemistry and Mathematics as compulsory subjects with a minimum of 50% marks in aggregate.\n\nParticipating Institutes: Manipal Institute of Technology (MIT), Manipal and other constituent units of MAHE.\n\nApplication Period: October 14, 2024 to March 28, 2025\n\nAdmit Card Release: April 15 to 19, 2025\n\nResult Declaration: Second week of June 2025"
-  },
-  {
-    "name": "VITEEE",
-    "date": "2025-04-20 to 2025-04-27 (Tentative)",
-    "logo": "viteee.png",
-    "color": "#9c27b0",
-    "link": "https://viteee.vit.ac.in",
-    "fees": "₹1350",
-    "info": "Mode: Online\nSubjects: PCM, English, Aptitude\nTotal Questions: 125\nMarking Scheme: +1 ✅, No negative\nTotal Marks: 125\n\nApprox. Marks for 99%ile (Top Colleges): Around 95-105+\n\nEligibility Criteria: Passed 10+2 or equivalent with Physics, Chemistry and Mathematics/Biology as compulsory subjects with a minimum aggregate of 45% marks (40% for reserved categories).\n\nParticipating Institutes: Vellore Institute of Technology (VIT) campuses at Vellore, Chennai, Andhra Pradesh and Bhopal.\n\nApplication Period: November 4, 2024 to April 7, 2025\n\nAdmit Card Release: April 2025 (after slot booking)\n\nResult Declaration: Tentatively April 30, 2025"
-  },
-  {
-    "name": "COMEDK UGET",
-    "date": "2025-05-10",
-    "logo": "comedk.png",
-    "color": "#607d8b",
-    "link": "https://comedk.org",
-    "fees": "₹1800",
-    "info": "Mode: Online\nSubjects: PCM\nTotal Questions: 180 (60 per subject)\nMarking Scheme: +1 ✅, No negative\nTotal Marks: 180\n\nApprox. Marks for 99%ile (Top Colleges): Around 140-150+\n\nEligibility Criteria: Passed 10+2 or equivalent with Physics, Chemistry and Mathematics as compulsory subjects with a minimum of 45% marks in aggregate (40% for reserved categories of Karnataka).\n\nParticipating Institutes: Private unaided engineering colleges in Karnataka.\n\nApplication Period: Usually starts in February/March (Dates not yet confirmed for 2025)\n\nAdmit Card Release: Usually in April/May (Dates not yet confirmed for 2025)\n\nResult Declaration: Usually in May (Dates not yet confirmed for 2025)"
-  },
-  {
-    "name": "MET S2",
-    "date": "2025-05-12",
-    "logo": "manipal.png",
-    "color": "#e91e63",
-    "link": "https://manipal.edu/mu/admission/indian-students/online-entrance-exam-overview/overview.html",
-    "fees": "₹2000",
-    "info": "Mode: Online\nSubjects: Physics, Chemistry, Maths, English, General Aptitude\nTotal Questions: 60\nMarking Scheme: +4 ✅, -1 ❌\nTotal Marks: 240\n\nApprox. Marks for 99%ile (Top Colleges): Around 160-180+\n\nEligibility Criteria: Passed 10+2 or equivalent with Physics, Chemistry and Mathematics as compulsory subjects with a minimum of 50% marks in aggregate.\n\nParticipating Institutes: Manipal Institute of Technology (MIT), Manipal and other constituent units of MAHE.\n\nApplication Period: March 30, 2025 to April 20, 2025\n\nAdmit Card Release: May 9, 2025\n\nResult Declaration: May 2025"
-  },
-  {
-    "name": "JEE Adv",
-    "date": "2025-05-18",
-    "logo": "jeeadv2025.png",
-    "color": "#3f51b5",
-    "link": "https://jeeadv.ac.in",
-    "fees": "₹3200",
-    "info": "Mode: Online\nPapers: 2 (PCM)\nDuration: 3 hours each\nMarking Scheme: Variable (SCQ, MCQ, Numerical Answer Type, Integer Type, Matrix Match Type, Paragraph Based) (+4 +3 +2 +1 0 -1 -2 for ✅; 0 or -1 -2 for ❌)\nTotal Marks: 360 (Approx. for both papers)\nTotal Questions: Varies each year and by paper\n\nApprox. Marks for 99%ile (Top Colleges): Around 140-160+\n\nEligibility Criteria: Only top 2,50,000 rank holders (including all categories) in JEE Main (Paper-I) are eligible.\n\nParticipating Institutes: Indian Institutes of Technology (IITs).\n\nApplication Period: Usually starts after the JEE Main results are declared (Dates not yet fully confirmed for 2025)\n\nAdmit Card Release: Usually a week or two before the exam (Dates not yet fully confirmed for 2025)\n\nResult Declaration: Usually in June (Dates not yet fully confirmed for 2025)"
-  },
-  {
-    "name": "BITSAT S1",
-    "date": "2025-05-26 (Likely)",
-    "logo": "bitsat.png",
-    "color": "#009688",
-    "link": "https://bitsadmission.com",
-    "fees": "₹3400",
-    "info": "Mode: Online\nSubjects: PCM, English, Logical Reasoning\nTotal Questions: 130\nMarking Scheme: +3 ✅, -1 ❌. NOTE: There might be bonus questions with different marking.\nTotal Marks: 390\n\nApprox. Marks for 99%ile (Top Colleges): Around 280-320+\n\nEligibility Criteria: Passed 10+2 or equivalent with Physics, Chemistry and Mathematics as compulsory subjects with at least 60% aggregate marks and at least 75% marks in PCM.\n\nParticipating Institutes: Birla Institute of Technology and Science (BITS) Pilani (Pilani campus, Goa campus, Hyderabad campus).\n\nApplication Period: Usually starts in January/February (Dates for 2025 not yet fully released)\n\nAdmit Card Release: Usually a few days before the exam date (Dates for 2025 not yet fully released)\n\nResult Declaration: Score is immediately displayed after the exam; official results and admission details are released later (Dates for 2025 not yet fully released)"
-  },
-  {
-    "name": "BITSAT S2",
-    "date": "2025-06-22 (Likely)",
-    "logo": "bitsat.png",
-    "color": "#009688",
-    "link": "https://bitsadmission.com",
-    "fees": "₹3400",
-    "info": "Mode: Online\nSubjects: PCM, English, Logical Reasoning\nTotal Questions: 130\nMarking Scheme: +3 ✅, -1 ❌. NOTE: There might be bonus questions with different marking.\nTotal Marks: 390\n\nApprox. Marks for 99%ile (Top Colleges): Around 280-320+\n\nEligibility Criteria: Same as BITSAT S1.\n\nParticipating Institutes: Birla Institute of Technology and Science (BITS) Pilani (Pilani campus, Goa campus, Hyderabad campus).\n\nApplication Period: Usually starts after the completion of BITSAT S1 (Dates for 2025 not yet fully released)\n\nAdmit Card Release: Usually a few days before the exam date (Dates for 2025 not yet fully released)\n\nResult Declaration: Score is immediately displayed after the exam; official results and admission details are released later (Dates for 2025 not yet fully released)"
-  }
-];
-exams.sort((a, b) => new Date(a.date) - new Date(b.date));
-          const container = document.querySelector(".timers");
-  exams.forEach((exam, i) => {
-    container.innerHTML += `
+      {
+        "name": "JEE Main",
+        "date": "2025-04-02 to 2025-04-09",
+        "logo": "nta.png",
+        "color": "#ff5722",
+        "link": "https://jeemain.nta.ac.in",
+        "fees": "₹1000",
+        "info": "Mode: Online (CBT)\nSubjects: Physics, Chemistry, Maths\nTotal Questions: 75 (25 each)\nMarking Scheme: +4 ✅, -1 ❌\nTotal Marks: 300\n\nApprox. Marks for 99%ile (Top Colleges): Around 190-210+\n\nEligibility Criteria: Passed 10+2 or equivalent with PCM as compulsory subjects.\n\nParticipating Institutes: NITs, IIITs, GFTIs and many state engineering colleges.\n\nApplication Period: October 28, 2024 to February 25, 2025 (Session 2)\n\nAdmit Card Release: March 28, 2025 & April 3, 2025 (for different exam dates)\n\nResult Declaration: By April 17, 2025"
+      },
+      {
+        "name": "IIITH UGEE",
+        "date": "2025-04-19",
+        "logo": "ugee.png",
+        "color": "#ff9800",
+        "link": "https://ugadmissions.iiit.ac.in/ugee2025/",
+        "fees": "₹2500",
+        "info": "Mode: Online\nPart 1: Logical Reasoning (60 mins)\nPart 2: Subject Proficiency (60 mins)\nMarking Scheme: Varies by section\nTotal Marks: N/A\nTotal Questions: N/A\n\nApprox. Marks for 99%ile (Top Colleges): N/A (IIITH admissions are also based on interview)\n\nEligibility Criteria: Passed 10+2 or equivalent with Maths and one of Physics/Chemistry/Biology/Computer Science.\n\nPrograms Offered: B.Tech. in Computer Science (CS), Electronics and Communication Engineering (ECE), Dual Degree programs.\n\nSelection Process: Based on UGEE score and interview (for some programs).\n\nApplication Period: February 4, 2025 to March 23, 2025\n\nAdmit Card Release: April 10, 2025"
+      },
+      {
+        "name": "MHTCET",
+        "date": "2025-04-19 to 2025-04-27 (PCM)",
+        "logo": "mhtcet.png",
+        "color": "#4caf50",
+        "link": "https://cetcell.mahacet.org/",
+        "fees": "₹800",
+        "info": "Mode: Online\nSubjects: PCM\nTotal Questions: 150 (50 per subject)\nMarking Scheme: +1 ✅, No negative\nTotal Marks: 150\n\nApprox. Marks for 99%ile (Top Colleges): Around 130-140+\n\nEligibility Criteria: Passed 10+2 or equivalent with PCM as compulsory subjects.\n\nParticipating Institutes: Engineering and Technology colleges across Maharashtra.\n\nApplication Period: December 30, 2024 to February 27, 2025 (with late fee)\n\nAdmit Card Release: April 9, 2025 (PCM)\n\nResult Declaration: Tentatively June 2025"
+      },
+      {
+        "name": "MET S1",
+        "date": "2025-04-18 to 2025-04-19",
+        "logo": "manipal.png",
+        "color": "#e91e63",
+        "link": "https://manipal.edu/mu/admission/indian-students/online-entrance-exam-overview/overview.html",
+        "fees": "₹2000",
+        "info": "Mode: Online\nSubjects: Physics, Chemistry, Maths, English, General Aptitude\nTotal Questions: 60\nMarking Scheme: +4 ✅, -1 ❌\nTotal Marks: 240\n\nApprox. Marks for 99%ile (Top Colleges): Around 160-180+\n\nEligibility Criteria: Passed 10+2 or equivalent with Physics, Chemistry and Mathematics as compulsory subjects with a minimum of 50% marks in aggregate.\n\nParticipating Institutes: Manipal Institute of Technology (MIT), Manipal and other constituent units of MAHE.\n\nApplication Period: October 14, 2024 to March 28, 2025\n\nAdmit Card Release: April 15 to 19, 2025\n\nResult Declaration: Second week of June 2025"
+      },
+      {
+        "name": "VITEEE",
+        "date": "2025-04-20 to 2025-04-27 (Tentative)",
+        "logo": "viteee.png",
+        "color": "#9c27b0",
+        "link": "https://viteee.vit.ac.in",
+        "fees": "₹1350",
+        "info": "Mode: Online\nSubjects: PCM, English, Aptitude\nTotal Questions: 125\nMarking Scheme: +1 ✅, No negative\nTotal Marks: 125\n\nApprox. Marks for 99%ile (Top Colleges): Around 95-105+\n\nEligibility Criteria: Passed 10+2 or equivalent with Physics, Chemistry and Mathematics/Biology as compulsory subjects with a minimum aggregate of 45% marks (40% for reserved categories).\n\nParticipating Institutes: Vellore Institute of Technology (VIT) campuses at Vellore, Chennai, Andhra Pradesh and Bhopal.\n\nApplication Period: November 4, 2024 to April 7, 2025\n\nAdmit Card Release: April 2025 (after slot booking)\n\nResult Declaration: Tentatively April 30, 2025"
+      },
+      {
+        "name": "COMEDK UGET",
+        "date": "2025-05-10",
+        "logo": "comedk.png",
+        "color": "#607d8b",
+        "link": "https://comedk.org",
+        "fees": "₹1800",
+        "info": "Mode: Online\nSubjects: PCM\nTotal Questions: 180 (60 per subject)\nMarking Scheme: +1 ✅, No negative\nTotal Marks: 180\n\nApprox. Marks for 99%ile (Top Colleges): Around 140-150+\n\nEligibility Criteria: Passed 10+2 or equivalent with Physics, Chemistry and Mathematics as compulsory subjects with a minimum of 45% marks in aggregate (40% for reserved categories of Karnataka).\n\nParticipating Institutes: Private unaided engineering colleges in Karnataka.\n\nApplication Period: Usually starts in February/March (Dates not yet confirmed for 2025)\n\nAdmit Card Release: Usually in April/May (Dates not yet confirmed for 2025)\n\nResult Declaration: Usually in May (Dates not yet confirmed for 2025)"
+      },
+      {
+        "name": "MET S2",
+        "date": "2025-05-12",
+        "logo": "manipal.png",
+        "color": "#e91e63",
+        "link": "https://manipal.edu/mu/admission/indian-students/online-entrance-exam-overview/overview.html",
+        "fees": "₹2000",
+        "info": "Mode: Online\nSubjects: Physics, Chemistry, Maths, English, General Aptitude\nTotal Questions: 60\nMarking Scheme: +4 ✅, -1 ❌\nTotal Marks: 240\n\nApprox. Marks for 99%ile (Top Colleges): Around 160-180+\n\nEligibility Criteria: Passed 10+2 or equivalent with Physics, Chemistry and Mathematics as compulsory subjects with a minimum of 50% marks in aggregate.\n\nParticipating Institutes: Manipal Institute of Technology (MIT), Manipal and other constituent units of MAHE.\n\nApplication Period: March 30, 2025 to April 20, 2025\n\nAdmit Card Release: May 9, 2025\n\nResult Declaration: May 2025"
+      },
+      {
+        "name": "JEE Adv",
+        "date": "2025-05-18",
+        "logo": "jeeadv2025.png",
+        "color": "#3f51b5",
+        "link": "https://jeeadv.ac.in",
+        "fees": "₹3200",
+        "info": "Mode: Online\nPapers: 2 (PCM)\nDuration: 3 hours each\nMarking Scheme: Variable (SCQ, MCQ, Numerical Answer Type, Integer Type, Matrix Match Type, Paragraph Based) (+4 +3 +2 +1 0 -1 -2 for ✅; 0 or -1 -2 for ❌)\nTotal Marks: 360 (Approx. for both papers)\nTotal Questions: Varies each year and by paper\n\nApprox. Marks for 99%ile (Top Colleges): Around 140-160+\n\nEligibility Criteria: Only top 2,50,000 rank holders (including all categories) in JEE Main (Paper-I) are eligible.\n\nParticipating Institutes: Indian Institutes of Technology (IITs).\n\nApplication Period: Usually starts after the JEE Main results are declared (Dates not yet fully confirmed for 2025)\n\nAdmit Card Release: Usually a week or two before the exam (Dates not yet fully confirmed for 2025)\n\nResult Declaration: Usually in June (Dates not yet fully confirmed for 2025)"
+      },
+      {
+        "name": "BITSAT S1",
+        "date": "2025-05-26 (Likely)",
+        "logo": "bitsat.png",
+        "color": "#009688",
+        "link": "https://bitsadmission.com",
+        "fees": "₹3400",
+        "info": "Mode: Online\nSubjects: PCM, English, Logical Reasoning\nTotal Questions: 130\nMarking Scheme: +3 ✅, -1 ❌. NOTE: There might be bonus questions with different marking.\nTotal Marks: 390\n\nApprox. Marks for 99%ile (Top Colleges): Around 280-320+\n\nEligibility Criteria: Passed 10+2 or equivalent with Physics, Chemistry and Mathematics as compulsory subjects with at least 60% aggregate marks and at least 75% marks in PCM.\n\nParticipating Institutes: Birla Institute of Technology and Science (BITS) Pilani (Pilani campus, Goa campus, Hyderabad campus).\n\nApplication Period: Usually starts in January/February (Dates for 2025 not yet fully released)\n\nAdmit Card Release: Usually a few days before the exam date (Dates for 2025 not yet fully released)\n\nResult Declaration: Score is immediately displayed after the exam; official results and admission details are released later (Dates for 2025 not yet fully released)"
+      },
+      {
+        "name": "BITSAT S2",
+        "date": "2025-06-22 (Likely)",
+        "logo": "bitsat.png",
+        "color": "#009688",
+        "link": "https://bitsadmission.com",
+        "fees": "₹3400",
+        "info": "Mode: Online\nSubjects: PCM, English, Logical Reasoning\nTotal Questions: 130\nMarking Scheme: +3 ✅, -1 ❌. NOTE: There might be bonus questions with different marking.\nTotal Marks: 390\n\nApprox. Marks for 99%ile (Top Colleges): Around 280-320+\n\nEligibility Criteria: Same as BITSAT S1.\n\nParticipating Institutes: Birla Institute of Technology and Science (BITS) Pilani (Pilani campus, Goa campus, Hyderabad campus).\n\nApplication Period: Usually starts after the completion of BITSAT S1 (Dates for 2025 not yet fully released)\n\nAdmit Card Release: Usually a few days before the exam date (Dates for 2025 not yet fully released)\n\nResult Declaration: Score is immediately displayed after the exam; official results and admission details are released later (Dates for 2025 not yet fully released)"
+      }
+    ];
+    exams.sort((a, b) => new Date(a.date) - new Date(b.date));
+    const container = document.querySelector(".timers");
+    exams.forEach((exam, i) => {
+      container.innerHTML += `
       <div class="timer-box" style="border-left: 5px solid ${exam.color}">
         <div class="exam-header">
           <div class="exam-info">
-            <img src="assets/res/${exam.logo}" alt="${exam.name}" />
+            <img src="res/assets/res/${exam.logo}" alt="${exam.name}" />
             <div>
               <div class="exam-name">${exam.name}</div>
               <div class="timer" id="timer${i}">Loading...</div>
@@ -362,64 +398,65 @@ exams.sort((a, b) => new Date(a.date) - new Date(b.date));
         <div class="more-info" id="info${i}">${exam.info.replace(/\n/g, '<br>')}</div>
       </div>
     `;
-  });
-  function toggleInfo(index) {
-    const infoBox = document.getElementById(`info${index}`);
-    const icon = document.querySelector(`#info${index}`).previousElementSibling.querySelector('.material-icons');
-    infoBox.classList.toggle('expanded'); // Toggle the 'expanded' class
-    icon.textContent = infoBox.classList.contains('expanded') ? "keyboard_arrow_up" : "keyboard_arrow_down";
-  }
-
-  function updateTimers() {
-    exams.forEach((exam, index) => {
-      const now = new Date().getTime();
-      let target;
-      let status = "";
-
-      if (exam.date.includes("to")) {
-        const [startDateStr, endDateStr] = exam.date.split(" to ");
-        const startDate = new Date(startDateStr).getTime();
-        const endDate = new Date(endDateStr).getTime();
-
-        if (now >= startDate && now <= endDate) {
-          status = "Ongoing";
-          target = endDate; // Show remaining time until the end
-        } else if (now < startDate) {
-          target = startDate; // Show time until start
-        } else {
-          status = "Ended";
-        }
-      } else {
-        target = new Date(exam.date).getTime();
-        if (now > target) {
-          status = "Ended";
-        } else if (now === target) {
-          status = "Ongoing";
-        }
-      }
-
-      const diff = target - now;
-      const days = Math.floor(diff / (1000 * 60 * 60 * 24));
-      const hours = Math.floor((diff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
-      const minutes = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
-      const seconds = Math.floor((diff % (1000 * 60)) / 1000);
-
-      const timerEl = document.getElementById(`timer${index}`);
-
-      if (status === "Ended") {
-        timerEl.textContent = "Ended";
-      } else if (status === "Ongoing") {
-        timerEl.textContent = "Ongoing";
-      } else if (diff <= 7 * 24 * 60 * 60 * 1000) {
-        timerEl.textContent = `${days}d ${hours}h ${minutes}m ${seconds}s`;
-      } else {
-        timerEl.textContent = `${days} days left`;
-      }
     });
-  }
+    function toggleInfo(index) {
+      const infoBox = document.getElementById(`info${index}`);
+      const icon = document.querySelector(`#info${index}`).previousElementSibling.querySelector('.material-icons');
+      infoBox.classList.toggle('expanded'); // Toggle the 'expanded' class
+      icon.textContent = infoBox.classList.contains('expanded') ? "keyboard_arrow_up" : "keyboard_arrow_down";
+    }
 
-  setInterval(updateTimers, 1000);
-</script>
+    function updateTimers() {
+      exams.forEach((exam, index) => {
+        const now = new Date().getTime();
+        let target;
+        let status = "";
 
-  </body>
+        if (exam.date.includes("to")) {
+          const [startDateStr, endDateStr] = exam.date.split(" to ");
+          const startDate = new Date(startDateStr).getTime();
+          const endDate = new Date(endDateStr).getTime();
+
+          if (now >= startDate && now <= endDate) {
+            status = "Ongoing";
+            target = endDate; // Show remaining time until the end
+          } else if (now < startDate) {
+            target = startDate; // Show time until start
+          } else {
+            status = "Ended";
+          }
+        } else {
+          target = new Date(exam.date).getTime();
+          if (now > target) {
+            status = "Ended";
+          } else if (now === target) {
+            status = "Ongoing";
+          }
+        }
+
+        const diff = target - now;
+        const days = Math.floor(diff / (1000 * 60 * 60 * 24));
+        const hours = Math.floor((diff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+        const minutes = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
+        const seconds = Math.floor((diff % (1000 * 60)) / 1000);
+
+        const timerEl = document.getElementById(`timer${index}`);
+
+        if (status === "Ended") {
+          timerEl.textContent = "Ended";
+        } else if (status === "Ongoing") {
+          timerEl.textContent = "Ongoing";
+        } else if (diff <= 7 * 24 * 60 * 60 * 1000) {
+          timerEl.textContent = `${days}d ${hours}h ${minutes}m ${seconds}s`;
+        } else {
+          timerEl.textContent = `${days} days left`;
+        }
+      });
+    }
+
+    setInterval(updateTimers, 1000);
+  </script>
+
+</body>
+
 </html>
