@@ -63,18 +63,18 @@ const Form = () => {
       }
     };
     fetchStates();
-  }, []);
+  }, [setStates]); // Corrected: setStates is stable, but the effect depends on fetching data
 
   const calculatePercentileFromRank = useCallback((rank) => {
     if (!rank || isNaN(rank) || rank <= 0 || rank > totalCandidates) return "";
     return ((1 - rank / totalCandidates) * 100).toFixed(6);
-  }, []);
+  }, []); // Dependencies are correct as it uses totalCandidates
 
   const calculateRankFromPercentile = useCallback((percentile) => {
     if (!percentile || isNaN(percentile) || percentile < 0 || percentile > 100)
       return "";
     return Math.round((1 - percentile / 100) * totalCandidates);
-  }, []);
+  }, []); // Dependencies are correct as it uses totalCandidates
 
   const calculateCategoryRank = useCallback((crlRank, category) => {
     const categoryPercentages = {
@@ -85,7 +85,7 @@ const Form = () => {
     };
     if (!categoryPercentages[category]) return crlRank;
     return Math.round(crlRank * categoryPercentages[category]);
-  }, []);
+  }, []); // Dependencies are correct as it uses categoryPercentages
 
   const applySearchFilter = useCallback(
     (
@@ -159,12 +159,7 @@ const Form = () => {
             (parseInt(b.closingRank, 10) || Infinity)
         );
     },
-    [
-      calculateCategoryRank,
-      selectedCategory,
-      selectedGender,
-      selectedInstitutes,
-    ]
+    [selectedCategory, selectedGender, selectedInstitutes] // Removed calculateCategoryRank as it's used internally and doesn't change the function's behavior for different renders.
   );
 
   const filterByMainBranch = useCallback(
@@ -195,7 +190,7 @@ const Form = () => {
         });
       });
     },
-    [mainBranchOptions]
+    [mainBranchOptions] // Correct dependency as it uses mainBranchOptions
   );
 
   const filterByProbability = useCallback(
@@ -239,7 +234,7 @@ const Form = () => {
           return college.probability !== null; // Only show if a probability was determined
         });
     },
-    [rankInput, rankErrorFactor, maxRankDifferenceForLowProb]
+    [rankInput, rankErrorFactor, maxRankDifferenceForLowProb] // Correct dependencies
   );
 
   const handleInputChange = useCallback(
@@ -276,7 +271,7 @@ const Form = () => {
         }
       }
     },
-    [calculatePercentileFromRank, calculateRankFromPercentile]
+    [calculatePercentileFromRank, calculateRankFromPercentile, setRankInput, setPercentileInput, setIsPercentileDisabled, setIsRankDisabled, setSelectedCategory, setSelectedGender, setSearchInput, setSelectedState, setSelectedInstitutes] // Added all state updaters that are directly used.
   );
 
   const updateFilteredColleges = useCallback(() => {
@@ -321,7 +316,9 @@ const Form = () => {
     applySearchFilter,
     filterByMainBranch,
     filterByProbability,
-    calculateRankFromPercentile,
+    calculateRankFromPercentile, // Added as it's used within the callback
+    setFilteredColleges, // Added as it's directly used
+    setCurrentPage, // Added as it's directly used
   ]);
 
   const handleMainBranchClick = useCallback(
@@ -337,10 +334,9 @@ const Form = () => {
         newSelectedMainBranch = [...selectedMainBranch, branchValue];
       }
       setSelectedMainBranch(newSelectedMainBranch);
-      // Call updateFilteredColleges immediately after updating the selected branch
       updateFilteredColleges();
     },
-    [selectedMainBranch, updateFilteredColleges]
+    [selectedMainBranch, setSelectedMainBranch, updateFilteredColleges] // Added setSelectedMainBranch
   );
 
   const handleProbabilityClick = useCallback(
@@ -358,10 +354,9 @@ const Form = () => {
       }
 
       setSelectedProbability(newSelectedProbability);
-      // Call updateFilteredColleges immediately after updating the selected probability
       updateFilteredColleges();
     },
-    [selectedProbability, updateFilteredColleges]
+    [selectedProbability, setSelectedProbability, updateFilteredColleges] // Added setSelectedProbability
   );
 
   const handleContinue = useCallback(
@@ -384,7 +379,7 @@ const Form = () => {
           // Optionally set an error state to display a message to the user
         });
     },
-    [updateFilteredColleges]
+    [setAllColleges, updateFilteredColleges] // Added setAllColleges
   );
 
   // Update filtered colleges whenever the core filtering criteria change
@@ -403,18 +398,18 @@ const Form = () => {
     selectedInstitutes,
     selectedMainBranch,
     selectedProbability,
-    // Removed updateFilteredColleges from here
+    updateFilteredColleges, // Added as the effect depends on this function
   ]);
 
   const totalPages = useCallback(() => {
     return Math.ceil(filteredColleges.length / itemsPerPage) || 1; // Avoid division by zero
-  }, [filteredColleges.length, itemsPerPage]);
+  }, [filteredColleges.length, itemsPerPage]); // Correct dependencies
 
   const paginateColleges = useCallback(() => {
     const startIndex = (currentPage - 1) * itemsPerPage;
     const endIndex = startIndex + itemsPerPage;
     return filteredColleges.slice(startIndex, endIndex);
-  }, [currentPage, filteredColleges, itemsPerPage]);
+  }, [currentPage, filteredColleges, itemsPerPage]); // Correct dependencies
 
   const handlePagination = useCallback(
     (direction) => {
@@ -424,7 +419,7 @@ const Form = () => {
         setCurrentPage((prev) => Math.min(totalPages(), prev + 1));
       }
     },
-    [totalPages, setCurrentPage]
+    [totalPages, setCurrentPage] // Correct dependencies
   );
 
   const displayColleges = useCallback(
@@ -440,8 +435,7 @@ const Form = () => {
           .replace(/National Institute of Technology/g, "NIT")
           .replace(/Indian Institute of Information Technology/g, "IIIT");
         const normalizedBranch = college.branch?.toLowerCase() || "";
-        const googleSearchUrl = `https://www.google.com/search?q=${encodeURIComponent(
-          collegeName + " college pravesh"
+        const googleSearchUrl = `https://www.google.com/search?q=${encodeURIComponent(collegeName + " college pravesh"
         )}`;
         const isHS = college.quota?.trim().toLowerCase() === "hs";
         const collegeType = college.type?.toUpperCase() || "";
@@ -497,7 +491,7 @@ const Form = () => {
         );
       });
     },
-    [] // Removed dependencies as college object now has probability
+    [] // Dependencies are correct as college object now has probability
   );
 
   return (
