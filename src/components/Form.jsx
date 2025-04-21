@@ -64,12 +64,10 @@ const Form = () => {
     };
     fetchStates();
   }, [setStates]); // Corrected: setStates is stable, but the effect depends on fetching data
-
   const calculatePercentileFromRank = useCallback((rank) => {
     if (!rank || isNaN(rank) || rank <= 0 || rank > totalCandidates) return "";
     return ((1 - rank / totalCandidates) * 100).toFixed(6);
-  }, []); // Dependencies are correct as it uses totalCandidates
-
+  }, [totalCandidates]);
   const calculateRankFromPercentile = useCallback((percentile) => {
     if (!percentile || isNaN(percentile) || percentile < 0 || percentile > 100)
       return "";
@@ -434,13 +432,10 @@ const Form = () => {
           .replace(/Indian Institute of Technology/g, "IIT")
           .replace(/National Institute of Technology/g, "NIT")
           .replace(/Indian Institute of Information Technology/g, "IIIT");
-        const normalizedBranch = college.branch?.toLowerCase() || "";
         const googleSearchUrl = `https://www.google.com/search?q=${encodeURIComponent(collegeName + " college pravesh"
         )}`;
         const isHS = college.quota?.trim().toLowerCase() === "hs";
         const collegeType = college.type?.toUpperCase() || "";
-        const openingRank = parseInt(college.openingRank, 10);
-        const closingRank = parseInt(college.closingRank, 10);
         const probability = college.probability; // Get probability from the college object
         let probabilityClass = "";
 
