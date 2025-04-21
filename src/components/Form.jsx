@@ -1,4 +1,10 @@
-import React, { useEffect, useState, useRef, useCallback } from "react";
+import React, {
+  useEffect,
+  useState,
+  useRef,
+  useCallback,
+  useMemo,
+} from "react";
 
 const Form = () => {
   const [states, setStates] = useState([]);
@@ -21,29 +27,39 @@ const Form = () => {
   const totalCandidates = 1575143;
   const rankErrorFactor = 0.115;
   const maxRankDifferenceForLowProb = 3000; // New absolute limit
-
-  const mainBranchOptions = [
-    {
-      value: "cse",
-      label: "CSE",
-      keywords: ["comp", "softw", "artifi", "data", "infor"],
-    },
-    {
-      value: "elec",
-      label: "ELEC",
-      keywords: ["comm", "electronics", "electrical", "instru", "vlsi"],
-    },
-    { value: "mnc", label: "MNC", keywords: ["mathematics and"] },
-    { value: "mech", label: "MECH", keywords: ["mech"] },
-    { value: "civil", label: "CIVIL", keywords: ["civil"] },
-    { value: "chem", label: "CHEMICAL", keywords: ["chem", "production"] },
-    { value: "biotech", label: "BIOTECH", keywords: ["biotechnology", "bio"] },
-    { value: "mtlrgy", label: "METALLURGY", keywords: ["metall", "material"] },
-    { value: "mining", label: "MINING", keywords: ["mining"] },
-    { value: "textile", label: "TEXTILE", keywords: ["textile"] },
-    { value: "food", label: "FOOD", keywords: ["food"] },
-    { value: "engphy", label: "ENG PHY", keywords: ["engineering physics"] },
-  ];
+  const mainBranchOptions = useMemo(
+    () => [
+      {
+        value: "cse",
+        label: "CSE",
+        keywords: ["comp", "softw", "artifi", "data", "infor"],
+      },
+      {
+        value: "elec",
+        label: "ELEC",
+        keywords: ["comm", "electronics", "electrical", "instru", "vlsi"],
+      },
+      { value: "mnc", label: "MNC", keywords: ["mathematics and"] },
+      { value: "mech", label: "MECH", keywords: ["mech"] },
+      { value: "civil", label: "CIVIL", keywords: ["civil"] },
+      { value: "chem", label: "CHEMICAL", keywords: ["chem", "production"] },
+      {
+        value: "biotech",
+        label: "BIOTECH",
+        keywords: ["biotechnology", "bio"],
+      },
+      {
+        value: "mtlrgy",
+        label: "METALLURGY",
+        keywords: ["metall", "material"],
+      },
+      { value: "mining", label: "MINING", keywords: ["mining"] },
+      { value: "textile", label: "TEXTILE", keywords: ["textile"] },
+      { value: "food", label: "FOOD", keywords: ["food"] },
+      { value: "engphy", label: "ENG PHY", keywords: ["engineering physics"] },
+    ],
+    []
+  ); // Empty dependency array because the array's content never changes
 
   const probabilityOptions = ["Low", "Medium", "High"];
 
@@ -64,10 +80,14 @@ const Form = () => {
     };
     fetchStates();
   }, [setStates]); // Corrected: setStates is stable, but the effect depends on fetching data
-  const calculatePercentileFromRank = useCallback((rank) => {
-    if (!rank || isNaN(rank) || rank <= 0 || rank > totalCandidates) return "";
-    return ((1 - rank / totalCandidates) * 100).toFixed(6);
-  }, [totalCandidates]);
+  const calculatePercentileFromRank = useCallback(
+    (rank) => {
+      if (!rank || isNaN(rank) || rank <= 0 || rank > totalCandidates)
+        return "";
+      return ((1 - rank / totalCandidates) * 100).toFixed(6);
+    },
+    [totalCandidates]
+  );
   const calculateRankFromPercentile = useCallback((percentile) => {
     if (!percentile || isNaN(percentile) || percentile < 0 || percentile > 100)
       return "";
@@ -124,8 +144,8 @@ const Form = () => {
             !lowerCaseQuery ||
             normalizedInstitute.includes(lowerCaseQuery) ||
             normalizedBranch.includes(lowerCaseQuery);
-          const matchesGender = college.gender === selectedGender;
-          const matchesCategory = college.category === selectedCategory;
+          const matchesGender = college.gender === selectedGender; // Using selectedGender
+          const matchesCategory = college.category === selectedCategory; // Using selectedCategory
           const isArchitectureOrPlanning =
             normalizedInstitute.includes("architecture") ||
             normalizedInstitute.includes("planning") ||
@@ -145,6 +165,7 @@ const Form = () => {
           let instituteTypeMatch = false;
 
           if (selectedInstitutes.length > 0) {
+            // Using selectedInstitutes
             instituteTypeMatch = selectedInstitutes.includes(collegeType);
           } else {
             instituteTypeMatch = collegeType !== "IIT";
@@ -157,7 +178,7 @@ const Form = () => {
             (parseInt(b.closingRank, 10) || Infinity)
         );
     },
-    [selectedCategory, selectedGender, selectedInstitutes] // Removed calculateCategoryRank as it's used internally and doesn't change the function's behavior for different renders.
+    [selectedCategory, selectedGender, selectedInstitutes]
   );
 
   const filterByMainBranch = useCallback(
@@ -188,9 +209,8 @@ const Form = () => {
         });
       });
     },
-    [mainBranchOptions] // Correct dependency as it uses mainBranchOptions
+    [mainBranchOptions] // Corrected dependency array
   );
-
   const filterByProbability = useCallback(
     (colleges, selectedProbability) => {
       if (!colleges) return [];
@@ -269,7 +289,19 @@ const Form = () => {
         }
       }
     },
-    [calculatePercentileFromRank, calculateRankFromPercentile, setRankInput, setPercentileInput, setIsPercentileDisabled, setIsRankDisabled, setSelectedCategory, setSelectedGender, setSearchInput, setSelectedState, setSelectedInstitutes] // Added all state updaters that are directly used.
+    [
+      calculatePercentileFromRank,
+      calculateRankFromPercentile,
+      setRankInput,
+      setPercentileInput,
+      setIsPercentileDisabled,
+      setIsRankDisabled,
+      setSelectedCategory,
+      setSelectedGender,
+      setSearchInput,
+      setSelectedState,
+      setSelectedInstitutes,
+    ] // Added all state updaters that are directly used.
   );
 
   const updateFilteredColleges = useCallback(() => {
@@ -432,7 +464,8 @@ const Form = () => {
           .replace(/Indian Institute of Technology/g, "IIT")
           .replace(/National Institute of Technology/g, "NIT")
           .replace(/Indian Institute of Information Technology/g, "IIIT");
-        const googleSearchUrl = `https://www.google.com/search?q=${encodeURIComponent(collegeName + " college pravesh"
+        const googleSearchUrl = `https://www.google.com/search?q=${encodeURIComponent(
+          collegeName + " college pravesh"
         )}`;
         const isHS = college.quota?.trim().toLowerCase() === "hs";
         const collegeType = college.type?.toUpperCase() || "";
