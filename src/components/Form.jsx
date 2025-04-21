@@ -104,17 +104,17 @@ const Form = () => {
     if (!categoryPercentages[category]) return crlRank;
     return Math.round(crlRank * categoryPercentages[category]);
   }, []); // Dependencies are correct as it uses categoryPercentages
-
-  const applySearchFilter = useCallback(
-    (
-      colleges,
-      categoryRank,
-      selectedCategory,
-      selectedGender,
-      query,
-      selectedState,
-      selectedInstitutes
-    ) => {
+// eslint-disable-next-line react-hooks/exhaustive-deps
+const applySearchFilter = useCallback(
+  (
+    colleges,
+    categoryRank,
+    selectedCategory,
+    selectedGender,
+    query,
+    selectedState,
+    selectedInstitutes
+  ) => {
       if (!colleges) return [];
       const lowerCaseQuery = query ? query.toLowerCase() : "";
       const lowerCaseSelectedState = selectedState
@@ -177,9 +177,9 @@ const Form = () => {
             (parseInt(a.closingRank, 10) || Infinity) -
             (parseInt(b.closingRank, 10) || Infinity)
         );
-    },
-    [selectedCategory, selectedGender, selectedInstitutes]
-  );
+      },
+      [selectedCategory, selectedGender, selectedInstitutes]
+    );
 
   const filterByMainBranch = useCallback(
     (colleges, selectedMainBranch) => {
