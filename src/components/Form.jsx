@@ -93,7 +93,7 @@ const Form = () => {
     if (!percentile || isNaN(percentile) || percentile < 0 || percentile > 100)
       return "";
     return Math.round((1 - percentile / 100) * totalCandidates);
-  }, []); // Dependencies are correct as it uses totalCandidates
+  }, [totalCandidates]); // Dependencies are correct as it uses totalCandidates
 
   const calculateCategoryRank = useCallback((crlRank, category) => {
     const categoryPercentages = {
@@ -256,21 +256,24 @@ const Form = () => {
     [rankInput, rankErrorFactor, maxRankDifferenceForLowProb] // Correct dependencies
   );
 
+  const [lastInteractedInput, setLastInteractedInput] = useState(null); // 'rank' or 'percentile'
+
   const handleInputChange = useCallback(
     (event) => {
       const { name, value, type, checked } = event.target;
       if (name === "marks") {
-        const parsedValue = parseInt(value, 10);
         setRankInput(value);
-        setPercentileInput(calculatePercentileFromRank(parsedValue));
+        setLastInteractedInput("rank");
         setIsPercentileDisabled(!!value);
         setIsRankDisabled(false);
+        // DO NOT automatically calculate percentile here
       } else if (name === "perc") {
-        const parsedValue = parseFloat(value);
         setPercentileInput(value);
-        setRankInput(calculateRankFromPercentile(parsedValue));
+        setRankInput(calculateRankFromPercentile(parseFloat(value)));
+        setLastInteractedInput("percentile");
         setIsRankDisabled(!!value);
         setIsPercentileDisabled(false);
+        setSelectedCategory("OPEN"); // Automatically select OPEN when percentile is entered
       } else if (name === "category") {
         setSelectedCategory(value);
       } else if (name === "gender") {
@@ -291,7 +294,6 @@ const Form = () => {
       }
     },
     [
-      calculatePercentileFromRank,
       calculateRankFromPercentile,
       setRankInput,
       setPercentileInput,
@@ -302,8 +304,20 @@ const Form = () => {
       setSearchInput,
       setSelectedState,
       setSelectedInstitutes,
-    ] // Added all state updaters that are directly used.
+    ]
   );
+
+  const shouldDisableCategory = useMemo(() => {
+    return lastInteractedInput === "percentile" && !!percentileInput;
+  }, [lastInteractedInput, percentileInput]);
+
+  // Effect to calculate percentile only when rank changes and percentile wasn't the last input
+  useEffect(() => {
+    if (lastInteractedInput === "rank" && rankInput !== "") {
+      setPercentileInput(calculatePercentileFromRank(parseInt(rankInput, 10)));
+    }
+  }, [rankInput, lastInteractedInput, calculatePercentileFromRank, setPercentileInput]);
+
 
   const updateFilteredColleges = useCallback(() => {
     const rank =
@@ -463,299 +477,301 @@ const Form = () => {
         const probability = college.probability; // Get probability from the college object
         return (
           probability && ( // Only render if probability is not null
-            <CollegeCard key={index}college={college}
-            probability={probability}
-          />
-        )
-      );
-    });
-  },
-  [] // Dependencies are correct as CollegeCard handles its own memoization
-);
+            <CollegeCard key={index} college={college} probability={probability} />
+          )
+        );
+      });
+    },
+    [] // Dependencies are correct as CollegeCard handles its own memoization
+  );
 
-return (
-  <>
-    <section className="area1">
-      <div className="form">
-        <input
-          type="number"
-          id="marks"
-          name="marks"
-          className="input"
-          placeholder="CRL/Category Rank"
-          value={rankInput}
-          onChange={handleInputChange}
-          disabled={isRankDisabled}
-        />
-        <input
-          type="number"
-          id="perc"
-          name="perc"
-          min="0"
-          max="100"
-          className="input"
-          placeholder="or Percentile"
-          value={percentileInput}
-          onChange={handleInputChange}
-          disabled={isPercentileDisabled}
-        />
-        <div className="container1">
-          <label htmlFor="state">Home State</label>
-          <select
-            id="state"
-            name="state"
-            className="state-select"
-            required
+  return (
+    <>
+      <section className="area1">
+        <div className="form">
+          <input
+            type="number"
+            id="marks"
+            name="marks"
+            className="input"
+            placeholder="CRL/Category Rank"
+            value={rankInput}
             onChange={handleInputChange}
-            value={selectedState} // Added value prop for controlled component
-          >
-            <option value="">Select</option>
-            {states.map((state) => (
-              <option key={state} value={state.toLowerCase()}>
-                {state}
-              </option>
-            ))}
-          </select>
-          <div className="mydict">
-            <div>
-              <label>
-                <input
-                  type="radio"
-                  name="gender"
-                  value="Gender-Neutral"
-                  checked={selectedGender === "Gender-Neutral"} // Controlled component
-                  onChange={handleInputChange}
-                />
-                <span>Male</span>
-              </label>
-              <label>
-                <input
-                  type="radio"
-                  name="gender"
-                  value="Female-only (including Supernumerary)"
-                  checked={
-                    selectedGender === "Female-only (including Supernumerary)"
-                  } // Controlled component
-                  onChange={handleInputChange}
-                />
-                <span>Female</span>
-              </label>
-              <label>
-                <input
-                  type="radio"
-                  name="gender"
-                  value="Others"
-                  checked={selectedGender === "Others"} // Controlled component
-                  onChange={handleInputChange}
-                />
-                <span>Others</span>
-              </label>
-            </div>
-          </div>
-          <div className="mydict">
-            <div>
-              <label>
-                <input
-                  type="radio"
-                  name="category"
-                  value="EWS"
-                  checked={selectedCategory === "EWS"} // Controlled component
-                  onChange={handleInputChange}
-                />
-                <span>EWS</span>
-              </label>
-              <label>
-                <input
-                  type="radio"
-                  name="category"
-                  value="OBC-NCL"
-                  checked={selectedCategory === "OBC-NCL"} // Controlled component
-                  onChange={handleInputChange}
-                />
-                <span>OBC</span>
-              </label>
-              <label>
-                <input
-                  type="radio"
-                  name="category"
-                  value="SC"
-                  checked={selectedCategory === "SC"} // Controlled component
-                  onChange={handleInputChange}
-                />
-                <span>SC</span>
-              </label>
-              <label>
-                <input
-                  type="radio"
-                  name="category"
-                  value="ST"
-                  checked={selectedCategory === "ST"} // Controlled component
-                  onChange={handleInputChange}
-                />
-                <span>ST</span>
-              </label>
-              <label>
-                <input
-                  type="radio"
-                  name="category"
-                  value="OPEN"
-                  checked={selectedCategory === "OPEN"} // Controlled component
-                  onChange={handleInputChange}
-                />
-                <span>OPEN</span>
-              </label>
-            </div>
+            disabled={isRankDisabled}
+          />
+          <input
+            type="number"
+            id="perc"
+            name="perc"
+            min="0"
+            max="100"
+            className="input"
+            placeholder="or Percentile"
+            value={percentileInput}
+            onChange={handleInputChange}
+            disabled={isPercentileDisabled}
+          />
+          <div className="container1">
+            <label htmlFor="state">Home State</label>
+            <select
+              id="state"
+              name="state"
+              className="state-select"
+              required
+              onChange={handleInputChange}
+              value={selectedState} // Added value prop for controlled component
+            >
+              <option value="">Select</option>
+              {states.map((state) => (
+                <option key={state} value={state.toLowerCase()}>
+                  {state}
+                </option>
+              ))}
+            </select>
             <div className="mydict">
-              <label>
-                <input
-                  type="checkbox"
-                  name="nit"
-                  value="NIT"
-                  checked={selectedInstitutes.includes("NIT")} // Controlled component
-                  onChange={handleInputChange}
-                />
-                <span>NIT</span>
-              </label>
-              <label>
-                <input
-                  type="checkbox"
-                  name="iiit"
-                  value="IIIT"
-                  checked={selectedInstitutes.includes("IIIT")} // Controlled component
-                  onChange={handleInputChange}
-                />
-                <span>IIIT</span>
-              </label>
-              <label>
-                <input
-                  type="checkbox"
-                  name="gfti"
-                  value="GFTI"
-                  checked={selectedInstitutes.includes("GFTI")} // Controlled component
-                  onChange={handleInputChange}
-                />
-                <span>GFTI</span>
-              </label>
-            </div>
-            <div className="mydict">
-              <label>
-                <input
-                  type="text"
-                  id="search"
-                  name="search"
-                  className="input inp1"
-                  placeholder="Specific City/Branch"
-                  value={searchInput} // Controlled component
-                  onChange={handleInputChange}
-                />
-              </label>
-              <div className="info">
-                Note: For now I have only compiled JoSSA's data here. Haven't
-                added CSAB/JACDelhi/AkTU/MhTCET/ COMEDK/other counsellings ka
-                data yet. So keep this in mind while using this predictor!
-                <br />
-                <span className="ff">Asuvidha ke liye khed haiii!</span>
+              <div>
+                <label>
+                  <input
+                    type="radio"
+                    name="gender"
+                    value="Gender-Neutral"
+                    checked={selectedGender === "Gender-Neutral"} // Controlled component
+                    onChange={handleInputChange}
+                  />
+                  <span>Male</span>
+                </label>
+                <label>
+                  <input
+                    type="radio"
+                    name="gender"
+                    value="Female-only (including Supernumerary)"
+                    checked={
+                      selectedGender === "Female-only (including Supernumerary)"
+                    } // Controlled component
+                    onChange={handleInputChange}
+                  />
+                  <span>Female</span>
+                </label>
+                <label>
+                  <input
+                    type="radio"
+                    name="gender"
+                    value="Others"
+                    checked={selectedGender === "Others"} // Controlled component
+                    onChange={handleInputChange}
+                  />
+                  <span>Others</span>
+                </label>
+              </div>
+            </div><div className="mydict">
+              <div>
+                <label>
+                  <input
+                    type="radio"
+                    name="category"
+                    value="EWS"
+                    checked={selectedCategory === "EWS"}
+                    onChange={handleInputChange}
+                    disabled={shouldDisableCategory}
+                  />
+                  <span>EWS</span>
+                </label>
+                <label>
+                  <input
+                    type="radio"
+                    name="category"
+                    value="OBC-NCL"
+                    checked={selectedCategory === "OBC-NCL"}
+                    onChange={handleInputChange}
+                    disabled={shouldDisableCategory}
+                  />
+                  <span>OBC</span>
+                </label>
+                <label>
+                  <input
+                    type="radio"
+                    name="category"
+                    value="SC"
+                    checked={selectedCategory === "SC"}
+                    onChange={handleInputChange}
+                    disabled={shouldDisableCategory}
+                  />
+                  <span>SC</span>
+                </label>
+                <label>
+                  <input
+                    type="radio"
+                    name="category"
+                    value="ST"
+                    checked={selectedCategory === "ST"}
+                    onChange={handleInputChange}
+                    disabled={shouldDisableCategory}
+                  />
+                  <span>ST</span>
+                </label>
+                <label>
+                  <input
+                    type="radio"
+                    name="category"
+                    value="OPEN"
+                    checked={selectedCategory === "OPEN"}
+                    onChange={handleInputChange}
+                    disabled={shouldDisableCategory}
+                  />
+                  <span>OPEN</span>
+                </label>
+              </div>
+              <div className="mydict">
+                <label>
+                  <input
+                    type="checkbox"
+                    name="nit"
+                    value="NIT"
+                    checked={selectedInstitutes.includes("NIT")} // Controlled component
+                    onChange={handleInputChange}
+                  />
+                  <span>NIT</span>
+                </label>
+                <label>
+                  <input
+                    type="checkbox"
+                    name="iiit"
+                    value="IIIT"
+                    checked={selectedInstitutes.includes("IIIT")} // Controlled component
+                    onChange={handleInputChange}
+                  />
+                  <span>IIIT</span>
+                </label>
+                <label>
+                  <input
+                    type="checkbox"
+                    name="gfti"
+                    value="GFTI"
+                    checked={selectedInstitutes.includes("GFTI")} // Controlled component
+                    onChange={handleInputChange}
+                  />
+                  <span>GFTI</span>
+                </label>
+              </div>
+              <div className="mydict">
+                <label>
+                  <input
+                    type="text"
+                    id="search"
+                    name="search"
+                    className="input inp1"
+                    placeholder="Specific City/Branch"
+                    value={searchInput} // Controlled component
+                    onChange={handleInputChange}
+                  />
+                </label>
+                <div className="info">
+                  Note: For now I have only compiled JoSSA's data here. Haven't
+                  added CSAB/JACDelhi/AkTU/MhTCET/ COMEDK/other counsellings ka
+                  data yet. So keep this in mind while using this predictor!
+                  <br />
+                  <span className="ff">Asuvidha ke liye khed haiii!</span>
+                </div>
               </div>
             </div>
           </div>
-        </div>
-        <div className="button-container">
-          <button
-            className="custom-button"
-            onClick={handleContinue}
-            disabled={!rankInput && !percentileInput && !selectedState}
-          >
-            <div className="button-content">
-              <span>Continue</span>
-            </div>
-          </button>
-        </div>
-      </div>
-    </section>
-    <section className="results">
-      <div className="branch-filter-container">
-        <div className="branch-filter" ref={branchScrollRef}>
-          {mainBranchOptions.map((branchOption) => (
+          <div className="button-container">
             <button
-              key={branchOption.value}
-              className={`branch-filter-button ${
-                selectedMainBranch.includes(branchOption.value) ? "active" : ""
-              }`}
-              onClick={() => handleMainBranchClick(branchOption.value)}
+              className="custom-button"
+              onClick={handleContinue}
+              disabled={!rankInput && !percentileInput && !selectedState}
             >
-              {branchOption.label}
+              <div className="button-content">
+                <span>Continue</span>
+              </div>
             </button>
-          ))}
-          <button
-            key="all-branch"
-            className={`branch-filter-button ${
-              selectedMainBranch.length === 0 ? "active" : ""
-            }`}
-            onClick={() => handleMainBranchClick(null)}
-          >
-            ALL
-          </button>
+          </div>
         </div>
-        <div className="branch-filter-overlay"></div>
-      </div>
-
-      {/* Conditionally render Probability Filter */}
-      {(rankInput || percentileInput) && (
+      </section>
+      <section className="results">
         <div className="branch-filter-container">
-          <div className="branch-filter">
-            {probabilityOptions.map((prob) => (
+          <div className="branch-filter" ref={branchScrollRef}>
+            {mainBranchOptions.map((branchOption) => (
               <button
-                key={prob}
+                key={branchOption.value}
                 className={`branch-filter-button ${
-                  selectedProbability.includes(prob) ? "active" : ""
+                  selectedMainBranch.includes(branchOption.value) ? "active" : ""
                 }`}
-                onClick={() => handleProbabilityClick(prob)}
+                onClick={() => handleMainBranchClick(branchOption.value)}
               >
-                {prob}
+                {branchOption.label}
               </button>
             ))}
             <button
-              key="all-prob"
+              key="all-branch"
               className={`branch-filter-button ${
-                selectedProbability.length === 0 ? "active" : ""
+                selectedMainBranch.length === 0 ? "active" : ""
               }`}
-              onClick={() => handleProbabilityClick(null)}
+              onClick={() => handleMainBranchClick(null)}
             >
               ALL
             </button>
           </div>
           <div className="branch-filter-overlay"></div>
         </div>
-      )}
 
-      {displayColleges(paginateColleges())}
-    </section>
+        {/* Conditionally render Probability Filter */}
+        {(rankInput || percentileInput) && (
+          <div className="branch-filter-container">
+            <div className="branch-filter">
+              {probabilityOptions.map((prob) => (
+                <button
+                  key={prob}
+                  className={`branch-filter-button ${
+                    selectedProbability.includes(prob) ? "active" : ""
+                  }`}
+                  onClick={() => handleProbabilityClick(prob)}
+                >
+                  {prob}
+                </button>
+              ))}
+              <button
+                key="all-prob"
+                className={`branch-filter-button ${
+                  selectedProbability.length === 0 ? "active" : ""
+                }`}
+                onClick={() => handleProbabilityClick(null)}
+              >
+                ALL
+              </button>
+            </div>
+            <div className="branch-filter-overlay"></div>
+          </div>
+        )}
 
-    {filteredColleges.length > itemsPerPage && (
-      <section className="pagination-section">
-        <div className="pagination">
-          <button
-            className="prev"
-            onClick={() => handlePagination("prev")}
-            disabled={currentPage === 1}
-          >
-            &lt;
-          </button>
-          <span>
-            {currentPage} / {totalPages()}
-          </span>
-          <button
-            className="next"
-            onClick={() => handlePagination("next")}
-            disabled={currentPage === totalPages()}
-          >
-            &gt;
-          </button>
-        </div>
+        {displayColleges(paginateColleges())}
       </section>
-    )}
-  </>
-);
+
+      {filteredColleges.length > itemsPerPage && (
+        <section className="pagination-section">
+          <div className="pagination">
+            <button
+              className="prev"
+              onClick={() => handlePagination("prev")}
+              disabled={currentPage === 1}
+            >
+              &lt;
+            </button>
+            <span>
+              {currentPage} / {totalPages()}
+            </span>
+            <button
+              className="next"
+              onClick={() => handlePagination("next")}
+              disabled={currentPage === totalPages()}
+            >
+              &gt;
+            </button>
+          </div>
+        </section>
+      )}
+    </>
+  );
 };
 
 export default Form;
