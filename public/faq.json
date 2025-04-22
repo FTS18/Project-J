@@ -1,35 +1,15 @@
 [
   {
     "question": "What is Project J?",
-    "answer": "It is a JEE Mains College Predictor designed to help you explore potential engineering college admissions based on your rank or percentile in the JEE Mains examination. The predictor considers various factors like your category, gender, home state, and preferred institute types to provide estimated predictions based on <a href=\"https://josaa.admissions.nic.in/applicant/SeatAllotmentResult/CurrentORCR.aspx\">JoSAA</a> Round 5 2024 data."
-  },
-  {
-    "question": "How do I use the rank and percentile inputs?",
-    "answer": "You can enter your JEE Mains Common Rank List (CRL) or Category Rank in the 'CRL/Category Rank' field OR your percentile in the 'or Percentile' field. The tool will use whichever value you provide to make predictions. You don't need to fill both. **Please note that Category options are only applicable when you enter a Category Rank in the 'CRL/Category Rank' field. If you enter a percentile, Category selection will not influence the prediction.** Keep in mind that the current predictions are based solely on JoSAA data."
-  },
-  {
-    "question": "How does selecting a Category (EWS, OBC-NCL, SC, ST, OPEN) affect the results?",
-    "answer": "Your category plays a significant role in JEE Main admissions as there are category-wise reservations and different cutoff ranks for each category within JoSAA counselling. By selecting your applicable category, it can use the relevant historical cutoff data from <a href=\"https://josaa.admissions.nic.in/applicant/SeatAllotmentResult/CurrentORCR.aspx\">JoSAA</a> Round 5 2024 for a more personalized prediction. **However, Category selection is only effective if you provide a Category Rank in the 'CRL/Category Rank' field. If you provide a percentile, the predictions are based on the overall percentile, and Category is not considered.**"
-  },
-  {
-    "question": "How can I use the Specific City/Branch search bar?",
-    "answer": "This search bar enables you to further refine your search results within the colleges participating in JoSAA counselling. You can type in a specific city (e.g., Delhi, Mumbai) or a particular branch of engineering (e.g., Computer Science, Electrical Engineering) to see if any predicted colleges from the <a href=\"https://josaa.admissions.nic.in/applicant/SeatAllotmentResult/CurrentORCR.aspx\">JoSAA</a> Round 5 2024 data match your criteria. These search results do not include data from other counselling platforms at this time."
-  },
-  {
-    "question": "What happens when I click the Continue button?",
-    "answer": "Upon clicking Continue, the information you've entered (rank/percentile, home state, gender, category (if applicable), selected institute types, and search query) is processed. The system then analyzes this data against a comprehensive database of <a href=\"https://josaa.admissions.nic.in/applicant/SeatAllotmentResult/CurrentORCR.aspx\">JoSAA</a> Round 5 2024 cutoff ranks for various colleges and branches. Based on this analysis, it generates a list of potential colleges and branches that align with your profile within the JoSAA framework. Predictions for other counselling processes are not yet available."
-  },
-  {
-    "question": "What do Low, Medium, and High probabilities indicate?",
-    "answer": "After you enter your rank/percentile, the predicted colleges might be tagged with Low, Medium, or High probability. This is an estimation of your chances of getting admission into that particular college and branch based on how your rank compares to the <a href=\"https://josaa.admissions.nic.in/applicant/SeatAllotmentResult/CurrentORCR.aspx\">JoSAA</a> Round 5 2024 cutoff ranks. High suggests a strong possibility within JoSAA counselling, Medium indicates a reasonable chance, and Low means the cutoff ranks were close to or slightly better than your rank, so the chances are less certain within the JoSAA context. Other counselling processes are not considered in these probabilities."
+    "answer": "This tool serves as a JEE Mains College Predictor, assisting you in exploring potential engineering college admissions based on your JEE Main performance (rank or percentile). It factors in your category, gender, home state, and institute preferences to generate estimated predictions, drawing upon <a href=\"https://josaa.admissions.nic.in/applicant/SeatAllotmentResult/CurrentORCR.aspx\">JoSAA</a> Round 5 2024 data."
   },
   {
     "question": "Are the results guaranteed?",
-    "answer": "No, the predictions provided by it are based on historical <a href=\"https://josaa.admissions.nic.in/applicant/SeatAllotmentResult/CurrentORCR.aspx\">JoSAA</a> Round 5 2024 data and are intended as estimations for admissions through JoSAA. Actual cutoff ranks for the current academic year can vary due to factors like the number of applicants, the difficulty level of the exam, and changes in the admission policies within the counselling authority. Therefore, the results should be considered as indicative and not a guarantee of admission through JoSAA or any other counselling. Always refer to the official <a href=\"https://josaa.admissions.nic.in/applicant/SeatAllotmentResult/CurrentORCR.aspx\">JoSAA</a> website for the most accurate and up-to-date information regarding JoSAA counselling."
+    "answer": "No, the predictions offered by this tool are based on historical <a href=\"https://josaa.admissions.nic.in/applicant/SeatAllotmentResult/CurrentORCR.aspx\">JoSAA</a> Round 5 2024 data and serve as estimations for admissions through the joint process. Actual cutoff ranks can vary annually. Hence, the results are indicative, not a guarantee of admission. Always consult the official <a href=\"https://josaa.admissions.nic.in/applicant/SeatAllotmentResult/CurrentORCR.aspx\">JoSAA</a> website for definitive information."
   },
   {
     "question": "Where does the data for these predictions come from?",
-    "answer": "The predictions are generated by comparing your input data against a database of past years' cutoff ranks for various engineering colleges, specifically focusing on the Round 5 data released by the <a href=\"https://josaa.admissions.nic.in/applicant/SeatAllotmentResult/CurrentORCR.aspx\">JoSAA</a> (Joint Seat Allocation Authority) for IITs, NITs, IIITs, and GFTIs. It aims to identify colleges and branches where your rank falls within or close to the historical cutoff ranges from <a href=\"https://josaa.admissions.nic.in/applicant/SeatAllotmentResult/CurrentORCR.aspx\">JoSAA</a> Round 5 2024."
+    "answer": "The predictions are generated by comparing your input against past years' cutoff ranks for various engineering colleges, specifically focusing on the Round 5 data released by the <a href=\"https://josaa.admissions.nic.in/applicant/SeatAllotmentResult/CurrentORCR.aspx\">JoSAA</a> (Joint Seat Allocation Authority) for IITs, NITs, IIITs, and GFTIs. The aim is to identify potential college and branch fits based on historical trends within this allocation system."
   },
   {
     "question": "Who developed Project J?",
@@ -37,46 +17,42 @@
   },
   {
     "question": "What data from other counselling processes is NOT included in Project J?",
-    "answer": "Its current database includes only JoSAA (Joint Seat Allocation Authority) data. It does not include data from other counselling processes such as CSAB (Central Seat Allocation Board), JAC Delhi, AKTU (Dr. A.P.J. Abdul Kalam Technical University), MHT CET (Maharashtra Common Entrance Test), COMEDK (Consortium of Medical, Engineering, and Dental Colleges of Karnataka), or any other state-level or private college counselling."
+    "answer": "The current database solely comprises data from the Joint Seat Allocation Authority. Information from other counselling bodies like CSAB, JAC Delhi, AKTU, MHT CET, COMEDK, and similar platforms is not part of this predictor's scope."
   },
   {
     "question": "Does Project J include data from CSAB?",
-    "answer": "No, it currently uses data specifically from the <a href=\"https://josaa.admissions.nic.in/applicant/SeatAllotmentResult/CurrentORCR.aspx\">JoSAA</a> Round 5 of 2024. Data from CSAB, which conducts counselling for vacant seats after the JoSAA rounds, is not included in the current version. We apologize for any inconvenience."
+    "answer": "No, this tool utilizes data specifically from <a href=\"https://josaa.admissions.nic.in/applicant/SeatAllotmentResult/CurrentORCR.aspx\">JoSAA</a> Round 5 of 2024. Data from CSAB, which handles post-JoSAA vacant seat allocation, isn't included."
   },
   {
     "question": "How can I contact the developer for feedback or issues?",
-    "answer": "You can reach out to me, <a href=\"mailto:spacify1807@gmail.com\">spacify1807@gmail.com</a> for feedback or to report any issues."
+    "answer": "You can reach me at <a href=\"mailto:spacify1807@gmail.com\">spacify1807@gmail.com</a> for feedback or to report any issues."
   },
   {
     "question": "What is the difference between CRL and Category Rank?",
-    "answer": "CRL stands for Common Rank List, which is the overall rank you obtain in the JEE Mains examination. Category Rank is your rank within your specific category (EWS, OBC-NCL, SC, ST). Category Ranks are used for admissions under reserved category quotas in JoSAA counselling."
+    "answer": "CRL (Common Rank List) is your overall JEE Mains rank. Category Rank is your rank within your specific category (EWS, OBC-NCL, SC, ST), used for reserved category admissions in JoSAA counselling."
   },
   {
     "question": "Why are IITs not included in the predictions?",
-    "answer": "It currently focuses on predictions for NITs, IIITs, and GFTIs based on <a href=\"https://josaa.admissions.nic.in/applicant/SeatAllotmentResult/CurrentORCR.aspx\">JoSAA</a> Round 5 2024 data. IIT admissions have different dynamics and cutoff patterns, and they are not included in the current prediction model."
+    "answer": "This predictor currently focuses on NITs, IIITs, and GFTIs based on <a href=\"https://josaa.admissions.nic.in/applicant/SeatAllotmentResult/CurrentORCR.aspx\">JoSAA</a> Round 5 2024 data. IIT admissions follow different patterns and aren't part of the current model."
   },
   {
     "question": "How often is the data updated?",
-    "answer": "The data is typically updated after the JoSAA counselling process concludes each year. It currently uses data from the <a href=\"https://josaa.admissions.nic.in/applicant/SeatAllotmentResult/CurrentORCR.aspx\">JoSAA</a> Round 5 of 2024. We will strive to update the data with the latest available information."
+    "answer": "The underlying data is typically updated after the conclusion of the joint seat allocation each year. Currently, it uses <a href=\"https://josaa.admissions.nic.in/applicant/SeatAllotmentResult/CurrentORCR.aspx\">JoSAA</a> Round 5 2024 data. Efforts will be made to incorporate the latest available information."
   },
   {
     "question": "Can I use this predictor for state-level college admissions?",
-    "answer": "Currently, it primarily focuses on JoSAA counselling data. While it might give you a general idea, it's not designed for accurate predictions for state-level college admissions. You should refer to the respective state counselling authorities for their specific cutoff details."
+    "answer": "Presently, the focus is primarily on <a href=\"https://josaa.admissions.nic.in/applicant/SeatAllotmentResult/CurrentORCR.aspx\">JoSAA</a> counselling data. While it might offer a general perspective, it's not optimized for state-level admissions. Consult the respective state counselling authorities for their specific details."
   },
   {
     "question": "What factors can affect the accuracy of the predictions?",
-    "answer": "Several factors can influence the accuracy, including: \n    -   Changes in the number of seats available.\n    -   Variations in the difficulty level of the JEE Mains exam each year.\n    -   Shifts in student preferences for colleges and branches.\n    -   Changes in the JoSAA counselling process.\n    Therefore, the predictions it provides are indicative and not definitive."
-  },
-  {
-    "question": "Role of JoSAA in the admission process?",
-    "answer": "It conducts the joint seat allocation process for admissions to IITs, NITs, IIITs, and GFTIs based on the JEE Advanced and JEE Mains ranks. It manages the centralized counselling process for these institutes."
+    "answer": "Prediction accuracy can be influenced by several variables, including changes in seat availability, JEE Main exam difficulty variations, shifts in student preferences, and modifications in the <a href=\"https://josaa.admissions.nic.in/applicant/SeatAllotmentResult/CurrentORCR.aspx\">JoSAA</a> counselling process. Therefore, the results should be seen as indicative."
   },
   {
     "question": "How many rounds of counselling are typically conducted by JoSAA?",
-    "answer": "JoSAA typically conducts 5 to 6 rounds of counselling. The exact number may vary from year to year. The data used in this predictor is based on Round 5 of the 2024 JoSAA counselling."
+    "answer": "The joint seat allocation usually involves 5 to 6 rounds. The exact number can vary annually. The data within this predictor is based on Round 5 of the 2024 process."
   },
   {
     "question": "Where can I find the official data for cutoff ranks?",
-    "answer": "You can find the official cutoff ranks on the official <a href=\"https://josaa.admissions.nic.in/\">JoSAA</a> website."
+    "answer": "Official cutoff ranks are available on the official <a href=\"https://josaa.admissions.nic.in/\">JoSAA</a> website."
   }
 ]

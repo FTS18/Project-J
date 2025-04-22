@@ -295,14 +295,6 @@ function updateYear() {
 window.onload = function () {
     updateYear();
 };
-window.addEventListener("scroll", function () {
-    const nav = document.querySelector(".nav");
-    if (window.scrollY > 400) {
-        nav.style.background = "#25252592";
-    } else {
-        nav.style.background = "#006e3b21";
-    }
-});
 
 // Function to update the year
 function updateYear() {

@@ -649,12 +649,12 @@ return (
                   onChange={handleInputChange}
                 />
               </label>
-              <div class="info">
+              <div className="info">
                 Note: For now I have only compiled JoSSA's data here. Haven't
                 added CSAB/JACDelhi/AkTU/MhTCET/ COMEDK/other counsellings ka
                 data yet. So keep this in mind while using this predictor!
                 <br />
-                <span class="ff">Asuvidha ke liye khed haiii!</span>
+                <span className="ff">Asuvidha ke liye khed haiii!</span>
               </div>
             </div>
           </div>
