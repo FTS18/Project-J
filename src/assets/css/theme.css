@@ -485,7 +485,10 @@ label:last-child span {
 .custom-button:hover .button-content span {
   transform: translateX(4px);
 }
-
+.later{
+width: 100%;
+top: 15px;
+}
 .button-icon {
   width: 20px;
   height: 20px;
@@ -499,6 +502,7 @@ label:last-child span {
 
 .results {
   padding: 15px;
+  padding-bottom: 50px;
   width: 100%;
   max-width: 400px;
   min-height: 200px;
@@ -531,9 +535,10 @@ label:last-child span {
 }
 
 .branch-filter {
-  background: #28382f7c;
+  background: #2c966829;
   /* Keep this explicit as it's a specific visual */
   border-radius: 10px;
+  border: 0.5px solid #459e7852;
   overflow-x: auto;
   padding: 20px;
   display: flex;
@@ -1053,7 +1058,7 @@ body.loading {
 
 #preloader {
   position: fixed;
-  height: 100vh;
+  height: 100dvh;
   width: 100%;
   inset: 0;
   /* shorthand for top:0; bottom:0; left:0; right:0 */
@@ -1141,4 +1146,72 @@ body.loading {
   color: white;
   background-color: #1aff00;
   padding: 0.5rem 1.5rem 0.5rem 0.75rem;
+}.fullscreen-gallery {
+  position: fixed;
+  top: 0;
+  left: 0;
+  height:  100%;
+  width: 100%;
+  background-color: rgba(0, 0, 0, 0.9);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
 }
+.close-btn {
+  position: absolute;
+  top: 20px;
+  right: 30px;
+  color: #fff;
+  font-size: 30px;
+  font-weight: bold;
+  cursor: pointer;
+  border: none;
+  background: none;
+  padding: 0;
+}
+
+.slider-container {
+  position: relative;
+  max-width: 90%;
+  max-height: 90%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.slider-container img {
+  max-width: 100%;
+  max-height: 100%;
+  object-fit: contain;
+}
+
+.nav-btn {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  background: none;
+  border: none;
+  color: #fff;
+  font-size: 40px;
+  cursor: pointer;
+  padding: 10px;
+  opacity: 0.7;
+  transition: opacity 0.3s ease;
+}
+
+.nav-btn:hover {
+  opacity: 1;
+}
+
+.nav-btn.prev {
+  left: 20px;
+}
+
+.nav-btn.next {
+  right: 20px;
+}
+#root{
+  position: relative;
+top: 0;
+left: 0;}

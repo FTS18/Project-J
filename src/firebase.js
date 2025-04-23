@@ -1,5 +1,5 @@
-// src/firebase.js
 import { initializeApp } from "firebase/app"; // Use modular imports
+import { getAuth } from "firebase/auth";       // Import Firebase Auth
 import { getDatabase, ref, onValue, set, get } from "firebase/database"; // Import Realtime Database functions
 
 // Your Firebase project configuration
@@ -13,8 +13,8 @@ const firebaseConfig = {
     appId: "1:666092567983:web:c868e1973002f7bcb6435a"
 };
 
-// Initialize Firebase
 const app = initializeApp(firebaseConfig);
-const database = getDatabase(app); 
+const auth = getAuth(app); // Initialize Firebase Auth
+const database = getDatabase(app);
 
-export { app, database, ref, onValue, set, get }; 
+export { app, auth, database, ref, onValue, set, get };

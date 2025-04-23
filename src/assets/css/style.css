@@ -221,8 +221,8 @@ More comprehensive version at shenanigans.shoghisimon.ca/collection/css-rain-bg/
 }
 
 .state-select:focus {
-  border: 0;
-  outline: 0;
+  border-color: #3b3b3b;
+  box-shadow: 0 0 0 2px rgba(143, 143, 143, 0.5);
 }
 
 .state-select option {

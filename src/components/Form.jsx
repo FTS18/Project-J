@@ -5,7 +5,11 @@ import React, {
   useCallback,
   useMemo,
 } from "react";
-import CollegeCard from "./CollegeCard"; // Ensure this path is correct
+import CollegeCard from "./CollegeCard";
+import { jsPDF } from "jspdf";
+import autoTable from "jspdf-autotable";
+import { getDatabase, ref, get } from 'firebase/database';
+import { getApp } from 'firebase/app';
 
 const Form = () => {
   const [states, setStates] = useState([]);
@@ -27,7 +31,7 @@ const Form = () => {
   const itemsPerPage = 10;
   const totalCandidates = 1575143;
   const rankErrorFactor = 0.115;
-  const maxRankDifferenceForLowProb = 3000; // New absolute limit
+  const maxRankDifferenceForLowProb = 3000;
   const mainBranchOptions = useMemo(
     () => [
       {
@@ -60,9 +64,28 @@ const Form = () => {
       { value: "engphy", label: "ENG PHY", keywords: ["engineering physics"] },
     ],
     []
-  ); // Empty dependency array because the array's content never changes
+  );
 
   const probabilityOptions = ["Low", "Medium", "High"];
+  const [downloadOption, setDownloadOption] = useState("");
+  const app = getApp();
+  const database = getDatabase(app);
+  const [userIp, setUserIp] = useState(null); // Add state for user IP
+
+  const getIPAddress = useCallback(async () => {
+    try {
+      const response = await fetch('https://api.ipify.org?format=json');
+      const data = await response.json();
+      setUserIp(data.ip);
+    } catch (error) {
+      console.error('Error getting IP address:', error);
+      setUserIp('unknown_ip');
+    }
+  }, []);
+
+  useEffect(() => {
+    getIPAddress(); // Fetch IP address when Form component mounts
+  }, [getIPAddress]);
 
   useEffect(() => {
     const fetchStates = async () => {
@@ -76,11 +99,11 @@ const Form = () => {
         setStates(sortedStates);
       } catch (error) {
         console.error("Error loading cs.json:", error);
-        // Optionally set an error state to display a message to the user
       }
     };
     fetchStates();
-  }, [setStates]); // Corrected: setStates is stable, but the effect depends on fetching data
+  }, [setStates]);
+
   const calculatePercentileFromRank = useCallback(
     (rank) => {
       if (!rank || isNaN(rank) || rank <= 0 || rank > totalCandidates)
@@ -89,11 +112,20 @@ const Form = () => {
     },
     [totalCandidates]
   );
-  const calculateRankFromPercentile = useCallback((percentile) => {
-    if (!percentile || isNaN(percentile) || percentile < 0 || percentile > 100)
-      return "";
-    return Math.round((1 - percentile / 100) * totalCandidates);
-  }, [totalCandidates]); // Dependencies are correct as it uses totalCandidates
+
+  const calculateRankFromPercentile = useCallback(
+    (percentile) => {
+      if (
+        !percentile ||
+        isNaN(percentile) ||
+        percentile < 0 ||
+        percentile > 100
+      )
+        return "";
+      return Math.round((1 - percentile / 100) * totalCandidates);
+    },
+    [totalCandidates]
+  );
 
   const calculateCategoryRank = useCallback((crlRank, category) => {
     const categoryPercentages = {
@@ -104,14 +136,12 @@ const Form = () => {
     };
     if (!categoryPercentages[category]) return crlRank;
     return Math.round(crlRank * categoryPercentages[category]);
-  }, []); // Dependencies are correct as it uses categoryPercentages
-  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
   const applySearchFilter = useCallback(
     (
       colleges,
       categoryRank,
-      selectedCategory,
-      selectedGender,
       query,
       selectedState,
       selectedInstitutes
@@ -145,8 +175,8 @@ const Form = () => {
             !lowerCaseQuery ||
             normalizedInstitute.includes(lowerCaseQuery) ||
             normalizedBranch.includes(lowerCaseQuery);
-          const matchesGender = college.gender === selectedGender; // Using selectedGender
-          const matchesCategory = college.category === selectedCategory; // Using selectedCategory
+          const matchesGender = college.gender === selectedGender;
+          const matchesCategory = college.category === selectedCategory;
           const isArchitectureOrPlanning =
             normalizedInstitute.includes("architecture") ||
             normalizedInstitute.includes("planning") ||
@@ -166,7 +196,6 @@ const Form = () => {
           let instituteTypeMatch = false;
 
           if (selectedInstitutes.length > 0) {
-            // Using selectedInstitutes
             instituteTypeMatch = selectedInstitutes.includes(collegeType);
           } else {
             instituteTypeMatch = collegeType !== "IIT";
@@ -179,7 +208,7 @@ const Form = () => {
             (parseInt(b.closingRank, 10) || Infinity)
         );
     },
-    [selectedCategory, selectedGender, selectedInstitutes]
+    [selectedGender, selectedCategory, selectedInstitutes]
   );
 
   const filterByMainBranch = useCallback(
@@ -210,22 +239,22 @@ const Form = () => {
         });
       });
     },
-    [mainBranchOptions] // Corrected dependency array
+    [mainBranchOptions]
   );
+
   const filterByProbability = useCallback(
     (colleges, selectedProbability) => {
       if (!colleges) return [];
       const userRank = parseInt(rankInput, 10);
       if (isNaN(userRank)) {
-        return colleges; // If no rank, don't filter by probability
+        return colleges.map(college => ({ ...college, probability: null })); // Add probability: null if no valid rank
       }
 
       return colleges
         .map((college) => {
-          // Map first to assign probability
           const openingRank = parseInt(college.openingRank, 10);
           const closingRank = parseInt(college.closingRank, 10);
-          let probability = null; // Initialize as null
+          let probability = null;
 
           if (!isNaN(openingRank) && !isNaN(closingRank)) {
             if (userRank >= openingRank && userRank <= closingRank) {
@@ -240,23 +269,22 @@ const Form = () => {
               probability = "Low";
             }
           }
-          return { ...college, probability }; // Return new object with probability
+          return { ...college, probability };
         })
         .filter((college) => {
-          // Then filter based on selectedProbability and if probability is assigned
           if (selectedProbability && selectedProbability.length > 0) {
             return (
               college.probability &&
               selectedProbability.includes(college.probability)
             );
           }
-          return college.probability !== null; // Only show if a probability was determined
+          return college.probability !== null;
         });
     },
-    [rankInput, rankErrorFactor, maxRankDifferenceForLowProb] // Correct dependencies
+    [rankInput, rankErrorFactor, maxRankDifferenceForLowProb]
   );
 
-  const [lastInteractedInput, setLastInteractedInput] = useState(null); // 'rank' or 'percentile'
+  const [lastInteractedInput, setLastInteractedInput] = useState(null);
 
   const handleInputChange = useCallback(
     (event) => {
@@ -266,14 +294,13 @@ const Form = () => {
         setLastInteractedInput("rank");
         setIsPercentileDisabled(!!value);
         setIsRankDisabled(false);
-        // DO NOT automatically calculate percentile here
       } else if (name === "perc") {
         setPercentileInput(value);
         setRankInput(calculateRankFromPercentile(parseFloat(value)));
         setLastInteractedInput("percentile");
         setIsRankDisabled(!!value);
         setIsPercentileDisabled(false);
-        setSelectedCategory("OPEN"); // Automatically select OPEN when percentile is entered
+        setSelectedCategory("OPEN");
       } else if (name === "category") {
         setSelectedCategory(value);
       } else if (name === "gender") {
@@ -311,13 +338,16 @@ const Form = () => {
     return lastInteractedInput === "percentile" && !!percentileInput;
   }, [lastInteractedInput, percentileInput]);
 
-  // Effect to calculate percentile only when rank changes and percentile wasn't the last input
   useEffect(() => {
     if (lastInteractedInput === "rank" && rankInput !== "") {
       setPercentileInput(calculatePercentileFromRank(parseInt(rankInput, 10)));
     }
-  }, [rankInput, lastInteractedInput, calculatePercentileFromRank, setPercentileInput]);
-
+  }, [
+    rankInput,
+    lastInteractedInput,
+    calculatePercentileFromRank,
+    setPercentileInput,
+  ]);
 
   const updateFilteredColleges = useCallback(() => {
     const rank =
@@ -329,8 +359,6 @@ const Form = () => {
     const initiallyFiltered = applySearchFilter(
       allColleges,
       categoryRank,
-      selectedCategory,
-      selectedGender,
       searchInput,
       selectedState,
       selectedInstitutes
@@ -339,13 +367,14 @@ const Form = () => {
       initiallyFiltered,
       selectedMainBranch
     );
-    const finalFiltered = filterByProbability(
+    // Always apply probability filtering
+    const finalFilteredWithProbability = filterByProbability(
       filteredByBranch,
       selectedProbability
     );
 
-    setFilteredColleges(finalFiltered);
-    setCurrentPage(1); // Reset to the first page after filtering
+    setFilteredColleges(finalFilteredWithProbability);
+    setCurrentPage(1);
   }, [
     rankInput,
     percentileInput,
@@ -361,48 +390,53 @@ const Form = () => {
     applySearchFilter,
     filterByMainBranch,
     filterByProbability,
-    calculateRankFromPercentile, // Added as it's used within the callback
-    setFilteredColleges, // Added as it's directly used
-    setCurrentPage, // Added as it's directly used
+    calculateRankFromPercentile,
+    setFilteredColleges,
+    setCurrentPage,
   ]);
 
   const handleMainBranchClick = useCallback(
     (branchValue) => {
-      let newSelectedMainBranch = [];
-      if (branchValue === null) {
-        newSelectedMainBranch = [];
-      } else if (selectedMainBranch.includes(branchValue)) {
-        newSelectedMainBranch = selectedMainBranch.filter(
-          (b) => b !== branchValue
-        );
-      } else {
-        newSelectedMainBranch = [...selectedMainBranch, branchValue];
-      }
-      setSelectedMainBranch(newSelectedMainBranch);
-      updateFilteredColleges();
+      setSelectedMainBranch((prev) => {
+        if (branchValue === null) {
+          return [];
+        } else if (prev.includes(branchValue)) {
+          return prev.filter((b) => b !== branchValue);
+        } else {
+          return [...prev, branchValue];
+        }
+      });
     },
-    [selectedMainBranch, setSelectedMainBranch, updateFilteredColleges] // Added setSelectedMainBranch
+    []
   );
 
   const handleProbabilityClick = useCallback(
     (probabilityValue) => {
-      let newSelectedProbability = [...selectedProbability];
-
-      if (probabilityValue === null) {
-        newSelectedProbability = []; // Clicked "ALL" - deselect all
-      } else if (newSelectedProbability.includes(probabilityValue)) {
-        newSelectedProbability = newSelectedProbability.filter(
-          (p) => p !== probabilityValue
-        ); // Deselect if already selected
-      } else {
-        newSelectedProbability.push(probabilityValue); // Select if not already selected
-      }
-
-      setSelectedProbability(newSelectedProbability);
-      updateFilteredColleges();
+      setSelectedProbability((prev) => {
+        if (probabilityValue === null) {
+          return [];
+        } else if (prev.includes(probabilityValue)) {
+          return prev.filter((p) => p !== probabilityValue);
+        } else {
+          return [...prev, probabilityValue];
+        }
+      });
     },
-    [selectedProbability, setSelectedProbability, updateFilteredColleges] // Added setSelectedProbability
+    []
   );
+
+  useEffect(() => {
+    updateFilteredColleges();
+  }, [
+    updateFilteredColleges,
+    selectedMainBranch,
+    selectedProbability,
+    selectedCategory,
+    selectedGender,
+    searchInput,
+    selectedState,
+    selectedInstitutes,
+  ]);
 
   const handleContinue = useCallback(
     (event) => {
@@ -416,45 +450,147 @@ const Form = () => {
         })
         .then((data) => {
           setAllColleges(data);
-          // Update filtered colleges when data is initially loaded
           updateFilteredColleges();
         })
         .catch((error) => {
           console.error("Error fetching data:", error);
-          // Optionally set an error state to display a message to the user
         });
     },
-    [setAllColleges, updateFilteredColleges] // Added setAllColleges
+    [setAllColleges, updateFilteredColleges]
   );
 
-  // Update filtered colleges whenever the core filtering criteria change
-  useEffect(() => {
-    if (allColleges.length > 0) {
-      updateFilteredColleges();
+  const displayColleges = useCallback(
+    (colleges) => {
+      if (!colleges || colleges.length === 0) {
+        return <p>No colleges found matching your criteria.</p>;
+      }
+
+      return colleges.map((college, index) => (
+        <CollegeCard
+          key={index}
+          college={college}
+          probability={college.probability}
+          viewerIp={userIp} // Pass the userIp prop here
+        />
+      ));
+    },
+    [userIp] // Add userIp to the dependency array
+  );
+
+  const downloadPdfData = useCallback((collegesToDownload) => {
+    if (collegesToDownload.length === 0) {
+      alert("No colleges to download.");
+      return;
     }
-  }, [
-    allColleges,
-    rankInput,
-    percentileInput,
-    selectedCategory,
-    selectedGender,
-    searchInput,
-    selectedState,
-    selectedInstitutes,
-    selectedMainBranch,
-    selectedProbability,
-    updateFilteredColleges, // Added as the effect depends on this function
-  ]);
+
+    const doc = new jsPDF();
+    autoTable(doc, {
+      head: [
+        [
+          "Institute",
+          "Branch",
+          "Category",
+          "Quota",
+          "Gender",
+          "Opening Rank",
+          "Closing Rank",
+          "Probability",
+        ],
+      ],
+      body: collegesToDownload // Use the correct argument here
+        .map((college) => [
+          college.institute,
+          college.branch,
+          college.category,
+          college.quota,
+          college.gender,
+          college.openingRank,
+          college.closingRank,
+          college.probability,
+        ]),
+      styles: { fontSize: 8 },
+      columnStyles: { 7: { halign: "center" } },
+    });
+
+    doc.save("PJ Choices.pdf");
+  }, []);
+  const handleDownloadChange = useCallback(
+    (event) => {
+      setDownloadOption(event.target.value);
+    },
+    [setDownloadOption]
+  );
+
+  const sanitizePath = useCallback((name) => {
+    return name.replace(/[^a-zA-Z0-9_-]/g, '_');
+  }, []);
+  const handleDownloadClick = useCallback(async () => {
+    if (downloadOption === "saved") {
+      if (!userIp || userIp === 'unknown_ip') {
+        alert("Could not determine your IP address. Please try again later.");
+        return;
+      }
+
+      const hyphenatedIp = userIp.replace(/\./g, '-');
+
+      const fetchFirebaseSavedChoices = async (hyphenatedIp) => {
+        try {
+          const allCollegesRef = ref(database, 'colleges');
+          const snapshot = await get(allCollegesRef);
+
+          if (!snapshot.exists()) {
+            alert("No saved college data found.");
+            return [];
+          }
+
+          const savedCollegeNames = [];
+          snapshot.forEach((childSnapshot) => {
+            const collegeName = childSnapshot.key;
+            const collegeData = childSnapshot.val();
+            if (collegeData?.savedBy?.[hyphenatedIp]) {
+              savedCollegeNames.push(collegeName);
+            }
+          });
+          return savedCollegeNames;
+        } catch (error) {
+          console.error("Error fetching saved college data:", error);
+          alert("Error fetching saved choices.");
+          return [];
+        }
+      };
+
+      const savedCollegeNames = await fetchFirebaseSavedChoices(hyphenatedIp);
+
+      const collegesToDownload = filteredColleges.filter(college => {
+        const collegeNameForSanitize = (college.institute?.trim() || "Unnamed College")
+          .replace(/Indian Institute of Technology/g, "IIT")
+          .replace(/National Institute of Technology/g, "NIT")
+          .replace(/Indian Institute of Information Technology/g, "IIIT");
+        const sanitizedInstituteName = sanitizePath(collegeNameForSanitize);
+        return savedCollegeNames.includes(sanitizedInstituteName);
+      });
+
+      if (collegesToDownload.length > 0) {
+        downloadPdfData(collegesToDownload);
+      } else {
+        alert(`No saved choices found for your IP address.`);
+      }
+    } else if (downloadOption === "all") {
+      downloadPdfData(filteredColleges);
+    } else {
+      alert("Please select an option from the dropdown.");
+    }
+  }, [downloadOption, filteredColleges, downloadPdfData, database, sanitizePath, userIp]); // Added userIp to dependencies
 
   const totalPages = useCallback(() => {
-    return Math.ceil(filteredColleges.length / itemsPerPage) || 1; // Avoid division by zero
-  }, [filteredColleges.length, itemsPerPage]); // Correct dependencies
+    return Math.ceil(filteredColleges.length / itemsPerPage) || 1;
+  }, [filteredColleges.length, itemsPerPage]);
 
   const paginateColleges = useCallback(() => {
     const startIndex = (currentPage - 1) * itemsPerPage;
     const endIndex = startIndex + itemsPerPage;
     return filteredColleges.slice(startIndex, endIndex);
-  }, [currentPage, filteredColleges, itemsPerPage]); // Correct dependencies
+  }, [currentPage, filteredColleges, itemsPerPage]);
 
   const handlePagination = useCallback(
     (direction) => {
@@ -464,25 +600,7 @@ const Form = () => {
         setCurrentPage((prev) => Math.min(totalPages(), prev + 1));
       }
     },
-    [totalPages, setCurrentPage] // Correct dependencies
-  );
-
-  const displayColleges = useCallback(
-    (colleges) => {
-      if (!colleges || colleges.length === 0) {
-        return <p>No colleges found matching your criteria.</p>;
-      }
-
-      return colleges.map((college, index) => {
-        const probability = college.probability; // Get probability from the college object
-        return (
-          probability && ( // Only render if probability is not null
-            <CollegeCard key={index} college={college} probability={probability} />
-          )
-        );
-      });
-    },
-    [] // Dependencies are correct as CollegeCard handles its own memoization
+    [totalPages, setCurrentPage]
   );
 
   return (
@@ -519,7 +637,7 @@ const Form = () => {
               className="state-select"
               required
               onChange={handleInputChange}
-              value={selectedState} // Added value prop for controlled component
+              value={selectedState}
             >
               <option value="">Select</option>
               {states.map((state) => (
@@ -535,7 +653,7 @@ const Form = () => {
                     type="radio"
                     name="gender"
                     value="Gender-Neutral"
-                    checked={selectedGender === "Gender-Neutral"} // Controlled component
+                    checked={selectedGender === "Gender-Neutral"}
                     onChange={handleInputChange}
                   />
                   <span>Male</span>
@@ -547,7 +665,7 @@ const Form = () => {
                     value="Female-only (including Supernumerary)"
                     checked={
                       selectedGender === "Female-only (including Supernumerary)"
-                    } // Controlled component
+                    }
                     onChange={handleInputChange}
                   />
                   <span>Female</span>
@@ -557,13 +675,14 @@ const Form = () => {
                     type="radio"
                     name="gender"
                     value="Others"
-                    checked={selectedGender === "Others"} // Controlled component
+                    checked={selectedGender === "Others"}
                     onChange={handleInputChange}
                   />
                   <span>Others</span>
                 </label>
               </div>
-            </div><div className="mydict">
+            </div>
+            <div className="mydict">
               <div>
                 <label>
                   <input
@@ -627,7 +746,7 @@ const Form = () => {
                     type="checkbox"
                     name="nit"
                     value="NIT"
-                    checked={selectedInstitutes.includes("NIT")} // Controlled component
+                    checked={selectedInstitutes.includes("NIT")}
                     onChange={handleInputChange}
                   />
                   <span>NIT</span>
@@ -637,7 +756,7 @@ const Form = () => {
                     type="checkbox"
                     name="iiit"
                     value="IIIT"
-                    checked={selectedInstitutes.includes("IIIT")} // Controlled component
+                    checked={selectedInstitutes.includes("IIIT")}
                     onChange={handleInputChange}
                   />
                   <span>IIIT</span>
@@ -647,7 +766,7 @@ const Form = () => {
                     type="checkbox"
                     name="gfti"
                     value="GFTI"
-                    checked={selectedInstitutes.includes("GFTI")} // Controlled component
+                    checked={selectedInstitutes.includes("GFTI")}
                     onChange={handleInputChange}
                   />
                   <span>GFTI</span>
@@ -661,7 +780,7 @@ const Form = () => {
                     name="search"
                     className="input inp1"
                     placeholder="Specific City/Branch"
-                    value={searchInput} // Controlled component
+                    value={searchInput}
                     onChange={handleInputChange}
                   />
                 </label>
@@ -695,7 +814,9 @@ const Form = () => {
               <button
                 key={branchOption.value}
                 className={`branch-filter-button ${
-                  selectedMainBranch.includes(branchOption.value) ? "active" : ""
+                  selectedMainBranch.includes(branchOption.value)
+                    ? "active"
+                    : ""
                 }`}
                 onClick={() => handleMainBranchClick(branchOption.value)}
               >
@@ -715,7 +836,6 @@ const Form = () => {
           <div className="branch-filter-overlay"></div>
         </div>
 
-        {/* Conditionally render Probability Filter */}
         {(rankInput || percentileInput) && (
           <div className="branch-filter-container">
             <div className="branch-filter">
@@ -745,6 +865,30 @@ const Form = () => {
         )}
 
         {displayColleges(paginateColleges())}
+
+        {filteredColleges.length > 0 && (
+          <div className="download-container">
+            <select
+              id="downloadOption"
+              className="state-select"
+              value={downloadOption}
+              onChange={handleDownloadChange}
+            >
+              <option value="">Select Download Option</option>
+              <option value="saved">Download Saved Choices (PDF)</option>
+              <option value="all">Download All Results (PDF)</option>
+            </select>
+            <button
+              className="custom-button later"
+              onClick={handleDownloadClick}
+              disabled={!downloadOption}
+            >
+              <div className="button-content">
+                <span>Download</span>
+              </div>
+            </button>
+          </div>
+        )}
       </section>
 
       {filteredColleges.length > itemsPerPage && (
