@@ -9,7 +9,7 @@
   },
   {
     "question": "Is my data safe with Project J?",
-    "answer": "Yes, your data is not stored or shared. The tool only uses your inputs to generate predictions and does not retain any personal information."
+    "answer": "Yes, your prediction inputs (rank, category, etc.) are not stored. For the 'Save' feature, we record college names under your IP address to track your interests. We don't use Google login as we don't need your personal data, believing in free access for all. Your IP is solely for saving your choices; we have no malicious intent and do not use it for other tracking or profiling. Your privacy and right to access information are fully respected."
   },
   {
     "question": "What factors can affect the accuracy of the predictions?",
