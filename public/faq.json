@@ -1,7 +1,7 @@
 [
   {
     "question": "What is Project J?",
-    "answer": "This tool serves as a college predictor, assisting you in exploring potential engineering college admissions. It factors in your JEE Main performance (rank or percentile), category, gender, home state, and institute preferences to generate estimated predictions, drawing upon data from: <ul><li><a href=\"https://josaa.admissions.nic.in/applicant/SeatAllotmentResult/CurrentORCR.aspx\">JoSAA</a> Round 5 2024 data</li><li><a href=\"https://admissions.nic.in/UPTAC/applicant/report/orcrreport.aspx?enc=yVQCIiq12npg+pcvNJRdcww8ijHE0M3JICo+UehfedimJjvXET+LsPwN9AEcJEnE\">AKTU</a> Round 4 data</li><li><a href=\"https://jacdelhi.admissions.nic.in/or-cr/\">JAC Delhi (DTU, NSUT)</a> Round 5 data</li></ul>"
+    "answer": "This tool serves as a college predictor, assisting you in exploring potential engineering college admissions. It factors in your JEE Main performance (rank or percentile), category, gender, home state, and institute preferences to generate estimated predictions, drawing upon data from: <ul><li><a href=\"https://josaa.admissions.nic.in/applicant/SeatAllotmentResult/CurrentORCR.aspx\" target=\"_blank\" rel=\"noopener noreferrer\">JoSAA</a> Round 5 2024 data</li><li><a href=\"https://admissions.nic.in/UPTAC/applicant/report/orcrreport.aspx?enc=yVQCIiq12npg+pcvNJRdcww8ijHE0M3JICo+UehfedimJjvXET+LsPwN9AEcJEnE\" target=\"_blank\" rel=\"noopener noreferrer\">AKTU</a> Round 4 data</li><li><a href=\"https://jacdelhi.admissions.nic.in/or-cr/\" target=\"_blank\" rel=\"noopener noreferrer\">JAC Delhi (DTU, NSUT)</a> Round 5 data</li></ul>"
   },
   {
     "question": "Does it include data from CSAB?",
@@ -17,7 +17,7 @@
   },
   {
     "question": "Where can I find the official data for cutoff ranks?",
-    "answer": "Official cutoff ranks are available on the official websites of the respective counselling authorities: <ul><li><a href=\"https://josaa.admissions.nic.in/\">JoSAA</a></li><li><a href=\"https://admissions.nic.in/UPTAC/\">AKTU</a></li><li><a href=\"https://jacdelhi.admissions.nic.in/\">JAC Delhi</a></li></ul>"
+    "answer": "Official cutoff ranks are available on the official websites of the respective counselling authorities: <ul><li><a href=\"https://josaa.admissions.nic.in/\" target=\"_blank\" rel=\"noopener noreferrer\">JoSAA</a></li><li><a href=\"https://admissions.nic.in/UPTAC/\" target=\"_blank\" rel=\"noopener noreferrer\">AKTU</a></li><li><a href=\"https://jacdelhi.admissions.nic.in/\" target=\"_blank\" rel=\"noopener noreferrer\">JAC Delhi</a></li></ul>"
   },
   {
     "question": "What data from other counselling processes is NOT included in Project J?",
@@ -33,10 +33,10 @@
   },
   {
     "question": "Who developed Project J?",
-    "answer": "<a href=\"https://www.linkedin.com/in/ananaydubey\">Ananay Dubey</a>"
+    "answer": "<a href=\"https://www.linkedin.com/in/ananaydubey\" target=\"_blank\" rel=\"noopener noreferrer\">Ananay Dubey</a>"
   },
   {
     "question": "How can I contact the developer for feedback or issues?",
-    "answer": "You can reach me at <a href=\"mailto:spacify1807@gmail.com\">spacify1807@gmail.com</a> for feedback or to report any issues."
+    "answer": "You can reach me at <a href=\"mailto:spacify1807@gmail.com\" target=\"_blank\" rel=\"noopener noreferrer\">spacify1807@gmail.com</a> for feedback or to report any issues."
   }
 ]
