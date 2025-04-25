@@ -1,31 +1,31 @@
 [
   {
     "question": "What is Project J?",
-    "answer": "This tool serves as a JEE Mains College Predictor, assisting you in exploring potential engineering college admissions based on your JEE Main performance (rank or percentile). It factors in your category, gender, home state, and institute preferences to generate estimated predictions, drawing upon <a href=\"https://josaa.admissions.nic.in/applicant/SeatAllotmentResult/CurrentORCR.aspx\">JoSAA</a> Round 5 2024 data."
+    "answer": "This tool serves as a college predictor, assisting you in exploring potential engineering college admissions. It factors in your JEE Main performance (rank or percentile), category, gender, home state, and institute preferences to generate estimated predictions, drawing upon data from: <ul><li><a href=\"https://josaa.admissions.nic.in/applicant/SeatAllotmentResult/CurrentORCR.aspx\">JoSAA</a> Round 5 2024 data</li><li><a href=\"https://admissions.nic.in/UPTAC/applicant/report/orcrreport.aspx?enc=yVQCIiq12npg+pcvNJRdcww8ijHE0M3JICo+UehfedimJjvXET+LsPwN9AEcJEnE\">AKTU</a> Round 4 data</li><li><a href=\"https://jacdelhi.admissions.nic.in/or-cr/\">JAC Delhi (DTU, NSUT)</a> Round 5 data</li></ul>"
   },
   {
     "question": "Does it include data from CSAB?",
-    "answer": "No, this tool utilizes data specifically from <a href=\"https://josaa.admissions.nic.in/applicant/SeatAllotmentResult/CurrentORCR.aspx\">JoSAA</a> Round 5 of 2024. Data from CSAB, which handles post-JoSAA vacant seat allocation, isn't included."
+    "answer": "No, this tool primarily utilizes data from JoSAA Round 5 2024, AKTU Round 4, and JAC Delhi (DTU, NSUT) Round 5. Data from CSAB is not included."
   },
   {
     "question": "Is my data safe with Project J?",
-    "answer": "Yes, your prediction inputs (rank, category, etc.) are not stored. For the 'Save' feature, we record college names under your IP address to track your interests. We don't use Google login as we don't need your personal data, believing in free access for all. Your IP is solely for saving your choices; we have no malicious intent and do not use it for other tracking or profiling. Your privacy and right to access information are fully respected."
+    "answer": "Yes, your prediction inputs are not stored. For the 'Save' feature, we record college names under your IP address to track your interests. Your IP is solely for saving your choices; we do not use it for other tracking or profiling. Your privacy is respected."
   },
   {
     "question": "What factors can affect the accuracy of the predictions?",
-    "answer": "Prediction accuracy can be influenced by several variables, including changes in seat availability, JEE Main exam difficulty variations, shifts in student preferences, and modifications in the <a href=\"https://josaa.admissions.nic.in/applicant/SeatAllotmentResult/CurrentORCR.aspx\">JoSAA</a> counselling process. Therefore, the results should be seen as indicative."
+    "answer": "Prediction accuracy can be influenced by several variables, including changes in seat availability, JEE Main exam difficulty variations, shifts in student preferences, and modifications in the JoSAA, AKTU, and JAC Delhi counselling processes. Therefore, the results should be seen as indicative."
   },
   {
     "question": "Where can I find the official data for cutoff ranks?",
-    "answer": "Official cutoff ranks are available on the official <a href=\"https://josaa.admissions.nic.in/\">JoSAA</a> website."
+    "answer": "Official cutoff ranks are available on the official websites of the respective counselling authorities: <ul><li><a href=\"https://josaa.admissions.nic.in/\">JoSAA</a></li><li><a href=\"https://admissions.nic.in/UPTAC/\">AKTU</a></li><li><a href=\"https://jacdelhi.admissions.nic.in/\">JAC Delhi</a></li></ul>"
   },
   {
     "question": "What data from other counselling processes is NOT included in Project J?",
-    "answer": "The current database solely comprises data from the Joint Seat Allocation Authority. Information from other counselling bodies like CSAB, JAC Delhi, AKTU, MHT CET, COMEDK, and similar platforms is not part of this predictor's scope."
+    "answer": "The current database comprises data from the Joint Seat Allocation Authority (JoSAA), AKTU, and JAC Delhi. Information from other counselling bodies like CSAB, MHT CET, COMEDK, and similar platforms is not part of this predictor's scope."
   },
   {
     "question": "Are the results guaranteed?",
-    "answer": "No, the predictions offered by this tool are based on historical <a href=\"https://josaa.admissions.nic.in/applicant/SeatAllotmentResult/CurrentORCR.aspx\">JoSAA</a> Round 5 2024 data and serve as estimations for admissions through the joint process. Actual cutoff ranks can vary annually. Hence, the results are indicative, not a guarantee of admission. Always consult the official <a href=\"https://josaa.admissions.nic.in/applicant/SeatAllotmentResult/CurrentORCR.aspx\">JoSAA</a> website for definitive information."
+    "answer": "No, the predictions offered by this tool are based on historical data from JoSAA Round 5 2024, AKTU Round 4, and JAC Delhi Round 5 and serve as estimations for admissions. Actual cutoff ranks can vary annually. Hence, the results are indicative, not a guarantee of admission. Always consult the official websites of JoSAA, AKTU, and JAC Delhi for definitive information."
   },
   {
     "question": "How can I support the development of this tool?",

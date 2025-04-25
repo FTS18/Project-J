@@ -840,8 +840,8 @@ const Form = () => {
                   />
                 </label>
                 <div className="info">
-                  Note: For now I have only compiled JoSSA & AkTU's data here.
-                  Haven't added CSAB/JAC Delhi/MhTCET/ COMEDK/other counsellings
+                  Note: For now I have only compiled JoSSA,JAC Delhi & AkTU's data here.
+                  Haven't added CSAB/MhTCET/COMEDK/other counsellings
                   ka data yet. So keep this in mind while using this predictor!
                   <br />
                   <span className="ff">Asuvidha ke liye khed haiii!</span>
