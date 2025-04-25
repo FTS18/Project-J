@@ -8,8 +8,8 @@ import React, {
 import CollegeCard from "./CollegeCard";
 import { jsPDF } from "jspdf";
 import autoTable from "jspdf-autotable";
-import { getDatabase, ref, get } from 'firebase/database';
-import { getApp } from 'firebase/app';
+import { getDatabase, ref, get } from "firebase/database";
+import { getApp } from "firebase/app";
 
 const Form = () => {
   const [states, setStates] = useState([]);
@@ -24,7 +24,11 @@ const Form = () => {
   const [selectedGender, setSelectedGender] = useState("Gender-Neutral");
   const [searchInput, setSearchInput] = useState("");
   const [selectedState, setSelectedState] = useState("");
-  const [selectedInstitutes, setSelectedInstitutes] = useState([]);
+  const [selectedInstitutes, setSelectedInstitutes] = useState([
+    "NIT",
+    "IIIT",
+    "GFTI",
+  ]); // Default checked
   const [selectedMainBranch, setSelectedMainBranch] = useState([]);
   const [selectedProbability, setSelectedProbability] = useState([]);
   const branchScrollRef = useRef(null);
@@ -32,6 +36,19 @@ const Form = () => {
   const totalCandidates = 1575143;
   const rankErrorFactor = 0.115;
   const maxRankDifferenceForLowProb = 3000;
+  const [lastInteractedInput, setLastInteractedInput] = useState(null); // Added state for tracking input
+  const isAKTUChecked = useMemo(
+    () => selectedInstitutes.includes("AKTU"),
+    [selectedInstitutes]
+  );
+  const isHomeStateUP = useMemo(
+    () => selectedState.toLowerCase() === "uttar pradesh",
+    [selectedState]
+  );
+  const shouldDisableGenderCategory = useMemo(() => {
+    return isAKTUChecked && !isHomeStateUP;
+  }, [isAKTUChecked, isHomeStateUP]);
+
   const mainBranchOptions = useMemo(
     () => [
       {
@@ -74,12 +91,12 @@ const Form = () => {
 
   const getIPAddress = useCallback(async () => {
     try {
-      const response = await fetch('https://api.ipify.org?format=json');
+      const response = await fetch("https://api.ipify.org?format=json");
       const data = await response.json();
       setUserIp(data.ip);
     } catch (error) {
-      console.error('Error getting IP address:', error);
-      setUserIp('unknown_ip');
+      console.error("Error getting IP address:", error);
+      setUserIp("unknown_ip");
     }
   }, []);
 
@@ -144,7 +161,8 @@ const Form = () => {
       categoryRank,
       query,
       selectedState,
-      selectedInstitutes
+      selectedInstitutes,
+      selectedGender
     ) => {
       if (!colleges) return [];
       const lowerCaseQuery = query ? query.toLowerCase() : "";
@@ -159,15 +177,28 @@ const Form = () => {
           const isHSQuota = college.quota?.trim().toLowerCase() === "hs";
           const isOSQuota = college.quota?.trim().toLowerCase() === "os";
           const isAIQuota = college.quota?.trim().toLowerCase() === "ai";
+          const collegeType = college.type?.toUpperCase() || "";
+          const mappedType = collegeType === "JAC" ? "GFTI" : collegeType; // Treat JAC as GFTI
+          const isInstituteSelected = selectedInstitutes.includes(mappedType);
 
-          if (lowerCaseSelectedState && isHomeState && !isHSQuota) return false;
-          if (
-            lowerCaseSelectedState &&
-            !isHomeState &&
-            !isOSQuota &&
-            !isAIQuota
-          )
-            return false;
+          const shouldIncludeBasedOnState = () => {
+            if (selectedInstitutes.includes("AKTU")) {
+              if (!lowerCaseSelectedState) {
+                return true; // If no state is selected, show all (HS, OS, AI)
+              } else if (isHomeState) {
+                return isHSQuota || isAIQuota; // If home state, show HS and AI
+              } else {
+                return isOSQuota || isAIQuota; // If other state, show OS and AI
+              }
+            }
+            if (!lowerCaseSelectedState) return true; // No state selected, include all (for other institutes)
+            if (isHomeState && isHSQuota) return true; // Home state selected, include HS quota (for other institutes)
+            if (!isHomeState && isOSQuota) return true; // Other state selected, include OS quota (for other institutes)
+            return isAIQuota; // Always include AI quota (for other institutes)
+          };
+          if (!shouldIncludeBasedOnState() && isInstituteSelected) {
+            return false; // Filter out if state doesn't match and institute is selected
+          }
 
           const normalizedInstitute = college.institute?.toLowerCase() || "";
           const normalizedBranch = college.branch?.toLowerCase() || "";
@@ -177,6 +208,11 @@ const Form = () => {
             normalizedBranch.includes(lowerCaseQuery);
           const matchesGender = college.gender === selectedGender;
           const matchesCategory = college.category === selectedCategory;
+          const closingRank = parseInt(college.closingRank, 10) || Infinity;
+          // Add this condition to filter by closing rank
+          if (closingRank > 600000) {
+            return false; // Exclude colleges with closing rank greater than 6 lakh
+          }
           const isArchitectureOrPlanning =
             normalizedInstitute.includes("architecture") ||
             normalizedInstitute.includes("planning") ||
@@ -188,27 +224,33 @@ const Form = () => {
             matchesSearch &&
             matchesGender &&
             matchesCategory &&
-            !isArchitectureOrPlanning
+            !isArchitectureOrPlanning &&
+            isInstituteSelected // Ensure only selected institutes are included here
           );
         })
         .filter((college) => {
           const collegeType = college.type?.toUpperCase() || "";
+          const mappedType = collegeType === "JAC" ? "GFTI" : collegeType; // Treat JAC as GFTI
           let instituteTypeMatch = false;
 
           if (selectedInstitutes.length > 0) {
-            instituteTypeMatch = selectedInstitutes.includes(collegeType);
+            instituteTypeMatch = selectedInstitutes.includes(mappedType);
           } else {
             instituteTypeMatch = collegeType !== "IIT";
           }
           return instituteTypeMatch;
         })
-        .sort(
-          (a, b) =>
-            (parseInt(a.closingRank, 10) || Infinity) -
-            (parseInt(b.closingRank, 10) || Infinity)
-        );
+        .sort((a, b) => {
+          const rankA = parseInt(a.closingRank, 10) || Infinity;
+          const rankB = parseInt(b.closingRank, 10) || Infinity;
+          return rankA <= 600000 && rankB <= 600000
+            ? rankA - rankB
+            : rankA <= 600000
+            ? -1
+            : 1;
+        });
     },
-    [selectedGender, selectedCategory, selectedInstitutes]
+    [selectedCategory, selectedGender, selectedInstitutes]
   );
 
   const filterByMainBranch = useCallback(
@@ -247,7 +289,7 @@ const Form = () => {
       if (!colleges) return [];
       const userRank = parseInt(rankInput, 10);
       if (isNaN(userRank)) {
-        return colleges.map(college => ({ ...college, probability: null })); // Add probability: null if no valid rank
+        return colleges.map((college) => ({ ...college, probability: null })); // Add probability: null if no valid rank
       }
 
       return colleges
@@ -283,8 +325,6 @@ const Form = () => {
     },
     [rankInput, rankErrorFactor, maxRankDifferenceForLowProb]
   );
-
-  const [lastInteractedInput, setLastInteractedInput] = useState(null);
 
   const handleInputChange = useCallback(
     (event) => {
@@ -331,12 +371,20 @@ const Form = () => {
       setSearchInput,
       setSelectedState,
       setSelectedInstitutes,
+      setLastInteractedInput, // Added here
     ]
   );
 
   const shouldDisableCategory = useMemo(() => {
-    return lastInteractedInput === "percentile" && !!percentileInput;
-  }, [lastInteractedInput, percentileInput]);
+    return (
+      (lastInteractedInput === "percentile" && !!percentileInput) ||
+      shouldDisableGenderCategory
+    );
+  }, [lastInteractedInput, percentileInput, shouldDisableGenderCategory]);
+
+  const shouldDisableGender = useMemo(() => {
+    return shouldDisableGenderCategory;
+  }, [shouldDisableGenderCategory]);
 
   useEffect(() => {
     if (lastInteractedInput === "rank" && rankInput !== "") {
@@ -361,15 +409,17 @@ const Form = () => {
       categoryRank,
       searchInput,
       selectedState,
-      selectedInstitutes
+      selectedInstitutes,
+      selectedGender
     );
-    const filteredByBranch = filterByMainBranch(
+    const filteredByBranchResult = filterByMainBranch(
+      // Call filterByMainBranch here
       initiallyFiltered,
       selectedMainBranch
     );
-    // Always apply probability filtering
     const finalFilteredWithProbability = filterByProbability(
-      filteredByBranch,
+      // Call filterByProbability here
+      filteredByBranchResult,
       selectedProbability
     );
 
@@ -388,42 +438,36 @@ const Form = () => {
     allColleges,
     calculateCategoryRank,
     applySearchFilter,
-    filterByMainBranch,
-    filterByProbability,
+    filterByMainBranch, // Added to dependency array
+    filterByProbability, // Added to dependency array
     calculateRankFromPercentile,
     setFilteredColleges,
     setCurrentPage,
   ]);
 
-  const handleMainBranchClick = useCallback(
-    (branchValue) => {
-      setSelectedMainBranch((prev) => {
-        if (branchValue === null) {
-          return [];
-        } else if (prev.includes(branchValue)) {
-          return prev.filter((b) => b !== branchValue);
-        } else {
-          return [...prev, branchValue];
-        }
-      });
-    },
-    []
-  );
+  const handleMainBranchClick = useCallback((branchValue) => {
+    setSelectedMainBranch((prev) => {
+      if (branchValue === null) {
+        return [];
+      } else if (prev.includes(branchValue)) {
+        return prev.filter((b) => b !== branchValue);
+      } else {
+        return [...prev, branchValue];
+      }
+    });
+  }, []);
 
-  const handleProbabilityClick = useCallback(
-    (probabilityValue) => {
-      setSelectedProbability((prev) => {
-        if (probabilityValue === null) {
-          return [];
-        } else if (prev.includes(probabilityValue)) {
-          return prev.filter((p) => p !== probabilityValue);
-        } else {
-          return [...prev, probabilityValue];
-        }
-      });
-    },
-    []
-  );
+  const handleProbabilityClick = useCallback((probabilityValue) => {
+    setSelectedProbability((prev) => {
+      if (probabilityValue === null) {
+        return [];
+      } else if (prev.includes(probabilityValue)) {
+        return prev.filter((p) => p !== probabilityValue);
+      } else {
+        return [...prev, probabilityValue];
+      }
+    });
+  }, []);
 
   useEffect(() => {
     updateFilteredColleges();
@@ -522,20 +566,20 @@ const Form = () => {
   );
 
   const sanitizePath = useCallback((name) => {
-    return name.replace(/[^a-zA-Z0-9_-]/g, '_');
+    return name.replace(/[^a-zA-Z0-9_-]/g, "_");
   }, []);
   const handleDownloadClick = useCallback(async () => {
     if (downloadOption === "saved") {
-      if (!userIp || userIp === 'unknown_ip') {
+      if (!userIp || userIp === "unknown_ip") {
         alert("Could not determine your IP address. Please try again later.");
         return;
       }
 
-      const hyphenatedIp = userIp.replace(/\./g, '-');
+      const hyphenatedIp = userIp.replace(/\./g, "-");
 
       const fetchFirebaseSavedChoices = async (hyphenatedIp) => {
         try {
-          const allCollegesRef = ref(database, 'colleges');
+          const allCollegesRef = ref(database, "colleges");
           const snapshot = await get(allCollegesRef);
 
           if (!snapshot.exists()) {
@@ -561,8 +605,10 @@ const Form = () => {
 
       const savedCollegeNames = await fetchFirebaseSavedChoices(hyphenatedIp);
 
-      const collegesToDownload = filteredColleges.filter(college => {
-        const collegeNameForSanitize = (college.institute?.trim() || "Unnamed College")
+      const collegesToDownload = filteredColleges.filter((college) => {
+        const collegeNameForSanitize = (
+          college.institute?.trim() || "Unnamed College"
+        )
           .replace(/Indian Institute of Technology/g, "IIT")
           .replace(/National Institute of Technology/g, "NIT")
           .replace(/Indian Institute of Information Technology/g, "IIIT");
@@ -580,7 +626,14 @@ const Form = () => {
     } else {
       alert("Please select an option from the dropdown.");
     }
-  }, [downloadOption, filteredColleges, downloadPdfData, database, sanitizePath, userIp]); // Added userIp to dependencies
+  }, [
+    downloadOption,
+    filteredColleges,
+    downloadPdfData,
+    database,
+    sanitizePath,
+    userIp,
+  ]); // Added userIp to dependencies
 
   const totalPages = useCallback(() => {
     return Math.ceil(filteredColleges.length / itemsPerPage) || 1;
@@ -655,6 +708,7 @@ const Form = () => {
                     value="Gender-Neutral"
                     checked={selectedGender === "Gender-Neutral"}
                     onChange={handleInputChange}
+                    disabled={shouldDisableGender}
                   />
                   <span>Male</span>
                 </label>
@@ -667,18 +721,9 @@ const Form = () => {
                       selectedGender === "Female-only (including Supernumerary)"
                     }
                     onChange={handleInputChange}
+                    disabled={shouldDisableGender}
                   />
                   <span>Female</span>
-                </label>
-                <label>
-                  <input
-                    type="radio"
-                    name="gender"
-                    value="Others"
-                    checked={selectedGender === "Others"}
-                    onChange={handleInputChange}
-                  />
-                  <span>Others</span>
                 </label>
               </div>
             </div>
@@ -771,6 +816,16 @@ const Form = () => {
                   />
                   <span>GFTI</span>
                 </label>
+                <label>
+                  <input
+                    type="checkbox"
+                    name="aktu"
+                    value="AKTU"
+                    checked={selectedInstitutes.includes("AKTU")}
+                    onChange={handleInputChange}
+                  />
+                  <span>AKTU</span>
+                </label>
               </div>
               <div className="mydict">
                 <label>
@@ -785,9 +840,9 @@ const Form = () => {
                   />
                 </label>
                 <div className="info">
-                  Note: For now I have only compiled JoSSA's data here. Haven't
-                  added CSAB/JACDelhi/AkTU/MhTCET/ COMEDK/other counsellings ka
-                  data yet. So keep this in mind while using this predictor!
+                  Note: For now I have only compiled JoSSA & AkTU's data here.
+                  Haven't added CSAB/JAC Delhi/MhTCET/ COMEDK/other counsellings
+                  ka data yet. So keep this in mind while using this predictor!
                   <br />
                   <span className="ff">Asuvidha ke liye khed haiii!</span>
                 </div>
